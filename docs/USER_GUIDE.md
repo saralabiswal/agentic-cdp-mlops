@@ -25,7 +25,108 @@ Use this sequence for an end-to-end walkthrough:
 4. Open AI Impact Summary to show portfolio-level health.
 5. Open AI/ML Platform Architecture to explain the technical runtime and evidence path.
 
-## 3. Starting The App
+## 3. Visual Walkthrough
+
+The screenshots below show the recommended flow a user should follow during a business or technical walkthrough.
+
+### Flow Step 1: Start With The AI Decision Portfolio
+
+Use this page to introduce the model portfolio and explain the four AI/ML decision workflows.
+
+![AI Decision Portfolio](assets/user-guide/01-ai-decision-portfolio.png)
+
+What to point out:
+
+1. Four governed AI/ML decision models.
+2. Each model has a clear business purpose and primary metric.
+3. The recommended presentation sequence starts with customer-level AI decisioning.
+
+### Flow Step 2: Open The Model Decision Workbench
+
+Open a model workflow and start with Model Inputs. This is where users see the data readiness and scorable population before looking at recommendations.
+
+![Model Inputs](assets/user-guide/02-model-inputs.png)
+
+What to point out:
+
+1. The left navigation keeps model, evidence view, and step selection visible.
+2. The center panel explains one decision step at a time.
+3. The right-side snapshot confirms run ID, status, stage pass rate, and runtime.
+
+### Flow Step 3: Review Decision Evidence
+
+Move to Decision Evidence to close the business workflow with uplift, confidence, activation records, and run status.
+
+![Decision Evidence](assets/user-guide/03-decision-evidence.png)
+
+What to point out:
+
+1. Expected uplift summarizes predicted business value.
+2. Decision confidence shows the average model confidence signal.
+3. Activation records show that outputs are ready for downstream decisioning.
+
+### Flow Step 4: Review AI Impact Summary
+
+Open AI Impact Summary when you need a portfolio-level executive view.
+
+![AI Impact Summary](assets/user-guide/04-ai-impact-summary.png)
+
+What to point out:
+
+1. Models reviewed and models healthy.
+2. Average pipeline pass rate.
+3. Model-level decisions, KPIs, and latest run status.
+
+### Flow Step 5: Explain The AI/ML Architecture
+
+Open AI/ML Platform Architecture to show the technical thesis, backend model runtime, and component diagram.
+
+![AI/ML Architecture Thesis](assets/user-guide/05-architecture-thesis.png)
+
+What to point out:
+
+1. One governed AI/ML runtime supports multiple decision models.
+2. The backend is contract-driven and evidence-backed.
+3. The architecture is designed for standalone runtime first, with optional enterprise integration.
+
+### Flow Step 6: Walk The Eight ML Stages
+
+Use the architecture walkthrough to explain the pipeline from Data Sources to Monitoring + Governance.
+
+![Eight ML Stages](assets/user-guide/06-eight-ml-stages.png)
+
+What to point out:
+
+1. Each stage has a runtime responsibility.
+2. Each stage produces artifacts or metrics.
+3. Technical users can inspect inputs, outputs, components, and evidence.
+
+### Flow Step 7: Inspect Model Evidence Center
+
+Use Model Evidence Center to review model evidence, architecture flow, run history, and portfolio health.
+
+![Model Evidence Center](assets/user-guide/07-model-evidence-center.png)
+
+What to point out:
+
+1. Model Evidence is the first evidence tab.
+2. Architecture Flow explains the execution order.
+3. Model Run History compares recent runs.
+4. AI Portfolio Health summarizes latest run status across use cases.
+
+### Flow Step 8: Switch To Technical Model Evidence
+
+In the Model Decision Workbench, switch from Decision View to Model Evidence for a deeper technical review.
+
+![Technical Model Evidence](assets/user-guide/08-technical-model-evidence.png)
+
+What to point out:
+
+1. Contract controls show use case, runtime, scenario, and model constraints.
+2. Technical evidence connects components, APIs, stage outputs, and artifacts.
+3. The same workflow can be explained to business users or technical users without changing apps.
+
+## 4. Starting The App
 
 From the repository root:
 
@@ -51,7 +152,7 @@ For live UI/API mode:
 make ui-live
 ```
 
-## 4. Main Pages
+## 5. Main Pages
 
 | Page | URL | Primary Audience |
 | --- | --- | --- |
@@ -60,7 +161,7 @@ make ui-live
 | Model Decision Workbench | `/ui/experience/workbench.html` | Business users and technical reviewers |
 | AI/ML Platform Architecture | `/ui/experience/index.html` | Architects, ML engineers, and platform teams |
 
-## 5. Business User Guide
+## 6. Business User Guide
 
 Business users should focus on the decision story and model impact.
 
@@ -117,7 +218,7 @@ Look for:
 
 Use `Print / Save PDF` on the AI Impact Summary page when you need an executive-ready output.
 
-## 6. Technical User Guide
+## 7. Technical User Guide
 
 Technical users should focus on architecture, run evidence, artifacts, and governance.
 
@@ -198,7 +299,7 @@ Use the simulation controls to explain the pipeline gradually:
 
 This is useful when presenting the architecture to technical audiences.
 
-## 7. Runtime Profiles
+## 8. Runtime Profiles
 
 | Profile | Use When |
 | --- | --- |
@@ -208,7 +309,7 @@ This is useful when presenting the architecture to technical audiences.
 
 The app can run standalone without deployment dependencies. Enterprise integrations are optional.
 
-## 8. Common Tasks
+## 9. Common Tasks
 
 ### Run all model workflows
 
@@ -246,7 +347,7 @@ python3 -m pipelines.cli show-stages --use-case UC-NBA-RET-001 --run-id <run_id>
 python3 -m pipelines.cli model-readiness --use-case UC-NBA-RET-001 --run-id <run_id>
 ```
 
-## 9. Troubleshooting
+## 10. Troubleshooting
 
 If the app is not loading:
 
@@ -266,7 +367,7 @@ If integrated runtime is unavailable:
 1. Use Standalone AI Runtime.
 2. Confirm optional infrastructure is running before using Integrated AI Runtime.
 
-## 10. What To Show In A Meeting
+## 11. What To Show In A Meeting
 
 For business stakeholders:
 
