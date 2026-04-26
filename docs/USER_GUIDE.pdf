@@ -1,0 +1,298 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [7 0 R 9 0 R 11 0 R 13 0 R 15 0 R 17 0 R 19 0 R 21 0 R 23 0 R] /Count 9 >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+4 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Courier >>
+endobj
+6 0 obj
+<< /Length 1679 >>
+stream
+BT /F2 20 Tf 54 736 Td (User Guide: Enterprise AI Decision Intelligence) Tj ET
+BT /F2 20 Tf 54 708 Td (Platform) Tj ET
+BT /F1 10 Tf 54 660 Td (This guide explains how business users and technical users should use the application.) Tj ET
+BT /F2 15 Tf 54 610 Td (1. What The App Does) Tj ET
+BT /F1 10 Tf 54 567 Td (The application helps teams review AI/ML decision models, understand their business) Tj ET
+BT /F1 10 Tf 54 549 Td (impact, and inspect the technical evidence behind each run.) Tj ET
+BT /F1 10 Tf 54 511 Td (It is organized around four model workflows:) Tj ET
+BT /F1 10 Tf 54 473 Td (- TensorFlow Next Best Action Model) Tj ET
+BT /F1 10 Tf 54 455 Td (- TensorFlow Churn Propensity Model) Tj ET
+BT /F1 10 Tf 54 437 Td (- Bayesian Media Mix Optimization) Tj ET
+BT /F1 10 Tf 54 419 Td (- Causal Incrementality Model) Tj ET
+BT /F1 10 Tf 54 381 Td (Each workflow moves from model inputs to recommendation, impact forecast, decision) Tj ET
+BT /F1 10 Tf 54 363 Td (evidence, activation output, and governance evidence.) Tj ET
+BT /F2 15 Tf 54 313 Td (2. Recommended Presentation Flow) Tj ET
+BT /F1 10 Tf 54 270 Td (Use this sequence for an end-to-end walkthrough:) Tj ET
+BT /F1 10 Tf 54 232 Td (- Start at AI Decision Portfolio.) Tj ET
+BT /F1 10 Tf 54 214 Td (- Open the Model Decision Workbench.) Tj ET
+BT /F1 10 Tf 54 196 Td (- Walk through model inputs, recommendation, impact forecast, and decision evidence.) Tj ET
+BT /F1 10 Tf 54 178 Td (- Open AI Impact Summary to show portfolio-level health.) Tj ET
+BT /F1 10 Tf 54 160 Td (- Open AI/ML Platform Architecture to explain the technical runtime and evidence path.) Tj ET
+BT /F2 15 Tf 54 110 Td (3. Starting The App) Tj ET
+endstream
+endobj
+7 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> >> /Contents 6 0 R >>
+endobj
+8 0 obj
+<< /Length 1528 >>
+stream
+BT /F1 10 Tf 54 736 Td (From the repository root:) Tj ET
+BT /F3 9 Tf 54 698 Td (  make standalone) Tj ET
+BT /F1 10 Tf 54 662 Td (Open:) Tj ET
+BT /F3 9 Tf 54 624 Td (  http://127.0.0.1:8080/ui/experience/index.html) Tj ET
+BT /F1 10 Tf 54 588 Td (If the environment is already prepared:) Tj ET
+BT /F3 9 Tf 54 550 Td (  make standalone-fast) Tj ET
+BT /F1 10 Tf 54 514 Td (For live UI/API mode:) Tj ET
+BT /F3 9 Tf 54 476 Td (  make ui-live) Tj ET
+BT /F2 15 Tf 54 428 Td (4. Main Pages) Tj ET
+BT /F3 9 Tf 54 385 Td (Page | URL | Primary Audience) Tj ET
+BT /F3 9 Tf 54 369 Td (AI Decision Portfolio | /ui/experience/business-home.html | Business and executive users) Tj ET
+BT /F3 9 Tf 54 353 Td (AI Impact Summary | /ui/experience/business-exec-summary.html | Executives and business) Tj ET
+BT /F3 9 Tf 54 337 Td (owners) Tj ET
+BT /F3 9 Tf 54 321 Td (Model Decision Workbench | /ui/experience/workbench.html | Business users and technical) Tj ET
+BT /F3 9 Tf 54 305 Td (reviewers) Tj ET
+BT /F3 9 Tf 54 289 Td (AI/ML Platform Architecture | /ui/experience/index.html | Architects, ML engineers, and) Tj ET
+BT /F3 9 Tf 54 273 Td (platform teams) Tj ET
+BT /F2 15 Tf 54 225 Td (5. Business User Guide) Tj ET
+BT /F1 10 Tf 54 182 Td (Business users should focus on the decision story and model impact.) Tj ET
+BT /F2 12 Tf 54 136 Td (Step 1: Open AI Decision Portfolio) Tj ET
+BT /F1 10 Tf 54 96 Td (Use the portfolio page to understand which models are available and what each model is) Tj ET
+BT /F1 10 Tf 54 78 Td (designed to decide.) Tj ET
+endstream
+endobj
+9 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> >> /Contents 8 0 R >>
+endobj
+10 0 obj
+<< /Length 1410 >>
+stream
+BT /F1 10 Tf 54 720 Td (Look for:) Tj ET
+BT /F1 10 Tf 54 682 Td (- Model name) Tj ET
+BT /F1 10 Tf 54 664 Td (- Decision output) Tj ET
+BT /F1 10 Tf 54 646 Td (- Primary business metric) Tj ET
+BT /F1 10 Tf 54 628 Td (- Recommended presentation sequence) Tj ET
+BT /F2 12 Tf 54 582 Td (Step 2: Open A Model Workflow) Tj ET
+BT /F1 10 Tf 54 542 Td (Click Open Model Workflow for one of the models.) Tj ET
+BT /F1 10 Tf 54 504 Td (Recommended first workflow:) Tj ET
+BT /F3 9 Tf 54 466 Td (  TensorFlow Next Best Action Model) Tj ET
+BT /F2 12 Tf 54 422 Td (Step 3: Walk The Business Steps) Tj ET
+BT /F1 10 Tf 54 382 Td (In the Model Decision Workbench, use the left-side step navigation:) Tj ET
+BT /F1 10 Tf 54 344 Td (- Model Inputs) Tj ET
+BT /F1 10 Tf 54 326 Td (- Model Recommendation) Tj ET
+BT /F1 10 Tf 54 308 Td (- Impact Forecast) Tj ET
+BT /F1 10 Tf 54 290 Td (- Decision Evidence) Tj ET
+BT /F1 10 Tf 54 252 Td (Use these questions while presenting:) Tj ET
+BT /F1 10 Tf 54 214 Td (- What customer, campaign, or spend signals entered the model?) Tj ET
+BT /F1 10 Tf 54 196 Td (- What does the model recommend?) Tj ET
+BT /F1 10 Tf 54 178 Td (- What impact does the model forecast?) Tj ET
+BT /F1 10 Tf 54 160 Td (- What evidence supports the decision?) Tj ET
+BT /F2 12 Tf 54 114 Td (Step 4: Review The AI Impact Summary) Tj ET
+BT /F1 10 Tf 54 74 Td (Open AI Impact Summary to see portfolio-level model health.) Tj ET
+endstream
+endobj
+11 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> >> /Contents 10 0 R >>
+endobj
+12 0 obj
+<< /Length 1426 >>
+stream
+BT /F1 10 Tf 54 720 Td (Look for:) Tj ET
+BT /F1 10 Tf 54 682 Td (- Models reviewed) Tj ET
+BT /F1 10 Tf 54 664 Td (- Models healthy) Tj ET
+BT /F1 10 Tf 54 646 Td (- Average pipeline pass rate) Tj ET
+BT /F1 10 Tf 54 628 Td (- Latest run status) Tj ET
+BT /F1 10 Tf 54 610 Td (- Model-specific business KPIs) Tj ET
+BT /F2 12 Tf 54 564 Td (Step 5: Share Or Print) Tj ET
+BT /F1 10 Tf 54 524 Td (Use Print / Save PDF on the AI Impact Summary page when you need an executive-ready) Tj ET
+BT /F1 10 Tf 54 506 Td (output.) Tj ET
+BT /F2 15 Tf 54 456 Td (6. Technical User Guide) Tj ET
+BT /F1 10 Tf 54 413 Td (Technical users should focus on architecture, run evidence, artifacts, and governance.) Tj ET
+BT /F2 12 Tf 54 367 Td (Step 1: Open AI/ML Platform Architecture) Tj ET
+BT /F1 10 Tf 54 327 Td (Use the architecture page to explain the end-to-end platform.) Tj ET
+BT /F1 10 Tf 54 289 Td (The core architecture is:) Tj ET
+BT /F3 9 Tf 54 251 Td (  Data Sources) Tj ET
+BT /F3 9 Tf 54 235 Td (  -> Ingestion + Event Bus) Tj ET
+BT /F3 9 Tf 54 219 Td (  -> Raw Storage + Curated Warehouse) Tj ET
+BT /F3 9 Tf 54 203 Td (  -> Identity Resolution + Customer 360) Tj ET
+BT /F3 9 Tf 54 187 Td (  -> Feature Layer) Tj ET
+BT /F3 9 Tf 54 171 Td (  -> Model Layer) Tj ET
+BT /F3 9 Tf 54 155 Td (  -> Serving + Activation) Tj ET
+BT /F3 9 Tf 54 139 Td (  -> Monitoring + Governance) Tj ET
+BT /F2 12 Tf 54 95 Td (Step 2: Walk The Eight ML Stages) Tj ET
+endstream
+endobj
+13 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> >> /Contents 12 0 R >>
+endobj
+14 0 obj
+<< /Length 1354 >>
+stream
+BT /F1 10 Tf 54 736 Td (Use the side navigation on the architecture page to walk stage by stage.) Tj ET
+BT /F1 10 Tf 54 698 Td (For each stage, review:) Tj ET
+BT /F1 10 Tf 54 660 Td (- What the stage does) Tj ET
+BT /F1 10 Tf 54 642 Td (- Data in) Tj ET
+BT /F1 10 Tf 54 624 Td (- Data out) Tj ET
+BT /F1 10 Tf 54 606 Td (- Components) Tj ET
+BT /F1 10 Tf 54 588 Td (- Evidence artifacts) Tj ET
+BT /F2 12 Tf 54 542 Td (Step 3: Use Model Evidence View) Tj ET
+BT /F1 10 Tf 54 502 Td (Open Model Decision Workbench and select Model Evidence.) Tj ET
+BT /F1 10 Tf 54 464 Td (Use this view to inspect:) Tj ET
+BT /F1 10 Tf 54 426 Td (- Contract controls) Tj ET
+BT /F1 10 Tf 54 408 Td (- Stage inputs and outputs) Tj ET
+BT /F1 10 Tf 54 390 Td (- Model backend) Tj ET
+BT /F1 10 Tf 54 372 Td (- Model metrics) Tj ET
+BT /F1 10 Tf 54 354 Td (- Activation payloads) Tj ET
+BT /F1 10 Tf 54 336 Td (- Validation gates) Tj ET
+BT /F1 10 Tf 54 318 Td (- Artifact paths) Tj ET
+BT /F2 12 Tf 54 272 Td (Step 4: Inspect Model Evidence Center) Tj ET
+BT /F1 10 Tf 54 232 Td (On the architecture page, open Model Evidence Center.) Tj ET
+BT /F1 10 Tf 54 194 Td (Review:) Tj ET
+BT /F1 10 Tf 54 156 Td (- Model Evidence) Tj ET
+BT /F1 10 Tf 54 138 Td (- AI/ML Architecture Flow) Tj ET
+BT /F1 10 Tf 54 120 Td (- Model Run History) Tj ET
+BT /F1 10 Tf 54 102 Td (- AI Portfolio Health) Tj ET
+endstream
+endobj
+15 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> >> /Contents 14 0 R >>
+endobj
+16 0 obj
+<< /Length 1753 >>
+stream
+BT /F2 12 Tf 54 736 Td (Step 5: Run A New Model Workflow) Tj ET
+BT /F1 10 Tf 54 696 Td (Use Model Execution controls on the architecture page.) Tj ET
+BT /F1 10 Tf 54 658 Td (Common options:) Tj ET
+BT /F1 10 Tf 54 620 Td (- Select an AI/ML use case.) Tj ET
+BT /F1 10 Tf 54 602 Td (- Choose Standalone AI Runtime or Integrated AI Runtime.) Tj ET
+BT /F1 10 Tf 54 584 Td (- Choose runtime mode.) Tj ET
+BT /F1 10 Tf 54 566 Td (- Select a scenario preset if needed.) Tj ET
+BT /F1 10 Tf 54 548 Td (- Click Run Standalone AI Runtime or Run Integrated AI Runtime.) Tj ET
+BT /F2 12 Tf 54 502 Td (Step 6: Simulate Stage Execution) Tj ET
+BT /F1 10 Tf 54 462 Td (Use the simulation controls to explain the pipeline gradually:) Tj ET
+BT /F1 10 Tf 54 424 Td (- Run Next Stage) Tj ET
+BT /F1 10 Tf 54 406 Td (- Pause Simulation) Tj ET
+BT /F1 10 Tf 54 388 Td (- Resume Simulation) Tj ET
+BT /F1 10 Tf 54 370 Td (- Reset Simulation) Tj ET
+BT /F1 10 Tf 54 332 Td (This is useful when presenting the architecture to technical audiences.) Tj ET
+BT /F2 15 Tf 54 282 Td (7. Runtime Profiles) Tj ET
+BT /F3 9 Tf 54 239 Td (Profile | Use When) Tj ET
+BT /F3 9 Tf 54 223 Td (Standalone AI Runtime | You want the app to run locally without external services.) Tj ET
+BT /F3 9 Tf 54 207 Td (Integrated AI Runtime | You want to show optional Kafka, Postgres, or MinIO-style) Tj ET
+BT /F3 9 Tf 54 191 Td (infrastructure mirroring.) Tj ET
+BT /F3 9 Tf 54 175 Td (Enterprise Integration Profile | You want to show readiness for MLflow, Feast, Splink,) Tj ET
+BT /F3 9 Tf 54 159 Td (Airflow, Keycloak, monitoring, and metrics.) Tj ET
+BT /F1 10 Tf 54 123 Td (The app can run standalone without deployment dependencies. Enterprise integrations are) Tj ET
+BT /F1 10 Tf 54 105 Td (optional.) Tj ET
+endstream
+endobj
+17 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> >> /Contents 16 0 R >>
+endobj
+18 0 obj
+<< /Length 1144 >>
+stream
+BT /F2 15 Tf 54 736 Td (8. Common Tasks) Tj ET
+BT /F2 12 Tf 54 685 Td (Run all model workflows) Tj ET
+BT /F3 9 Tf 54 645 Td (  python3 -m pipelines.cli run-stack-all) Tj ET
+BT /F2 12 Tf 54 601 Td (Run one workflow) Tj ET
+BT /F3 9 Tf 54 561 Td (  python3 -m pipelines.cli run-stack --use-case UC-NBA-RET-001) Tj ET
+BT /F2 12 Tf 54 517 Td (Run synthetic-only mode) Tj ET
+BT /F3 9 Tf 54 477 Td (  python3 -m pipelines.cli run-stack --use-case UC-NBA-RET-001 --runtime-mode) Tj ET
+BT /F3 9 Tf 54 461 Td (  synthetic_only) Tj ET
+BT /F2 12 Tf 54 417 Td (View recent runs) Tj ET
+BT /F3 9 Tf 54 377 Td (  python3 -m pipelines.cli list-runs) Tj ET
+BT /F2 12 Tf 54 333 Td (Inspect run stages) Tj ET
+BT /F3 9 Tf 54 293 Td (  python3 -m pipelines.cli show-stages --use-case UC-NBA-RET-001 --run-id <run_id>) Tj ET
+BT /F2 12 Tf 54 249 Td (Inspect model readiness) Tj ET
+BT /F3 9 Tf 54 209 Td (  python3 -m pipelines.cli model-readiness --use-case UC-NBA-RET-001 --run-id <run_id>) Tj ET
+BT /F2 15 Tf 54 161 Td (9. Troubleshooting) Tj ET
+BT /F1 10 Tf 54 118 Td (If the app is not loading:) Tj ET
+BT /F1 10 Tf 54 80 Td (- Confirm the server is running.) Tj ET
+endstream
+endobj
+19 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> >> /Contents 18 0 R >>
+endobj
+20 0 obj
+<< /Length 1534 >>
+stream
+BT /F1 10 Tf 54 736 Td (- Confirm the URL uses the right port.) Tj ET
+BT /F1 10 Tf 54 718 Td (- Run make standalone-fast if dependencies and artifacts already exist.) Tj ET
+BT /F1 10 Tf 54 700 Td (- Run make smoke-standalone to validate the app.) Tj ET
+BT /F1 10 Tf 54 662 Td (If model evidence is missing:) Tj ET
+BT /F1 10 Tf 54 624 Td (- Run at least one workflow.) Tj ET
+BT /F1 10 Tf 54 606 Td (- Refresh the page.) Tj ET
+BT /F1 10 Tf 54 588 Td (- Check artifacts/<use_case_id>/<run_id>/summary.json.) Tj ET
+BT /F1 10 Tf 54 550 Td (If integrated runtime is unavailable:) Tj ET
+BT /F1 10 Tf 54 512 Td (- Use Standalone AI Runtime.) Tj ET
+BT /F1 10 Tf 54 494 Td (- Confirm optional infrastructure is running before using Integrated AI Runtime.) Tj ET
+BT /F2 15 Tf 54 444 Td (10. What To Show In A Meeting) Tj ET
+BT /F1 10 Tf 54 401 Td (For business stakeholders:) Tj ET
+BT /F1 10 Tf 54 363 Td (- AI Decision Portfolio) Tj ET
+BT /F1 10 Tf 54 345 Td (- One Model Workflow) Tj ET
+BT /F1 10 Tf 54 327 Td (- AI Impact Summary) Tj ET
+BT /F1 10 Tf 54 289 Td (For technical stakeholders:) Tj ET
+BT /F1 10 Tf 54 251 Td (- AI/ML Platform Architecture) Tj ET
+BT /F1 10 Tf 54 233 Td (- Eight ML stages) Tj ET
+BT /F1 10 Tf 54 215 Td (- Model Evidence View) Tj ET
+BT /F1 10 Tf 54 197 Td (- Model Run History) Tj ET
+BT /F1 10 Tf 54 179 Td (- Runtime Evidence) Tj ET
+BT /F1 10 Tf 54 141 Td (For platform leaders:) Tj ET
+BT /F1 10 Tf 54 103 Td (- Business value from model workflows) Tj ET
+BT /F1 10 Tf 54 85 Td (- Evidence-backed architecture) Tj ET
+endstream
+endobj
+21 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> >> /Contents 20 0 R >>
+endobj
+22 0 obj
+<< /Length 112 >>
+stream
+BT /F1 10 Tf 54 736 Td (- Standalone runtime) Tj ET
+BT /F1 10 Tf 54 718 Td (- Enterprise integration path) Tj ET
+endstream
+endobj
+23 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> >> /Contents 22 0 R >>
+endobj
+xref
+0 24
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000170 00000 n 
+0000000240 00000 n 
+0000000315 00000 n 
+0000000383 00000 n 
+0000002114 00000 n 
+0000002260 00000 n 
+0000003840 00000 n 
+0000003986 00000 n 
+0000005449 00000 n 
+0000005597 00000 n 
+0000007076 00000 n 
+0000007224 00000 n 
+0000008631 00000 n 
+0000008779 00000 n 
+0000010585 00000 n 
+0000010733 00000 n 
+0000011930 00000 n 
+0000012078 00000 n 
+0000013665 00000 n 
+0000013813 00000 n 
+0000013977 00000 n 
+trailer
+<< /Size 24 /Root 1 0 R >>
+startxref
+14125
+%%EOF

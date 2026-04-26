@@ -1,0 +1,3095 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "endpoints": {
+    "batch": "/api/inference/batch",
+    "online": "/api/inference/online",
+    "openapi": "/api/openapi.json"
+  },
+  "generated_at_utc": "1970-01-01T00:00:00Z",
+  "registry_stage_enum": [
+    "approved",
+    "auto",
+    "candidate",
+    "prod"
+  ],
+  "resolved_registry_stage_enum": [
+    "candidate",
+    "approved",
+    "prod",
+    "unregistered",
+    "unknown"
+  ],
+  "schema_version": "1.0.0",
+  "use_cases": [
+    {
+      "name": "Churn Prediction and Retention Actioning",
+      "primary_kpi": "60_day_incremental_churn_reduction",
+      "schemas": {
+        "activation_row": {
+          "additionalProperties": true,
+          "properties": {
+            "customer_id": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "destination": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "priority": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "recommended_action": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "risk_band": {
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          "required": [
+            "customer_id",
+            "destination",
+            "priority",
+            "recommended_action",
+            "risk_band"
+          ],
+          "type": "object"
+        },
+        "batch_request": {
+          "additionalProperties": false,
+          "properties": {
+            "records": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "churned_60d": {
+                    "oneOf": [
+                      {
+                        "type": "boolean"
+                      },
+                      {
+                        "type": "number"
+                      },
+                      {
+                        "enum": [
+                          "0",
+                          "1",
+                          "true",
+                          "false",
+                          "yes",
+                          "no"
+                        ],
+                        "type": "string"
+                      }
+                    ]
+                  },
+                  "customer_id": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "engagement_norm": {
+                    "type": "number"
+                  },
+                  "recency_norm": {
+                    "type": "number"
+                  },
+                  "score_ts": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "support_ticket_norm": {
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "customer_id",
+                  "engagement_norm",
+                  "recency_norm",
+                  "score_ts",
+                  "support_ticket_norm"
+                ],
+                "type": "object"
+              },
+              "minItems": 1,
+              "type": "array"
+            },
+            "registry_stage": {
+              "default": "auto",
+              "enum": [
+                "approved",
+                "auto",
+                "candidate",
+                "prod"
+              ],
+              "type": "string"
+            },
+            "seed": {
+              "default": 101,
+              "type": "integer"
+            },
+            "use_case_id": {
+              "enum": [
+                "UC-CHURN-RET-002"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "use_case_id",
+            "records"
+          ],
+          "type": "object"
+        },
+        "batch_response": {
+          "additionalProperties": false,
+          "properties": {
+            "activation_contract": {
+              "additionalProperties": false,
+              "properties": {
+                "fields": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              },
+              "required": [
+                "fields"
+              ],
+              "type": "object"
+            },
+            "activation_count": {
+              "minimum": 1,
+              "type": "integer"
+            },
+            "activations": {
+              "items": {
+                "additionalProperties": true,
+                "properties": {
+                  "customer_id": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "destination": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "priority": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "recommended_action": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "risk_band": {
+                    "minLength": 1,
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "customer_id",
+                  "destination",
+                  "priority",
+                  "recommended_action",
+                  "risk_band"
+                ],
+                "type": "object"
+              },
+              "minItems": 1,
+              "type": "array"
+            },
+            "mode": {
+              "enum": [
+                "batch"
+              ],
+              "type": "string"
+            },
+            "model_backend": {
+              "type": "string"
+            },
+            "model_metrics": {
+              "type": "object"
+            },
+            "model_version": {
+              "type": "string"
+            },
+            "output_contract": {
+              "additionalProperties": false,
+              "properties": {
+                "fields": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                "type": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "type",
+                "fields"
+              ],
+              "type": "object"
+            },
+            "prediction_count": {
+              "minimum": 1,
+              "type": "integer"
+            },
+            "predictions": {
+              "items": {
+                "additionalProperties": true,
+                "properties": {
+                  "churn_risk_score": {
+                    "type": "number"
+                  },
+                  "customer_id": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "expected_uplift": {
+                    "type": "number"
+                  },
+                  "model_version": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "reason_codes": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "recommended_action": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "risk_band": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "score_ts": {
+                    "minLength": 1,
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "churn_risk_score",
+                  "customer_id",
+                  "expected_uplift",
+                  "model_version",
+                  "reason_codes",
+                  "recommended_action",
+                  "risk_band",
+                  "score_ts"
+                ],
+                "type": "object"
+              },
+              "minItems": 1,
+              "type": "array"
+            },
+            "record_count": {
+              "minimum": 1,
+              "type": "integer"
+            },
+            "registry": {
+              "additionalProperties": false,
+              "properties": {
+                "model_backend": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "model_version": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "registered": {
+                  "type": "boolean"
+                },
+                "requested_stage": {
+                  "enum": [
+                    "approved",
+                    "auto",
+                    "candidate",
+                    "prod"
+                  ],
+                  "type": "string"
+                },
+                "run_id": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "stage": {
+                  "enum": [
+                    "candidate",
+                    "approved",
+                    "prod",
+                    "unregistered",
+                    "unknown"
+                  ],
+                  "type": "string"
+                },
+                "updated_at_utc": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "required": [
+                "requested_stage",
+                "stage",
+                "registered",
+                "run_id",
+                "model_version",
+                "model_backend",
+                "updated_at_utc"
+              ],
+              "type": "object"
+            },
+            "registry_run_id": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "registry_stage": {
+              "enum": [
+                "candidate",
+                "approved",
+                "prod",
+                "unregistered",
+                "unknown"
+              ],
+              "type": "string"
+            },
+            "seed": {
+              "type": "integer"
+            },
+            "use_case_id": {
+              "enum": [
+                "UC-CHURN-RET-002"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "mode",
+            "use_case_id",
+            "seed",
+            "registry_stage",
+            "registry_run_id",
+            "model_version",
+            "model_backend",
+            "output_contract",
+            "activation_contract",
+            "record_count",
+            "prediction_count",
+            "activation_count",
+            "predictions",
+            "activations",
+            "model_metrics",
+            "registry"
+          ],
+          "type": "object"
+        },
+        "online_request": {
+          "additionalProperties": false,
+          "properties": {
+            "record": {
+              "additionalProperties": false,
+              "properties": {
+                "churned_60d": {
+                  "oneOf": [
+                    {
+                      "type": "boolean"
+                    },
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "enum": [
+                        "0",
+                        "1",
+                        "true",
+                        "false",
+                        "yes",
+                        "no"
+                      ],
+                      "type": "string"
+                    }
+                  ]
+                },
+                "customer_id": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "engagement_norm": {
+                  "type": "number"
+                },
+                "recency_norm": {
+                  "type": "number"
+                },
+                "score_ts": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "support_ticket_norm": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "customer_id",
+                "engagement_norm",
+                "recency_norm",
+                "score_ts",
+                "support_ticket_norm"
+              ],
+              "type": "object"
+            },
+            "registry_stage": {
+              "default": "auto",
+              "enum": [
+                "approved",
+                "auto",
+                "candidate",
+                "prod"
+              ],
+              "type": "string"
+            },
+            "seed": {
+              "default": 101,
+              "type": "integer"
+            },
+            "use_case_id": {
+              "enum": [
+                "UC-CHURN-RET-002"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "use_case_id",
+            "record"
+          ],
+          "type": "object"
+        },
+        "online_response": {
+          "additionalProperties": false,
+          "properties": {
+            "activation": {
+              "additionalProperties": true,
+              "properties": {
+                "customer_id": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "destination": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "priority": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "recommended_action": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "risk_band": {
+                  "minLength": 1,
+                  "type": "string"
+                }
+              },
+              "required": [
+                "customer_id",
+                "destination",
+                "priority",
+                "recommended_action",
+                "risk_band"
+              ],
+              "type": "object"
+            },
+            "activation_contract": {
+              "additionalProperties": false,
+              "properties": {
+                "fields": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              },
+              "required": [
+                "fields"
+              ],
+              "type": "object"
+            },
+            "activation_count": {
+              "enum": [
+                1
+              ],
+              "type": "integer"
+            },
+            "mode": {
+              "enum": [
+                "online"
+              ],
+              "type": "string"
+            },
+            "model_backend": {
+              "type": "string"
+            },
+            "model_metrics": {
+              "type": "object"
+            },
+            "model_version": {
+              "type": "string"
+            },
+            "output_contract": {
+              "additionalProperties": false,
+              "properties": {
+                "fields": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                "type": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "type",
+                "fields"
+              ],
+              "type": "object"
+            },
+            "prediction": {
+              "additionalProperties": true,
+              "properties": {
+                "churn_risk_score": {
+                  "type": "number"
+                },
+                "customer_id": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "expected_uplift": {
+                  "type": "number"
+                },
+                "model_version": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "reason_codes": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                "recommended_action": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "risk_band": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "score_ts": {
+                  "minLength": 1,
+                  "type": "string"
+                }
+              },
+              "required": [
+                "churn_risk_score",
+                "customer_id",
+                "expected_uplift",
+                "model_version",
+                "reason_codes",
+                "recommended_action",
+                "risk_band",
+                "score_ts"
+              ],
+              "type": "object"
+            },
+            "prediction_count": {
+              "enum": [
+                1
+              ],
+              "type": "integer"
+            },
+            "registry": {
+              "additionalProperties": false,
+              "properties": {
+                "model_backend": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "model_version": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "registered": {
+                  "type": "boolean"
+                },
+                "requested_stage": {
+                  "enum": [
+                    "approved",
+                    "auto",
+                    "candidate",
+                    "prod"
+                  ],
+                  "type": "string"
+                },
+                "run_id": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "stage": {
+                  "enum": [
+                    "candidate",
+                    "approved",
+                    "prod",
+                    "unregistered",
+                    "unknown"
+                  ],
+                  "type": "string"
+                },
+                "updated_at_utc": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "required": [
+                "requested_stage",
+                "stage",
+                "registered",
+                "run_id",
+                "model_version",
+                "model_backend",
+                "updated_at_utc"
+              ],
+              "type": "object"
+            },
+            "registry_run_id": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "registry_stage": {
+              "enum": [
+                "candidate",
+                "approved",
+                "prod",
+                "unregistered",
+                "unknown"
+              ],
+              "type": "string"
+            },
+            "seed": {
+              "type": "integer"
+            },
+            "use_case_id": {
+              "enum": [
+                "UC-CHURN-RET-002"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "mode",
+            "use_case_id",
+            "seed",
+            "registry_stage",
+            "registry_run_id",
+            "model_version",
+            "model_backend",
+            "output_contract",
+            "activation_contract",
+            "prediction_count",
+            "activation_count",
+            "prediction",
+            "activation",
+            "model_metrics",
+            "registry"
+          ],
+          "type": "object"
+        },
+        "prediction_row": {
+          "additionalProperties": true,
+          "properties": {
+            "churn_risk_score": {
+              "type": "number"
+            },
+            "customer_id": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "expected_uplift": {
+              "type": "number"
+            },
+            "model_version": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "reason_codes": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "recommended_action": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "risk_band": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "score_ts": {
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          "required": [
+            "churn_risk_score",
+            "customer_id",
+            "expected_uplift",
+            "model_version",
+            "reason_codes",
+            "recommended_action",
+            "risk_band",
+            "score_ts"
+          ],
+          "type": "object"
+        }
+      },
+      "use_case_id": "UC-CHURN-RET-002"
+    },
+    {
+      "name": "Campaign Incrementality Measurement",
+      "primary_kpi": "incremental_conversions_per_campaign",
+      "schemas": {
+        "activation_row": {
+          "additionalProperties": true,
+          "properties": {
+            "campaign_id": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "decision_recommendation": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "destination": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "iROAS": {
+              "type": "number"
+            },
+            "incremental_lift": {
+              "type": "number"
+            }
+          },
+          "required": [
+            "campaign_id",
+            "decision_recommendation",
+            "destination",
+            "iROAS",
+            "incremental_lift"
+          ],
+          "type": "object"
+        },
+        "batch_request": {
+          "additionalProperties": false,
+          "properties": {
+            "records": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "aov": {
+                    "type": "number"
+                  },
+                  "audience_tier": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "campaign_cost": {
+                    "type": "number"
+                  },
+                  "campaign_id": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "control_conversions": {
+                    "type": "number"
+                  },
+                  "control_customers": {
+                    "type": "number"
+                  },
+                  "pre_period_conversion_rate": {
+                    "type": "number"
+                  },
+                  "test_window": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "treated_conversions": {
+                    "type": "number"
+                  },
+                  "treated_customers": {
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "aov",
+                  "campaign_cost",
+                  "campaign_id",
+                  "control_conversions",
+                  "control_customers",
+                  "test_window",
+                  "treated_conversions",
+                  "treated_customers"
+                ],
+                "type": "object"
+              },
+              "minItems": 1,
+              "type": "array"
+            },
+            "registry_stage": {
+              "default": "auto",
+              "enum": [
+                "approved",
+                "auto",
+                "candidate",
+                "prod"
+              ],
+              "type": "string"
+            },
+            "seed": {
+              "default": 101,
+              "type": "integer"
+            },
+            "use_case_id": {
+              "enum": [
+                "UC-INCR-MKT-004"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "use_case_id",
+            "records"
+          ],
+          "type": "object"
+        },
+        "batch_response": {
+          "additionalProperties": false,
+          "properties": {
+            "activation_contract": {
+              "additionalProperties": false,
+              "properties": {
+                "fields": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              },
+              "required": [
+                "fields"
+              ],
+              "type": "object"
+            },
+            "activation_count": {
+              "minimum": 1,
+              "type": "integer"
+            },
+            "activations": {
+              "items": {
+                "additionalProperties": true,
+                "properties": {
+                  "campaign_id": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "decision_recommendation": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "destination": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "iROAS": {
+                    "type": "number"
+                  },
+                  "incremental_lift": {
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "campaign_id",
+                  "decision_recommendation",
+                  "destination",
+                  "iROAS",
+                  "incremental_lift"
+                ],
+                "type": "object"
+              },
+              "minItems": 1,
+              "type": "array"
+            },
+            "mode": {
+              "enum": [
+                "batch"
+              ],
+              "type": "string"
+            },
+            "model_backend": {
+              "type": "string"
+            },
+            "model_metrics": {
+              "type": "object"
+            },
+            "model_version": {
+              "type": "string"
+            },
+            "output_contract": {
+              "additionalProperties": false,
+              "properties": {
+                "fields": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                "type": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "type",
+                "fields"
+              ],
+              "type": "object"
+            },
+            "prediction_count": {
+              "minimum": 1,
+              "type": "integer"
+            },
+            "predictions": {
+              "items": {
+                "additionalProperties": true,
+                "properties": {
+                  "analysis_version": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "campaign_id": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "ci_high": {
+                    "type": "number"
+                  },
+                  "ci_low": {
+                    "type": "number"
+                  },
+                  "decision_recommendation": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "iROAS": {
+                    "type": "number"
+                  },
+                  "incremental_lift": {
+                    "type": "number"
+                  },
+                  "p_value": {
+                    "type": "number"
+                  },
+                  "test_window": {
+                    "minLength": 1,
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "analysis_version",
+                  "campaign_id",
+                  "ci_high",
+                  "ci_low",
+                  "decision_recommendation",
+                  "iROAS",
+                  "incremental_lift",
+                  "p_value",
+                  "test_window"
+                ],
+                "type": "object"
+              },
+              "minItems": 1,
+              "type": "array"
+            },
+            "record_count": {
+              "minimum": 1,
+              "type": "integer"
+            },
+            "registry": {
+              "additionalProperties": false,
+              "properties": {
+                "model_backend": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "model_version": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "registered": {
+                  "type": "boolean"
+                },
+                "requested_stage": {
+                  "enum": [
+                    "approved",
+                    "auto",
+                    "candidate",
+                    "prod"
+                  ],
+                  "type": "string"
+                },
+                "run_id": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "stage": {
+                  "enum": [
+                    "candidate",
+                    "approved",
+                    "prod",
+                    "unregistered",
+                    "unknown"
+                  ],
+                  "type": "string"
+                },
+                "updated_at_utc": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "required": [
+                "requested_stage",
+                "stage",
+                "registered",
+                "run_id",
+                "model_version",
+                "model_backend",
+                "updated_at_utc"
+              ],
+              "type": "object"
+            },
+            "registry_run_id": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "registry_stage": {
+              "enum": [
+                "candidate",
+                "approved",
+                "prod",
+                "unregistered",
+                "unknown"
+              ],
+              "type": "string"
+            },
+            "seed": {
+              "type": "integer"
+            },
+            "use_case_id": {
+              "enum": [
+                "UC-INCR-MKT-004"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "mode",
+            "use_case_id",
+            "seed",
+            "registry_stage",
+            "registry_run_id",
+            "model_version",
+            "model_backend",
+            "output_contract",
+            "activation_contract",
+            "record_count",
+            "prediction_count",
+            "activation_count",
+            "predictions",
+            "activations",
+            "model_metrics",
+            "registry"
+          ],
+          "type": "object"
+        },
+        "online_request": {
+          "additionalProperties": false,
+          "properties": {
+            "record": {
+              "additionalProperties": false,
+              "properties": {
+                "aov": {
+                  "type": "number"
+                },
+                "audience_tier": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "campaign_cost": {
+                  "type": "number"
+                },
+                "campaign_id": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "control_conversions": {
+                  "type": "number"
+                },
+                "control_customers": {
+                  "type": "number"
+                },
+                "pre_period_conversion_rate": {
+                  "type": "number"
+                },
+                "test_window": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "treated_conversions": {
+                  "type": "number"
+                },
+                "treated_customers": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "aov",
+                "campaign_cost",
+                "campaign_id",
+                "control_conversions",
+                "control_customers",
+                "test_window",
+                "treated_conversions",
+                "treated_customers"
+              ],
+              "type": "object"
+            },
+            "registry_stage": {
+              "default": "auto",
+              "enum": [
+                "approved",
+                "auto",
+                "candidate",
+                "prod"
+              ],
+              "type": "string"
+            },
+            "seed": {
+              "default": 101,
+              "type": "integer"
+            },
+            "use_case_id": {
+              "enum": [
+                "UC-INCR-MKT-004"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "use_case_id",
+            "record"
+          ],
+          "type": "object"
+        },
+        "online_response": {
+          "additionalProperties": false,
+          "properties": {
+            "activation": {
+              "additionalProperties": true,
+              "properties": {
+                "campaign_id": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "decision_recommendation": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "destination": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "iROAS": {
+                  "type": "number"
+                },
+                "incremental_lift": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "campaign_id",
+                "decision_recommendation",
+                "destination",
+                "iROAS",
+                "incremental_lift"
+              ],
+              "type": "object"
+            },
+            "activation_contract": {
+              "additionalProperties": false,
+              "properties": {
+                "fields": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              },
+              "required": [
+                "fields"
+              ],
+              "type": "object"
+            },
+            "activation_count": {
+              "enum": [
+                1
+              ],
+              "type": "integer"
+            },
+            "mode": {
+              "enum": [
+                "online"
+              ],
+              "type": "string"
+            },
+            "model_backend": {
+              "type": "string"
+            },
+            "model_metrics": {
+              "type": "object"
+            },
+            "model_version": {
+              "type": "string"
+            },
+            "output_contract": {
+              "additionalProperties": false,
+              "properties": {
+                "fields": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                "type": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "type",
+                "fields"
+              ],
+              "type": "object"
+            },
+            "prediction": {
+              "additionalProperties": true,
+              "properties": {
+                "analysis_version": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "campaign_id": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "ci_high": {
+                  "type": "number"
+                },
+                "ci_low": {
+                  "type": "number"
+                },
+                "decision_recommendation": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "iROAS": {
+                  "type": "number"
+                },
+                "incremental_lift": {
+                  "type": "number"
+                },
+                "p_value": {
+                  "type": "number"
+                },
+                "test_window": {
+                  "minLength": 1,
+                  "type": "string"
+                }
+              },
+              "required": [
+                "analysis_version",
+                "campaign_id",
+                "ci_high",
+                "ci_low",
+                "decision_recommendation",
+                "iROAS",
+                "incremental_lift",
+                "p_value",
+                "test_window"
+              ],
+              "type": "object"
+            },
+            "prediction_count": {
+              "enum": [
+                1
+              ],
+              "type": "integer"
+            },
+            "registry": {
+              "additionalProperties": false,
+              "properties": {
+                "model_backend": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "model_version": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "registered": {
+                  "type": "boolean"
+                },
+                "requested_stage": {
+                  "enum": [
+                    "approved",
+                    "auto",
+                    "candidate",
+                    "prod"
+                  ],
+                  "type": "string"
+                },
+                "run_id": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "stage": {
+                  "enum": [
+                    "candidate",
+                    "approved",
+                    "prod",
+                    "unregistered",
+                    "unknown"
+                  ],
+                  "type": "string"
+                },
+                "updated_at_utc": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "required": [
+                "requested_stage",
+                "stage",
+                "registered",
+                "run_id",
+                "model_version",
+                "model_backend",
+                "updated_at_utc"
+              ],
+              "type": "object"
+            },
+            "registry_run_id": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "registry_stage": {
+              "enum": [
+                "candidate",
+                "approved",
+                "prod",
+                "unregistered",
+                "unknown"
+              ],
+              "type": "string"
+            },
+            "seed": {
+              "type": "integer"
+            },
+            "use_case_id": {
+              "enum": [
+                "UC-INCR-MKT-004"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "mode",
+            "use_case_id",
+            "seed",
+            "registry_stage",
+            "registry_run_id",
+            "model_version",
+            "model_backend",
+            "output_contract",
+            "activation_contract",
+            "prediction_count",
+            "activation_count",
+            "prediction",
+            "activation",
+            "model_metrics",
+            "registry"
+          ],
+          "type": "object"
+        },
+        "prediction_row": {
+          "additionalProperties": true,
+          "properties": {
+            "analysis_version": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "campaign_id": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "ci_high": {
+              "type": "number"
+            },
+            "ci_low": {
+              "type": "number"
+            },
+            "decision_recommendation": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "iROAS": {
+              "type": "number"
+            },
+            "incremental_lift": {
+              "type": "number"
+            },
+            "p_value": {
+              "type": "number"
+            },
+            "test_window": {
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          "required": [
+            "analysis_version",
+            "campaign_id",
+            "ci_high",
+            "ci_low",
+            "decision_recommendation",
+            "iROAS",
+            "incremental_lift",
+            "p_value",
+            "test_window"
+          ],
+          "type": "object"
+        }
+      },
+      "use_case_id": "UC-INCR-MKT-004"
+    },
+    {
+      "name": "Media Mix Modeling and Budget Optimization",
+      "primary_kpi": "portfolio_incremental_revenue_at_fixed_budget",
+      "schemas": {
+        "activation_row": {
+          "additionalProperties": true,
+          "properties": {
+            "channel": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "destination": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "expected_incremental_revenue": {
+              "type": "number"
+            },
+            "recommended_spend": {
+              "type": "number"
+            },
+            "uncertainty_interval": {
+              "type": "object"
+            }
+          },
+          "required": [
+            "channel",
+            "destination",
+            "expected_incremental_revenue",
+            "recommended_spend",
+            "uncertainty_interval"
+          ],
+          "type": "object"
+        },
+        "batch_request": {
+          "additionalProperties": false,
+          "properties": {
+            "records": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "channel": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "clicks": {
+                    "type": "number"
+                  },
+                  "impressions": {
+                    "type": "number"
+                  },
+                  "macro_index": {
+                    "type": "number"
+                  },
+                  "observed_revenue": {
+                    "type": "number"
+                  },
+                  "period": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "promo_index": {
+                    "type": "number"
+                  },
+                  "seasonality_index": {
+                    "type": "number"
+                  },
+                  "weekly_spend": {
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "channel",
+                  "clicks",
+                  "impressions",
+                  "period",
+                  "promo_index",
+                  "weekly_spend"
+                ],
+                "type": "object"
+              },
+              "minItems": 1,
+              "type": "array"
+            },
+            "registry_stage": {
+              "default": "auto",
+              "enum": [
+                "approved",
+                "auto",
+                "candidate",
+                "prod"
+              ],
+              "type": "string"
+            },
+            "seed": {
+              "default": 101,
+              "type": "integer"
+            },
+            "use_case_id": {
+              "enum": [
+                "UC-MMM-PLN-003"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "use_case_id",
+            "records"
+          ],
+          "type": "object"
+        },
+        "batch_response": {
+          "additionalProperties": false,
+          "properties": {
+            "activation_contract": {
+              "additionalProperties": false,
+              "properties": {
+                "fields": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              },
+              "required": [
+                "fields"
+              ],
+              "type": "object"
+            },
+            "activation_count": {
+              "minimum": 1,
+              "type": "integer"
+            },
+            "activations": {
+              "items": {
+                "additionalProperties": true,
+                "properties": {
+                  "channel": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "destination": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "expected_incremental_revenue": {
+                    "type": "number"
+                  },
+                  "recommended_spend": {
+                    "type": "number"
+                  },
+                  "uncertainty_interval": {
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "channel",
+                  "destination",
+                  "expected_incremental_revenue",
+                  "recommended_spend",
+                  "uncertainty_interval"
+                ],
+                "type": "object"
+              },
+              "minItems": 1,
+              "type": "array"
+            },
+            "mode": {
+              "enum": [
+                "batch"
+              ],
+              "type": "string"
+            },
+            "model_backend": {
+              "type": "string"
+            },
+            "model_metrics": {
+              "type": "object"
+            },
+            "model_version": {
+              "type": "string"
+            },
+            "output_contract": {
+              "additionalProperties": false,
+              "properties": {
+                "fields": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                "type": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "type",
+                "fields"
+              ],
+              "type": "object"
+            },
+            "prediction_count": {
+              "minimum": 1,
+              "type": "integer"
+            },
+            "predictions": {
+              "items": {
+                "additionalProperties": true,
+                "properties": {
+                  "base_contribution": {
+                    "type": "number"
+                  },
+                  "channel": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "expected_incremental_revenue": {
+                    "type": "number"
+                  },
+                  "incremental_contribution": {
+                    "type": "number"
+                  },
+                  "model_version": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "period": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "recommended_spend": {
+                    "type": "number"
+                  },
+                  "response_curve_params": {
+                    "type": "object"
+                  },
+                  "saturation_point": {
+                    "type": "number"
+                  },
+                  "uncertainty_interval": {
+                    "type": "object"
+                  }
+                },
+                "required": [
+                  "base_contribution",
+                  "channel",
+                  "expected_incremental_revenue",
+                  "incremental_contribution",
+                  "model_version",
+                  "period",
+                  "recommended_spend",
+                  "response_curve_params",
+                  "saturation_point",
+                  "uncertainty_interval"
+                ],
+                "type": "object"
+              },
+              "minItems": 1,
+              "type": "array"
+            },
+            "record_count": {
+              "minimum": 1,
+              "type": "integer"
+            },
+            "registry": {
+              "additionalProperties": false,
+              "properties": {
+                "model_backend": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "model_version": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "registered": {
+                  "type": "boolean"
+                },
+                "requested_stage": {
+                  "enum": [
+                    "approved",
+                    "auto",
+                    "candidate",
+                    "prod"
+                  ],
+                  "type": "string"
+                },
+                "run_id": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "stage": {
+                  "enum": [
+                    "candidate",
+                    "approved",
+                    "prod",
+                    "unregistered",
+                    "unknown"
+                  ],
+                  "type": "string"
+                },
+                "updated_at_utc": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "required": [
+                "requested_stage",
+                "stage",
+                "registered",
+                "run_id",
+                "model_version",
+                "model_backend",
+                "updated_at_utc"
+              ],
+              "type": "object"
+            },
+            "registry_run_id": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "registry_stage": {
+              "enum": [
+                "candidate",
+                "approved",
+                "prod",
+                "unregistered",
+                "unknown"
+              ],
+              "type": "string"
+            },
+            "seed": {
+              "type": "integer"
+            },
+            "use_case_id": {
+              "enum": [
+                "UC-MMM-PLN-003"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "mode",
+            "use_case_id",
+            "seed",
+            "registry_stage",
+            "registry_run_id",
+            "model_version",
+            "model_backend",
+            "output_contract",
+            "activation_contract",
+            "record_count",
+            "prediction_count",
+            "activation_count",
+            "predictions",
+            "activations",
+            "model_metrics",
+            "registry"
+          ],
+          "type": "object"
+        },
+        "online_request": {
+          "additionalProperties": false,
+          "properties": {
+            "record": {
+              "additionalProperties": false,
+              "properties": {
+                "channel": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "clicks": {
+                  "type": "number"
+                },
+                "impressions": {
+                  "type": "number"
+                },
+                "macro_index": {
+                  "type": "number"
+                },
+                "observed_revenue": {
+                  "type": "number"
+                },
+                "period": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "promo_index": {
+                  "type": "number"
+                },
+                "seasonality_index": {
+                  "type": "number"
+                },
+                "weekly_spend": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "channel",
+                "clicks",
+                "impressions",
+                "period",
+                "promo_index",
+                "weekly_spend"
+              ],
+              "type": "object"
+            },
+            "registry_stage": {
+              "default": "auto",
+              "enum": [
+                "approved",
+                "auto",
+                "candidate",
+                "prod"
+              ],
+              "type": "string"
+            },
+            "seed": {
+              "default": 101,
+              "type": "integer"
+            },
+            "use_case_id": {
+              "enum": [
+                "UC-MMM-PLN-003"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "use_case_id",
+            "record"
+          ],
+          "type": "object"
+        },
+        "online_response": {
+          "additionalProperties": false,
+          "properties": {
+            "activation": {
+              "additionalProperties": true,
+              "properties": {
+                "channel": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "destination": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "expected_incremental_revenue": {
+                  "type": "number"
+                },
+                "recommended_spend": {
+                  "type": "number"
+                },
+                "uncertainty_interval": {
+                  "type": "object"
+                }
+              },
+              "required": [
+                "channel",
+                "destination",
+                "expected_incremental_revenue",
+                "recommended_spend",
+                "uncertainty_interval"
+              ],
+              "type": "object"
+            },
+            "activation_contract": {
+              "additionalProperties": false,
+              "properties": {
+                "fields": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              },
+              "required": [
+                "fields"
+              ],
+              "type": "object"
+            },
+            "activation_count": {
+              "enum": [
+                1
+              ],
+              "type": "integer"
+            },
+            "mode": {
+              "enum": [
+                "online"
+              ],
+              "type": "string"
+            },
+            "model_backend": {
+              "type": "string"
+            },
+            "model_metrics": {
+              "type": "object"
+            },
+            "model_version": {
+              "type": "string"
+            },
+            "output_contract": {
+              "additionalProperties": false,
+              "properties": {
+                "fields": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                "type": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "type",
+                "fields"
+              ],
+              "type": "object"
+            },
+            "prediction": {
+              "additionalProperties": true,
+              "properties": {
+                "base_contribution": {
+                  "type": "number"
+                },
+                "channel": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "expected_incremental_revenue": {
+                  "type": "number"
+                },
+                "incremental_contribution": {
+                  "type": "number"
+                },
+                "model_version": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "period": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "recommended_spend": {
+                  "type": "number"
+                },
+                "response_curve_params": {
+                  "type": "object"
+                },
+                "saturation_point": {
+                  "type": "number"
+                },
+                "uncertainty_interval": {
+                  "type": "object"
+                }
+              },
+              "required": [
+                "base_contribution",
+                "channel",
+                "expected_incremental_revenue",
+                "incremental_contribution",
+                "model_version",
+                "period",
+                "recommended_spend",
+                "response_curve_params",
+                "saturation_point",
+                "uncertainty_interval"
+              ],
+              "type": "object"
+            },
+            "prediction_count": {
+              "enum": [
+                1
+              ],
+              "type": "integer"
+            },
+            "registry": {
+              "additionalProperties": false,
+              "properties": {
+                "model_backend": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "model_version": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "registered": {
+                  "type": "boolean"
+                },
+                "requested_stage": {
+                  "enum": [
+                    "approved",
+                    "auto",
+                    "candidate",
+                    "prod"
+                  ],
+                  "type": "string"
+                },
+                "run_id": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "stage": {
+                  "enum": [
+                    "candidate",
+                    "approved",
+                    "prod",
+                    "unregistered",
+                    "unknown"
+                  ],
+                  "type": "string"
+                },
+                "updated_at_utc": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "required": [
+                "requested_stage",
+                "stage",
+                "registered",
+                "run_id",
+                "model_version",
+                "model_backend",
+                "updated_at_utc"
+              ],
+              "type": "object"
+            },
+            "registry_run_id": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "registry_stage": {
+              "enum": [
+                "candidate",
+                "approved",
+                "prod",
+                "unregistered",
+                "unknown"
+              ],
+              "type": "string"
+            },
+            "seed": {
+              "type": "integer"
+            },
+            "use_case_id": {
+              "enum": [
+                "UC-MMM-PLN-003"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "mode",
+            "use_case_id",
+            "seed",
+            "registry_stage",
+            "registry_run_id",
+            "model_version",
+            "model_backend",
+            "output_contract",
+            "activation_contract",
+            "prediction_count",
+            "activation_count",
+            "prediction",
+            "activation",
+            "model_metrics",
+            "registry"
+          ],
+          "type": "object"
+        },
+        "prediction_row": {
+          "additionalProperties": true,
+          "properties": {
+            "base_contribution": {
+              "type": "number"
+            },
+            "channel": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "expected_incremental_revenue": {
+              "type": "number"
+            },
+            "incremental_contribution": {
+              "type": "number"
+            },
+            "model_version": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "period": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "recommended_spend": {
+              "type": "number"
+            },
+            "response_curve_params": {
+              "type": "object"
+            },
+            "saturation_point": {
+              "type": "number"
+            },
+            "uncertainty_interval": {
+              "type": "object"
+            }
+          },
+          "required": [
+            "base_contribution",
+            "channel",
+            "expected_incremental_revenue",
+            "incremental_contribution",
+            "model_version",
+            "period",
+            "recommended_spend",
+            "response_curve_params",
+            "saturation_point",
+            "uncertainty_interval"
+          ],
+          "type": "object"
+        }
+      },
+      "use_case_id": "UC-MMM-PLN-003"
+    },
+    {
+      "name": "Next Best Action for Retention",
+      "primary_kpi": "30_day_incremental_retention_lift",
+      "schemas": {
+        "activation_row": {
+          "additionalProperties": true,
+          "properties": {
+            "action_channel": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "action_id": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "customer_id": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "destination": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "priority": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "reason_code": {
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          "required": [
+            "action_channel",
+            "action_id",
+            "customer_id",
+            "destination",
+            "priority",
+            "reason_code"
+          ],
+          "type": "object"
+        },
+        "batch_request": {
+          "additionalProperties": false,
+          "properties": {
+            "records": {
+              "items": {
+                "additionalProperties": false,
+                "properties": {
+                  "customer_id": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "historical_action_id": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "observed_uplift": {
+                    "type": "number"
+                  },
+                  "retained_30d": {
+                    "oneOf": [
+                      {
+                        "type": "boolean"
+                      },
+                      {
+                        "type": "number"
+                      },
+                      {
+                        "enum": [
+                          "0",
+                          "1",
+                          "true",
+                          "false",
+                          "yes",
+                          "no"
+                        ],
+                        "type": "string"
+                      }
+                    ]
+                  },
+                  "risk_score": {
+                    "type": "number"
+                  },
+                  "score_ts": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "value_score": {
+                    "type": "number"
+                  }
+                },
+                "required": [
+                  "customer_id",
+                  "risk_score",
+                  "score_ts",
+                  "value_score"
+                ],
+                "type": "object"
+              },
+              "minItems": 1,
+              "type": "array"
+            },
+            "registry_stage": {
+              "default": "auto",
+              "enum": [
+                "approved",
+                "auto",
+                "candidate",
+                "prod"
+              ],
+              "type": "string"
+            },
+            "seed": {
+              "default": 101,
+              "type": "integer"
+            },
+            "use_case_id": {
+              "enum": [
+                "UC-NBA-RET-001"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "use_case_id",
+            "records"
+          ],
+          "type": "object"
+        },
+        "batch_response": {
+          "additionalProperties": false,
+          "properties": {
+            "activation_contract": {
+              "additionalProperties": false,
+              "properties": {
+                "fields": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              },
+              "required": [
+                "fields"
+              ],
+              "type": "object"
+            },
+            "activation_count": {
+              "minimum": 1,
+              "type": "integer"
+            },
+            "activations": {
+              "items": {
+                "additionalProperties": true,
+                "properties": {
+                  "action_channel": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "action_id": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "customer_id": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "destination": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "priority": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "reason_code": {
+                    "minLength": 1,
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "action_channel",
+                  "action_id",
+                  "customer_id",
+                  "destination",
+                  "priority",
+                  "reason_code"
+                ],
+                "type": "object"
+              },
+              "minItems": 1,
+              "type": "array"
+            },
+            "mode": {
+              "enum": [
+                "batch"
+              ],
+              "type": "string"
+            },
+            "model_backend": {
+              "type": "string"
+            },
+            "model_metrics": {
+              "type": "object"
+            },
+            "model_version": {
+              "type": "string"
+            },
+            "output_contract": {
+              "additionalProperties": false,
+              "properties": {
+                "fields": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                "type": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "type",
+                "fields"
+              ],
+              "type": "object"
+            },
+            "prediction_count": {
+              "minimum": 1,
+              "type": "integer"
+            },
+            "predictions": {
+              "items": {
+                "additionalProperties": true,
+                "properties": {
+                  "action_channel": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "action_id": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "confidence": {
+                    "type": "number"
+                  },
+                  "customer_id": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "expected_uplift": {
+                    "type": "number"
+                  },
+                  "model_version": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "policy_version": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "reason_codes": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "score_ts": {
+                    "minLength": 1,
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "action_channel",
+                  "action_id",
+                  "confidence",
+                  "customer_id",
+                  "expected_uplift",
+                  "model_version",
+                  "policy_version",
+                  "reason_codes",
+                  "score_ts"
+                ],
+                "type": "object"
+              },
+              "minItems": 1,
+              "type": "array"
+            },
+            "record_count": {
+              "minimum": 1,
+              "type": "integer"
+            },
+            "registry": {
+              "additionalProperties": false,
+              "properties": {
+                "model_backend": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "model_version": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "registered": {
+                  "type": "boolean"
+                },
+                "requested_stage": {
+                  "enum": [
+                    "approved",
+                    "auto",
+                    "candidate",
+                    "prod"
+                  ],
+                  "type": "string"
+                },
+                "run_id": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "stage": {
+                  "enum": [
+                    "candidate",
+                    "approved",
+                    "prod",
+                    "unregistered",
+                    "unknown"
+                  ],
+                  "type": "string"
+                },
+                "updated_at_utc": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "required": [
+                "requested_stage",
+                "stage",
+                "registered",
+                "run_id",
+                "model_version",
+                "model_backend",
+                "updated_at_utc"
+              ],
+              "type": "object"
+            },
+            "registry_run_id": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "registry_stage": {
+              "enum": [
+                "candidate",
+                "approved",
+                "prod",
+                "unregistered",
+                "unknown"
+              ],
+              "type": "string"
+            },
+            "seed": {
+              "type": "integer"
+            },
+            "use_case_id": {
+              "enum": [
+                "UC-NBA-RET-001"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "mode",
+            "use_case_id",
+            "seed",
+            "registry_stage",
+            "registry_run_id",
+            "model_version",
+            "model_backend",
+            "output_contract",
+            "activation_contract",
+            "record_count",
+            "prediction_count",
+            "activation_count",
+            "predictions",
+            "activations",
+            "model_metrics",
+            "registry"
+          ],
+          "type": "object"
+        },
+        "online_request": {
+          "additionalProperties": false,
+          "properties": {
+            "record": {
+              "additionalProperties": false,
+              "properties": {
+                "customer_id": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "historical_action_id": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "observed_uplift": {
+                  "type": "number"
+                },
+                "retained_30d": {
+                  "oneOf": [
+                    {
+                      "type": "boolean"
+                    },
+                    {
+                      "type": "number"
+                    },
+                    {
+                      "enum": [
+                        "0",
+                        "1",
+                        "true",
+                        "false",
+                        "yes",
+                        "no"
+                      ],
+                      "type": "string"
+                    }
+                  ]
+                },
+                "risk_score": {
+                  "type": "number"
+                },
+                "score_ts": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "value_score": {
+                  "type": "number"
+                }
+              },
+              "required": [
+                "customer_id",
+                "risk_score",
+                "score_ts",
+                "value_score"
+              ],
+              "type": "object"
+            },
+            "registry_stage": {
+              "default": "auto",
+              "enum": [
+                "approved",
+                "auto",
+                "candidate",
+                "prod"
+              ],
+              "type": "string"
+            },
+            "seed": {
+              "default": 101,
+              "type": "integer"
+            },
+            "use_case_id": {
+              "enum": [
+                "UC-NBA-RET-001"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "use_case_id",
+            "record"
+          ],
+          "type": "object"
+        },
+        "online_response": {
+          "additionalProperties": false,
+          "properties": {
+            "activation": {
+              "additionalProperties": true,
+              "properties": {
+                "action_channel": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "action_id": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "customer_id": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "destination": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "priority": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "reason_code": {
+                  "minLength": 1,
+                  "type": "string"
+                }
+              },
+              "required": [
+                "action_channel",
+                "action_id",
+                "customer_id",
+                "destination",
+                "priority",
+                "reason_code"
+              ],
+              "type": "object"
+            },
+            "activation_contract": {
+              "additionalProperties": false,
+              "properties": {
+                "fields": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              },
+              "required": [
+                "fields"
+              ],
+              "type": "object"
+            },
+            "activation_count": {
+              "enum": [
+                1
+              ],
+              "type": "integer"
+            },
+            "mode": {
+              "enum": [
+                "online"
+              ],
+              "type": "string"
+            },
+            "model_backend": {
+              "type": "string"
+            },
+            "model_metrics": {
+              "type": "object"
+            },
+            "model_version": {
+              "type": "string"
+            },
+            "output_contract": {
+              "additionalProperties": false,
+              "properties": {
+                "fields": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                "type": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "type",
+                "fields"
+              ],
+              "type": "object"
+            },
+            "prediction": {
+              "additionalProperties": true,
+              "properties": {
+                "action_channel": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "action_id": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "confidence": {
+                  "type": "number"
+                },
+                "customer_id": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "expected_uplift": {
+                  "type": "number"
+                },
+                "model_version": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "policy_version": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "reason_codes": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                },
+                "score_ts": {
+                  "minLength": 1,
+                  "type": "string"
+                }
+              },
+              "required": [
+                "action_channel",
+                "action_id",
+                "confidence",
+                "customer_id",
+                "expected_uplift",
+                "model_version",
+                "policy_version",
+                "reason_codes",
+                "score_ts"
+              ],
+              "type": "object"
+            },
+            "prediction_count": {
+              "enum": [
+                1
+              ],
+              "type": "integer"
+            },
+            "registry": {
+              "additionalProperties": false,
+              "properties": {
+                "model_backend": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "model_version": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "registered": {
+                  "type": "boolean"
+                },
+                "requested_stage": {
+                  "enum": [
+                    "approved",
+                    "auto",
+                    "candidate",
+                    "prod"
+                  ],
+                  "type": "string"
+                },
+                "run_id": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "stage": {
+                  "enum": [
+                    "candidate",
+                    "approved",
+                    "prod",
+                    "unregistered",
+                    "unknown"
+                  ],
+                  "type": "string"
+                },
+                "updated_at_utc": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "required": [
+                "requested_stage",
+                "stage",
+                "registered",
+                "run_id",
+                "model_version",
+                "model_backend",
+                "updated_at_utc"
+              ],
+              "type": "object"
+            },
+            "registry_run_id": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "registry_stage": {
+              "enum": [
+                "candidate",
+                "approved",
+                "prod",
+                "unregistered",
+                "unknown"
+              ],
+              "type": "string"
+            },
+            "seed": {
+              "type": "integer"
+            },
+            "use_case_id": {
+              "enum": [
+                "UC-NBA-RET-001"
+              ],
+              "type": "string"
+            }
+          },
+          "required": [
+            "mode",
+            "use_case_id",
+            "seed",
+            "registry_stage",
+            "registry_run_id",
+            "model_version",
+            "model_backend",
+            "output_contract",
+            "activation_contract",
+            "prediction_count",
+            "activation_count",
+            "prediction",
+            "activation",
+            "model_metrics",
+            "registry"
+          ],
+          "type": "object"
+        },
+        "prediction_row": {
+          "additionalProperties": true,
+          "properties": {
+            "action_channel": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "action_id": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "confidence": {
+              "type": "number"
+            },
+            "customer_id": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "expected_uplift": {
+              "type": "number"
+            },
+            "model_version": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "policy_version": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "reason_codes": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "score_ts": {
+              "minLength": 1,
+              "type": "string"
+            }
+          },
+          "required": [
+            "action_channel",
+            "action_id",
+            "confidence",
+            "customer_id",
+            "expected_uplift",
+            "model_version",
+            "policy_version",
+            "reason_codes",
+            "score_ts"
+          ],
+          "type": "object"
+        }
+      },
+      "use_case_id": "UC-NBA-RET-001"
+    }
+  ]
+}

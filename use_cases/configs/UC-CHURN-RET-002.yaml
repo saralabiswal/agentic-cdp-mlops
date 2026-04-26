@@ -1,0 +1,63 @@
+use_case_id: "UC-CHURN-RET-002"
+name: "Churn Prediction and Retention Actioning"
+primary_kpi: "60_day_incremental_churn_reduction"
+baseline: 0.12
+target: 0.102
+entities:
+  - customer
+  - transaction
+  - event
+  - support_case
+  - consent
+features:
+  - tenure_days
+  - recency_days
+  - frequency_60d
+  - monetary_90d
+  - support_tickets_30d
+  - complaint_count_30d
+  - campaign_response_rate_90d
+output_contract:
+  type: "score_and_recommendation"
+  fields:
+    - customer_id
+    - churn_risk_score
+    - risk_band
+    - recommended_action
+    - expected_uplift
+    - reason_codes
+    - score_ts
+    - model_version
+  sla_latency_ms: 250
+  refresh: "daily_batch_plus_high_risk_event_triggered"
+decision_policy:
+  eligibility_rules:
+    - "consent_status == true"
+    - "no_active_fraud_flag == true"
+    - "profile_completeness >= 0.8"
+  suppression_rules:
+    - "last_marketing_contact_hours < 72"
+    - "active_retention_journey == true"
+  fallback: "risk_decile_rules_v1"
+experiment:
+  unit: "customer_id"
+  split: "80_treatment_20_control"
+  duration_days: 56
+  mde: 0.01
+  success_rule: "churn_reduction_ci_low > 0 and cost_guardrails_ok"
+governance:
+  validation_gates:
+    - "auc_threshold_pass"
+    - "pr_auc_threshold_pass"
+    - "calibration_pass"
+    - "stability_by_segment_pass"
+    - "contract_tests_pass"
+  approval_required: true
+monitoring:
+  drift_thresholds:
+    psi_feature_major: 0.20
+    calibration_error_alert: 0.05
+  alert_channels:
+    - "slack-marketing-mlops"
+    - "pagerduty-mlops"
+

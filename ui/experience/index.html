@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI/ML Platform Architecture</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="workbench-theme.css" />
+  </head>
+  <body>
+    <div class="page-bg"></div>
+    <main class="app-shell">
+      <nav class="wb-theme-top-nav" aria-label="Experience navigation">
+        <a href="business-home.html" title="Start with the AI model portfolio and recommended decision sequence.">AI Decision Portfolio</a>
+        <a href="business-exec-summary.html" title="Review portfolio-level AI impact, model health, and readiness.">AI Impact Summary</a>
+        <a href="workbench.html" title="Inspect model recommendations, impact forecasts, and evidence for each flow.">Model Decision Workbench</a>
+        <a href="index.html" class="is-active" title="Open the AI/ML runtime architecture, lineage, and model evidence presentation.">AI/ML Platform Architecture</a>
+      </nav>
+
+      <header class="hero">
+        <p class="eyebrow">Enterprise AI/ML Platform Architecture</p>
+        <h1>AI/ML Decision Intelligence Architecture</h1>
+        <p class="subtitle">
+          A guided, evidence-backed walkthrough of how governed data, ML models, causal science, and MLOps controls
+          become activation-ready enterprise decisions.
+        </p>
+      </header>
+
+      <div class="presentation-shell">
+        <aside class="presentation-steps" aria-label="Technical presentation steps">
+          <span class="label">Presentation Steps</span>
+          <a href="#overview" data-presentation-step="overview"><strong>01</strong><span>AI/ML architecture thesis</span></a>
+          <a href="#configure" data-presentation-step="configure"><strong>02</strong><span>Select model runtime</span></a>
+          <a href="#architecture-story" data-presentation-step="architecture"><strong>03</strong><span>Walk the 8 ML stages</span></a>
+          <a href="#hardening" data-presentation-step="hardening"><strong>04</strong><span>Enterprise AI hardening</span></a>
+          <a href="#evidence" data-presentation-step="evidence"><strong>05</strong><span>Model evidence</span></a>
+        </aside>
+
+        <div class="presentation-content">
+
+      <section class="card presentation-lede presentation-panel" data-presentation-panel="overview">
+        <div>
+          <span class="label">What This Proves</span>
+          <h2>One governed AI/ML runtime, four decision models, inspectable at every stage.</h2>
+          <p>
+            This page is designed as a technical AI/ML presentation: walk stage-by-stage, show model inputs and outputs,
+            point to actual artifacts, then show how the same runtime supports standalone execution and enterprise-grade MLOps hardening.
+          </p>
+        </div>
+      </section>
+
+      <section id="overview" class="technical-proof-strip presentation-panel" data-presentation-panel="overview" aria-label="Technical proof points">
+        <article>
+          <span>01</span>
+          <strong>Contract-Driven AI</strong>
+          <p>Each model starts from YAML contracts, not page-specific code.</p>
+        </article>
+        <article>
+          <span>02</span>
+          <strong>Eight ML Stages</strong>
+          <p>Source, ingest, storage, identity, features, model, activation, governance.</p>
+        </article>
+        <article>
+          <span>03</span>
+          <strong>Model Evidence</strong>
+          <p>Every stage can point to records, metrics, lineage, artifacts, and validation status.</p>
+        </article>
+        <article>
+          <span>04</span>
+          <strong>Enterprise AI Path</strong>
+          <p>Standalone runtime first, optional MLOps and enterprise hardening when enabled.</p>
+        </article>
+      </section>
+
+      <section class="card backend-architecture presentation-panel" data-presentation-panel="overview" aria-label="Backend architecture and design">
+        <div class="section-head compact">
+          <div>
+            <span class="label">AI/ML Architecture &amp; Design</span>
+            <h2>Backend Model Runtime</h2>
+            <p>
+              The backend is organized as a contract-driven AI runtime: UI and API requests select a decision model,
+              the orchestrator executes the reusable ML pipeline, and each stage writes auditable model evidence for review.
+            </p>
+          </div>
+        </div>
+
+        <figure class="backend-diagram">
+          <svg
+            class="backend-architecture-svg"
+            viewBox="0 0 1120 420"
+            role="img"
+            aria-labelledby="backend-svg-title backend-svg-desc"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <title id="backend-svg-title">Backend architecture diagram</title>
+            <desc id="backend-svg-desc">
+              Diagram showing experience layer requests flowing into the live API, run orchestrator,
+              reusable eight-stage pipeline, and evidence artifacts, with contracts, runtime profiles,
+              and operational interfaces supporting the backend.
+            </desc>
+            <defs>
+              <linearGradient id="backendMainGradient" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#14486b" />
+                <stop offset="100%" stop-color="#1f8a83" />
+              </linearGradient>
+              <marker id="backendArrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#24617f" />
+              </marker>
+              <filter id="backendShadow" x="-8%" y="-18%" width="116%" height="140%">
+                <feDropShadow dx="0" dy="8" stdDeviation="8" flood-color="#0e263d" flood-opacity="0.14" />
+              </filter>
+            </defs>
+
+            <rect x="8" y="8" width="1104" height="404" rx="20" fill="#f7fbff" stroke="#cfe1ee" />
+            <text x="36" y="46" class="svg-eyebrow">Backend Architecture Flow</text>
+            <text x="36" y="76" class="svg-title">Contract-driven runtime with inspectable evidence at every stage</text>
+
+            <g filter="url(#backendShadow)">
+              <rect x="38" y="118" width="215" height="120" rx="16" fill="#ffffff" stroke="#c7ddea" />
+              <rect x="38" y="118" width="215" height="8" rx="4" fill="#1f7b75" />
+              <text x="58" y="154" class="svg-node-kicker">Experience Layer</text>
+              <text x="58" y="180" class="svg-node-title">HTML UI + Live API</text>
+              <text x="58" y="207" class="svg-node-copy">Workbench, architecture page,</text>
+              <text x="58" y="229" class="svg-node-copy">run controls, downloads.</text>
+
+              <rect x="318" y="118" width="215" height="120" rx="16" fill="#ffffff" stroke="#c7ddea" />
+              <rect x="318" y="118" width="215" height="8" rx="4" fill="#236b91" />
+              <text x="338" y="154" class="svg-node-kicker">Control Plane</text>
+              <text x="338" y="180" class="svg-node-title">Run Orchestrator</text>
+              <text x="338" y="207" class="svg-node-copy">Loads contracts, profiles,</text>
+              <text x="338" y="229" class="svg-node-copy">seeds, scenarios.</text>
+
+              <rect x="598" y="118" width="215" height="120" rx="16" fill="#ffffff" stroke="#c7ddea" />
+              <rect x="598" y="118" width="215" height="8" rx="4" fill="#0f8fa8" />
+              <text x="618" y="154" class="svg-node-kicker">Reusable Pipeline</text>
+              <text x="618" y="180" class="svg-node-title">8 Processing Stages</text>
+              <text x="618" y="207" class="svg-node-copy">Source, ingest, storage,</text>
+              <text x="618" y="229" class="svg-node-copy">identity, features, ML.</text>
+
+              <rect x="878" y="118" width="205" height="120" rx="16" fill="#ffffff" stroke="#c7ddea" />
+              <rect x="878" y="118" width="205" height="8" rx="4" fill="#5d7b39" />
+              <text x="898" y="154" class="svg-node-kicker">Evidence Plane</text>
+              <text x="898" y="180" class="svg-node-title">Artifacts + Registry</text>
+              <text x="898" y="207" class="svg-node-copy">Summaries, gates, metrics,</text>
+              <text x="898" y="229" class="svg-node-copy">lineage, run history.</text>
+            </g>
+
+            <path d="M 260 178 L 305 178" stroke="#24617f" stroke-width="3" marker-end="url(#backendArrow)" />
+            <path d="M 540 178 L 585 178" stroke="#24617f" stroke-width="3" marker-end="url(#backendArrow)" />
+            <path d="M 820 178 L 865 178" stroke="#24617f" stroke-width="3" marker-end="url(#backendArrow)" />
+
+            <g>
+              <rect x="318" y="286" width="215" height="72" rx="14" fill="#eef8fb" stroke="#c7ddea" />
+              <text x="338" y="316" class="svg-support-title">Contracts</text>
+              <text x="338" y="342" class="svg-support-copy">YAML entities, features, KPIs, gates</text>
+
+              <rect x="598" y="286" width="215" height="72" rx="14" fill="#eef8fb" stroke="#c7ddea" />
+              <text x="618" y="316" class="svg-support-title">Runtime Profiles</text>
+              <text x="618" y="342" class="svg-support-copy">Standalone, integrated, enterprise</text>
+
+              <rect x="878" y="286" width="205" height="72" rx="14" fill="#eef8fb" stroke="#c7ddea" />
+              <text x="898" y="316" class="svg-support-title">Ops Interfaces</text>
+              <text x="898" y="342" class="svg-support-copy">History, stages, metrics APIs</text>
+            </g>
+
+            <path d="M 425 286 L 425 248" stroke="#7da7bd" stroke-width="2" stroke-dasharray="6 6" marker-end="url(#backendArrow)" />
+            <path d="M 705 286 L 705 248" stroke="#7da7bd" stroke-width="2" stroke-dasharray="6 6" marker-end="url(#backendArrow)" />
+            <path d="M 980 286 L 980 248" stroke="#7da7bd" stroke-width="2" stroke-dasharray="6 6" marker-end="url(#backendArrow)" />
+          </svg>
+          <figcaption>
+            Requests enter through the experience layer, the orchestrator applies contract and runtime context,
+            the reusable pipeline executes the use case, and every run writes reviewable evidence.
+          </figcaption>
+        </figure>
+
+        <figure class="stage-component-diagram">
+          <svg
+            class="stage-architecture-svg"
+            viewBox="0 0 1120 620"
+            role="img"
+            aria-labelledby="stage-svg-title stage-svg-desc"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <title id="stage-svg-title">Eight-stage technical component architecture</title>
+            <desc id="stage-svg-desc">
+              Technical component diagram for the eight backend stages from data sources through monitoring and governance,
+              including the main component, artifact output, and runtime handoff for each stage.
+            </desc>
+            <defs>
+              <marker id="stageArrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#236b91" />
+              </marker>
+              <filter id="stageShadow" x="-8%" y="-14%" width="116%" height="132%">
+                <feDropShadow dx="0" dy="7" stdDeviation="7" flood-color="#0e263d" flood-opacity="0.12" />
+              </filter>
+            </defs>
+
+            <rect x="8" y="8" width="1104" height="604" rx="20" fill="#fbfdff" stroke="#cfe1ee" />
+            <text x="36" y="46" class="svg-eyebrow">8-Stage Technical Component Diagram</text>
+            <text x="36" y="76" class="svg-title">Data Sources to Monitoring + Governance</text>
+            <text x="36" y="104" class="svg-stage-copy">Each stage has a clear runtime responsibility, artifact contract, and evidence handoff.</text>
+
+            <g filter="url(#stageShadow)">
+              <rect x="36" y="142" width="245" height="134" rx="16" fill="#ffffff" stroke="#c7ddea" />
+              <rect x="36" y="142" width="245" height="8" rx="4" fill="#1f7b75" />
+              <text x="56" y="174" class="svg-stage-number">01</text>
+              <text x="90" y="174" class="svg-node-title">Data Sources</text>
+              <text x="56" y="204" class="svg-node-copy">CSV / production tables</text>
+              <text x="56" y="226" class="svg-node-copy">Schema + volume checks</text>
+              <text x="56" y="254" class="svg-artifact-copy">Artifact: source profile + DQ report</text>
+
+              <rect x="316" y="142" width="245" height="134" rx="16" fill="#ffffff" stroke="#c7ddea" />
+              <rect x="316" y="142" width="245" height="8" rx="4" fill="#236b91" />
+              <text x="336" y="174" class="svg-stage-number">02</text>
+              <text x="370" y="170" class="svg-node-title">Ingestion +</text>
+              <text x="370" y="190" class="svg-node-title">Event Bus</text>
+              <text x="336" y="218" class="svg-node-copy">Topic writer / event envelope</text>
+              <text x="336" y="240" class="svg-node-copy">Kafka-like local mirror</text>
+              <text x="336" y="264" class="svg-artifact-copy">Artifact: raw topic JSONL</text>
+
+              <rect x="596" y="142" width="245" height="134" rx="16" fill="#ffffff" stroke="#c7ddea" />
+              <rect x="596" y="142" width="245" height="8" rx="4" fill="#0f8fa8" />
+              <text x="616" y="174" class="svg-stage-number">03</text>
+              <text x="650" y="170" class="svg-node-title">Raw + Curated</text>
+              <text x="650" y="190" class="svg-node-title">Storage</text>
+              <text x="616" y="218" class="svg-node-copy">Raw landing and curated records</text>
+              <text x="616" y="240" class="svg-node-copy">Warehouse-ready canonical shape</text>
+              <text x="616" y="264" class="svg-artifact-copy">Artifact: raw + curated files</text>
+
+              <rect x="876" y="142" width="208" height="134" rx="16" fill="#ffffff" stroke="#c7ddea" />
+              <rect x="876" y="142" width="208" height="8" rx="4" fill="#5d7b39" />
+              <text x="896" y="174" class="svg-stage-number">04</text>
+              <text x="930" y="174" class="svg-node-title">Identity + 360</text>
+              <text x="896" y="204" class="svg-node-copy">Identity map and resolved</text>
+              <text x="896" y="226" class="svg-node-copy">customer records</text>
+              <text x="896" y="254" class="svg-artifact-copy">Artifact: resolved profile</text>
+
+              <rect x="876" y="360" width="208" height="134" rx="16" fill="#ffffff" stroke="#c7ddea" />
+              <rect x="876" y="360" width="208" height="8" rx="4" fill="#1f7b75" />
+              <text x="896" y="392" class="svg-stage-number">05</text>
+              <text x="930" y="392" class="svg-node-title">Feature Layer</text>
+              <text x="896" y="422" class="svg-node-copy">Feature builder and optional</text>
+              <text x="896" y="444" class="svg-node-copy">feature-store artifacts</text>
+              <text x="896" y="472" class="svg-artifact-copy">Artifact: feature rows</text>
+
+              <rect x="596" y="360" width="245" height="134" rx="16" fill="#ffffff" stroke="#c7ddea" />
+              <rect x="596" y="360" width="245" height="8" rx="4" fill="#236b91" />
+              <text x="616" y="392" class="svg-stage-number">06</text>
+              <text x="650" y="392" class="svg-node-title">Model Layer</text>
+              <text x="616" y="422" class="svg-node-copy">Backend selection, training,</text>
+              <text x="616" y="444" class="svg-node-copy">scoring, lineage capture</text>
+              <text x="616" y="472" class="svg-artifact-copy">Artifact: predictions + metrics</text>
+
+              <rect x="316" y="360" width="245" height="134" rx="16" fill="#ffffff" stroke="#c7ddea" />
+              <rect x="316" y="360" width="245" height="8" rx="4" fill="#0f8fa8" />
+              <text x="336" y="392" class="svg-stage-number">07</text>
+              <text x="370" y="392" class="svg-node-title">Serving + Activation</text>
+              <text x="336" y="422" class="svg-node-copy">Decision payload builder</text>
+              <text x="336" y="444" class="svg-node-copy">Channel-ready activation</text>
+              <text x="336" y="472" class="svg-artifact-copy">Artifact: activation payloads</text>
+
+              <rect x="36" y="360" width="245" height="134" rx="16" fill="#ffffff" stroke="#c7ddea" />
+              <rect x="36" y="360" width="245" height="8" rx="4" fill="#5d7b39" />
+              <text x="56" y="392" class="svg-stage-number">08</text>
+              <text x="90" y="388" class="svg-node-title">Monitoring +</text>
+              <text x="90" y="408" class="svg-node-title">Governance</text>
+              <text x="56" y="436" class="svg-node-copy">Validation gates, readiness,</text>
+              <text x="56" y="458" class="svg-node-copy">DQ, metrics, approval state</text>
+              <text x="56" y="482" class="svg-artifact-copy">Artifact: governance report</text>
+            </g>
+
+            <path d="M 288 209 L 303 209" stroke="#236b91" stroke-width="3" marker-end="url(#stageArrow)" />
+            <path d="M 568 209 L 583 209" stroke="#236b91" stroke-width="3" marker-end="url(#stageArrow)" />
+            <path d="M 848 209 L 863 209" stroke="#236b91" stroke-width="3" marker-end="url(#stageArrow)" />
+            <path d="M 980 284 L 980 347" stroke="#236b91" stroke-width="3" marker-end="url(#stageArrow)" />
+            <path d="M 868 427 L 853 427" stroke="#236b91" stroke-width="3" marker-end="url(#stageArrow)" />
+            <path d="M 588 427 L 573 427" stroke="#236b91" stroke-width="3" marker-end="url(#stageArrow)" />
+            <path d="M 308 427 L 293 427" stroke="#236b91" stroke-width="3" marker-end="url(#stageArrow)" />
+
+            <rect x="36" y="532" width="1048" height="46" rx="14" fill="#eef8fb" stroke="#c7ddea" />
+            <text x="56" y="561" class="svg-support-copy">Execution contract: selected use case + seed + runtime profile -&gt; stage artifacts -&gt; summary.json -&gt; run registry -&gt; evidence and metrics APIs.</text>
+          </svg>
+          <figcaption>
+            The eight-stage runtime separates ingestion, storage, identity, features, modeling, activation, and governance so each layer can be tested and inspected independently.
+          </figcaption>
+        </figure>
+
+        <div class="backend-support-grid">
+          <article>
+            <span>Contracts</span>
+            <p>YAML use-case contracts define entities, features, output fields, KPIs, and validation expectations.</p>
+          </article>
+          <article>
+            <span>Runtime Modes</span>
+            <p>Standalone remains dependency-free; integrated and enterprise profiles add optional integration evidence.</p>
+          </article>
+          <article>
+            <span>Operational Interfaces</span>
+            <p>Run history, stage details, data-quality details, OpenAPI contracts, downloads, and metrics expose the backend state.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="card architecture-summary presentation-panel" data-presentation-panel="overview" aria-label="Technical architecture summary">
+        <span class="label">Technical Summary</span>
+        <h2>Architecture Summary For Technical Reviewers</h2>
+        <p>
+          This platform uses one reusable AI/ML backend pipeline for multiple decision models. A model workflow is selected
+          through metadata and contracts, not separate page logic. The live server exposes a lightweight API surface for
+          view-model data, model execution, simulation, run history, stage evidence, artifact download, inference contracts,
+          and metrics.
+        </p>
+        <p>
+          The orchestrator is the control point. It reads the selected model contract, runs the eight-stage data and ML flow,
+          writes deterministic artifacts under the run directory, and registers the result for later comparison. This keeps
+          the standalone build simple while still making lineage, validation gates, model metrics, and activation outputs
+          inspectable from the UI.
+        </p>
+        <p>
+          Enterprise integration hardening is deliberately profile-driven. Integrations such as MLflow lineage, Feast-style feature
+          store artifacts, Splink identity evidence, Airflow metadata, Keycloak readiness, monitoring summaries, and
+          Prometheus metrics can be shown without forcing those heavier services into the default standalone path.
+        </p>
+      </section>
+
+      <section id="configure" class="controls card presentation-panel" data-presentation-panel="configure">
+        <div class="control-block">
+          <label class="label" for="use-case-select">AI/ML Use Case</label>
+          <select id="use-case-select" aria-label="Select AI/ML use case"></select>
+        </div>
+
+        <div class="control-block">
+          <label class="label" for="enterprise-profile-select">Architecture Profile</label>
+          <select id="enterprise-profile-select" aria-label="Application architecture profile">
+            <option value="standalone" selected>Standalone AI Runtime</option>
+            <option value="product_like">Enterprise Integration Profile</option>
+          </select>
+          <p class="small">Enterprise Integration Profile exposes optional lineage, feature-store, identity, orchestration, and access-control readiness while the default runtime stays standalone.</p>
+        </div>
+
+        <div class="control-block">
+          <span class="label">Model Execution</span>
+          <div class="run-inline">
+            <label class="small-inline">
+              <input id="run-selected-only" type="checkbox" checked />
+              Selected AI/ML use case only
+            </label>
+            <label class="small-inline">
+              Seed
+              <input id="run-seed" type="number" value="101" min="1" />
+            </label>
+            <label class="small-inline">
+              Data Runtime
+              <select id="run-runtime-mode" aria-label="Run runtime mode">
+                <option value="default" selected>default</option>
+                <option value="synthetic_only">synthetic_only</option>
+              </select>
+            </label>
+            <label class="small-inline">
+              Scenario Preset
+              <select id="run-scenario-id" aria-label="Scenario preset">
+                <option value="">none</option>
+              </select>
+            </label>
+          </div>
+          <div class="run-inline">
+            <label class="small-inline">
+              <input id="failure-dq" type="checkbox" />
+              Inject DQ fail
+            </label>
+            <label class="small-inline">
+              <input id="failure-schema" type="checkbox" />
+              Inject schema fail
+            </label>
+            <label class="small-inline">
+              <input id="failure-backend" type="checkbox" />
+              Inject backend unavailable
+            </label>
+          </div>
+          <div class="run-buttons">
+            <button id="run-oss-btn" class="action-btn" type="button">Run Integrated AI Runtime</button>
+            <button id="run-local-btn" class="action-btn alt" type="button">Run Standalone AI Runtime</button>
+            <button id="sim-next-btn" class="action-btn" type="button">Run Next Stage</button>
+            <button id="sim-pause-btn" class="action-btn alt" type="button">Pause Simulation</button>
+            <button id="sim-resume-btn" class="action-btn" type="button">Resume Simulation</button>
+            <button id="sim-reset-btn" class="action-btn alt" type="button">Reset Simulation</button>
+          </div>
+          <p id="run-status" class="small">Model execution requires the live UI server (`make ui-live`).</p>
+        </div>
+      </section>
+
+      <section id="architecture-story" class="card architecture-story-shell presentation-panel" data-presentation-panel="architecture">
+        <div class="section-head">
+          <h2>AI/ML Architecture Walkthrough</h2>
+          <p id="arch-story-subtitle">Follow one model run end-to-end: architecture intent, runtime inputs/outputs, components, and evidence.</p>
+        </div>
+        <div class="architecture-story-layout">
+          <aside class="architecture-story-rail-wrap">
+            <div class="architecture-story-rail-head">
+              <strong id="arch-story-title">Architecture story</strong>
+              <span id="arch-story-progress" class="small">1 / 8</span>
+            </div>
+            <ol id="arch-story-rail" class="architecture-story-rail"></ol>
+            <div class="architecture-story-nav">
+              <button id="arch-story-prev" class="action-btn alt" type="button">Previous Stage</button>
+              <button id="arch-story-next" class="action-btn" type="button">Next Stage</button>
+            </div>
+          </aside>
+          <div class="architecture-story-main">
+            <article class="architecture-stage-intro">
+              <div class="architecture-stage-head">
+                <h3 id="arch-stage-title">Stage</h3>
+                <span id="arch-story-status"></span>
+              </div>
+              <p id="arch-stage-summary" class="small"></p>
+              <p id="arch-stage-what" class="architecture-stage-what"></p>
+              <div id="arch-stage-proof" class="architecture-stage-proof"></div>
+            </article>
+            <div class="architecture-stage-grid">
+              <article class="architecture-stage-card">
+                <h3>Data In</h3>
+                <div id="arch-stage-inputs"></div>
+              </article>
+              <article class="architecture-stage-card">
+                <h3>Data Out</h3>
+                <div id="arch-stage-outputs"></div>
+              </article>
+              <article class="architecture-stage-card">
+                <h3>Components</h3>
+                <div id="arch-stage-components"></div>
+              </article>
+              <article class="architecture-stage-card">
+                <h3>Evidence</h3>
+                <div id="arch-stage-evidence"></div>
+              </article>
+            </div>
+            <div id="arch-stage-source" class="small architecture-stage-source"></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="hardening" class="card presentation-panel" data-presentation-panel="hardening">
+        <div class="section-head">
+          <h2>Enterprise Integration Path</h2>
+          <p>Show how the same standalone AI/ML pipeline can present production-style evidence without forcing external services into the default standalone runtime.</p>
+        </div>
+        <div class="hardening-story">
+          <div class="hardening-story-main">
+            <span class="label">Architecture Message</span>
+            <h3>The platform keeps one model contract, then layers on lineage, feature-store, identity, orchestration, and access-control integration points.</h3>
+            <p>
+              The same 8-stage AI/ML pipeline can stay local, mirror into integrated infrastructure, and expose lineage, DQ,
+              monitoring, and metrics evidence when the Enterprise Integration Profile is selected.
+            </p>
+          </div>
+          <div class="hardening-path">
+            <div><strong>Standalone AI Runtime</strong><span>Local artifacts + synthetic/CSV sources</span></div>
+            <div><strong>Integrated Runtime</strong><span>Kafka, Postgres, MinIO mirrors</span></div>
+            <div><strong>Enterprise Profile</strong><span>Lineage, DQ, monitoring, metrics, optional services</span></div>
+          </div>
+        </div>
+        <div id="enterprise-hardening" class="hardening-modules"></div>
+        <div class="hardening-activation-note">
+          <strong>To present the full path:</strong> go to Model Execution, choose Enterprise Integration Profile, then run Integrated AI Runtime.
+        </div>
+        <div class="hardening-footnote">
+          <strong>Operating model:</strong> standalone remains dependency-free; the Enterprise Integration Profile emits adapter artifacts and connects to external tools only when they are enabled.
+        </div>
+      </section>
+
+      <section id="evidence" class="card evidence-command presentation-panel" data-presentation-panel="evidence">
+        <div class="section-head">
+          <h2>Model Evidence Center</h2>
+          <p>Inspect the signals a technical reviewer usually asks for: model evidence, architecture flow, run history, and portfolio health.</p>
+          <div class="evidence-tabs" role="tablist" aria-label="Model evidence views">
+            <button type="button" class="evidence-tab" data-evidence-view="artifacts">Model Evidence</button>
+            <button type="button" class="evidence-tab" data-evidence-view="flow">AI/ML Architecture Flow</button>
+            <button type="button" class="evidence-tab" data-evidence-view="history">Model Run History</button>
+            <button type="button" class="evidence-tab" data-evidence-view="portfolio">AI Portfolio Health</button>
+          </div>
+        </div>
+        <div id="runtime-banner" class="runtime-banner"></div>
+      </section>
+
+      <section class="card evidence-panel presentation-panel" data-presentation-panel="evidence" data-evidence-panel="history">
+        <div class="section-head evidence-section-head">
+          <div>
+          <h2>Model Run History Comparison</h2>
+            <p>Compare recent model runs side-by-side by KPI, overall status, and pipeline health.</p>
+          </div>
+          <div class="history-filters">
+            <label class="small-inline" for="run-history-limit">
+              Limit
+              <select id="run-history-limit" aria-label="Run history limit">
+                <option value="3" selected>3</option>
+                <option value="6">6</option>
+                <option value="9">9</option>
+                <option value="12">12</option>
+              </select>
+            </label>
+            <label class="small-inline" for="run-history-status">
+              Status
+              <select id="run-history-status" aria-label="Run history status filter">
+                <option value="all" selected>All</option>
+                <option value="pass">Pass</option>
+                <option value="fail">Fail</option>
+              </select>
+            </label>
+            <label class="small-inline" for="run-history-infra">
+              Runtime Profile
+              <select id="run-history-infra" aria-label="Run history infrastructure filter">
+                <option value="all" selected>All</option>
+                <option value="local">Standalone AI Runtime</option>
+                <option value="oss">Integrated AI Runtime</option>
+              </select>
+            </label>
+            <label class="small-inline" for="run-history-baseline">
+              Baseline
+              <select id="run-history-baseline" aria-label="Run history baseline selector">
+                <option value="latest" selected>Latest Run</option>
+                <option value="previous">Previous Run</option>
+              </select>
+            </label>
+          </div>
+        </div>
+        <div id="run-history" class="run-history-wrap"></div>
+      </section>
+
+      <section class="card evidence-panel presentation-panel" data-presentation-panel="evidence" data-evidence-panel="portfolio">
+        <div class="section-head">
+          <h2>AI Portfolio Health</h2>
+          <p>One-screen health snapshot across latest model runs, selected AI/ML use case status, and the live/snapshot data feed.</p>
+        </div>
+        <div id="portfolio-tiles" class="tiles evidence-tiles"></div>
+      </section>
+
+      <section class="card evidence-panel presentation-panel" data-presentation-panel="evidence" data-evidence-panel="flow">
+        <div class="section-head">
+          <h2>AI/ML Architecture Flow</h2>
+          <p>Upstream-to-downstream model platform layers in the canonical execution order.</p>
+        </div>
+        <div id="architecture-flow" class="architecture-grid"></div>
+      </section>
+
+      <section class="detail-layout evidence-panel presentation-panel" data-presentation-panel="evidence" data-evidence-panel="artifacts">
+        <article class="card detail-panel">
+          <div class="section-head">
+            <h2>AI/ML Use Case Story</h2>
+            <p id="story-caption"></p>
+          </div>
+          <div id="story-content"></div>
+        </article>
+
+        <article class="card detail-panel">
+          <div class="section-head">
+            <h2>Model Run Evidence</h2>
+            <p id="run-caption"></p>
+          </div>
+          <div id="run-content"></div>
+        </article>
+      </section>
+
+      <section class="card footer-note presentation-panel" data-presentation-panel="evidence">
+        <p>
+          This UI is snapshot-driven (`ui/data/view_model.json`) so presentations can explain AI/ML architecture and outcomes
+          without triggering backend model jobs live.
+        </p>
+      </section>
+        </div>
+      </div>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,4938 @@
+{
+  "meta": {
+    "schema_version": "1.0.0",
+    "config_root": "use_cases/configs",
+    "artifacts_root": "artifacts",
+    "adapter": "ui/adapter/build_view_model.py",
+    "runtime": {
+      "mode": "execute_backend",
+      "backend_executed": true,
+      "execution_scope": "single_use_case",
+      "executed_use_cases": [
+        "UC-NBA-RET-001"
+      ],
+      "run_ids": {
+        "UC-NBA-RET-001": "20260425T193444Z"
+      },
+      "infra_profile": "oss",
+      "seed": 101,
+      "runtime_mode": "default",
+      "scenario_id": null,
+      "failure_injection": [],
+      "output_dir": "artifacts",
+      "strict_model_backends": false,
+      "executed_at_utc": "2026-04-25T19:34:51.495028+00:00"
+    },
+    "warnings": [],
+    "scenario_library": [
+      {
+        "scenario_id": "churn_support_surge",
+        "use_case_id": "UC-CHURN-RET-002",
+        "title": "Churn Support Surge",
+        "description": "Simulates rising support burden and engagement decline to show churn intervention prioritization.",
+        "default_seed": 222,
+        "failure_injection": []
+      },
+      {
+        "scenario_id": "incrementality_negative_lift",
+        "use_case_id": "UC-INCR-MKT-004",
+        "title": "Incrementality Negative Lift",
+        "description": "Introduces campaigns with weaker treated conversion outcomes to demonstrate scale/pause/retest decisions.",
+        "default_seed": 444,
+        "failure_injection": []
+      },
+      {
+        "scenario_id": "mmm_budget_rebalance",
+        "use_case_id": "UC-MMM-PLN-003",
+        "title": "MMM Budget Rebalance",
+        "description": "Shifts channel spend mix so technical users can inspect response changes and optimization recommendations.",
+        "default_seed": 333,
+        "failure_injection": []
+      },
+      {
+        "scenario_id": "nba_dq_failure_demo",
+        "use_case_id": "UC-NBA-RET-001",
+        "title": "NBA DQ Failure Demo",
+        "description": "For governance walkthroughs: injects data-quality gate failure.",
+        "default_seed": 515,
+        "failure_injection": [
+          "dq_fail"
+        ]
+      },
+      {
+        "scenario_id": "nba_high_risk_save",
+        "use_case_id": "UC-NBA-RET-001",
+        "title": "NBA High-Risk Save",
+        "description": "Pushes risk scores upward and contact pressure upward to explain retention rescue actioning.",
+        "default_seed": 111,
+        "failure_injection": []
+      }
+    ]
+  },
+  "platform_flow": [
+    {
+      "order": 1,
+      "layer_id": "data_sources",
+      "label": "Data Sources",
+      "upstream": [
+        "Business Systems",
+        "Channel Signals",
+        "Experiment Logs"
+      ],
+      "downstream": [
+        "Ingestion + Event Bus"
+      ],
+      "business_summary": "Collects first-party customer and campaign signals required for decisions.",
+      "technical_summary": "Contract-aware source generation and connector abstraction for repeatable ingestion.",
+      "components": {
+        "current": [
+          "Python source generators"
+        ],
+        "oss_profile": [
+          "Kafka producer inputs (via adapter)",
+          "File-based local fallback"
+        ],
+        "scalable_swap_ins": [
+          "Airbyte",
+          "Kafka Connect",
+          "Debezium"
+        ]
+      }
+    },
+    {
+      "order": 2,
+      "layer_id": "ingestion_event_bus",
+      "label": "Ingestion + Event Bus",
+      "upstream": [
+        "Data Sources"
+      ],
+      "downstream": [
+        "Raw Storage + Curated Warehouse"
+      ],
+      "business_summary": "Creates a reliable event trail so decisions are explainable and replayable.",
+      "technical_summary": "Canonical topic naming, append-only events, and deterministic artifact persistence.",
+      "components": {
+        "current": [
+          "In-memory LocalEventBus",
+          "JSONL topic artifacts"
+        ],
+        "oss_profile": [
+          "Apache Kafka"
+        ],
+        "scalable_swap_ins": [
+          "Apache Kafka",
+          "Redpanda",
+          "Apache Pulsar"
+        ]
+      }
+    },
+    {
+      "order": 3,
+      "layer_id": "raw_curated_storage",
+      "label": "Raw Storage + Curated Warehouse",
+      "upstream": [
+        "Ingestion + Event Bus"
+      ],
+      "downstream": [
+        "Identity Resolution + Customer 360"
+      ],
+      "business_summary": "Preserves immutable evidence and creates analytics-ready curated data.",
+      "technical_summary": "Stores raw event logs and curated joins in JSON/JSONL with warehouse mirroring options.",
+      "components": {
+        "current": [
+          "Local artifact files (JSON/JSONL)"
+        ],
+        "oss_profile": [
+          "PostgreSQL mirror",
+          "MinIO snapshots"
+        ],
+        "scalable_swap_ins": [
+          "PostgreSQL",
+          "ClickHouse",
+          "MinIO",
+          "Apache Iceberg"
+        ]
+      }
+    },
+    {
+      "order": 4,
+      "layer_id": "identity_customer_360",
+      "label": "Identity Resolution + Customer 360",
+      "upstream": [
+        "Raw Storage + Curated Warehouse"
+      ],
+      "downstream": [
+        "Feature Layer"
+      ],
+      "business_summary": "Unifies customer records so targeting and measurement use a single customer truth.",
+      "technical_summary": "Deterministic unified IDs and household keys for person-level use cases.",
+      "components": {
+        "current": [
+          "Deterministic identity mapper"
+        ],
+        "oss_profile": [
+          "Local mapping artifacts"
+        ],
+        "scalable_swap_ins": [
+          "Splink",
+          "DuckDB",
+          "Record linkage workflows"
+        ]
+      }
+    },
+    {
+      "order": 5,
+      "layer_id": "feature_layer",
+      "label": "Feature Layer",
+      "upstream": [
+        "Identity Resolution + Customer 360"
+      ],
+      "downstream": [
+        "Model Layer"
+      ],
+      "business_summary": "Transforms raw behavior into measurable business signals used by models.",
+      "technical_summary": "Use-case-specific feature projections persisted as model-ready rows.",
+      "components": {
+        "current": [
+          "Python feature builders"
+        ],
+        "oss_profile": [
+          "Artifact-backed feature rows"
+        ],
+        "scalable_swap_ins": [
+          "dbt",
+          "Feast",
+          "DuckDB"
+        ]
+      }
+    },
+    {
+      "order": 6,
+      "layer_id": "model_layer",
+      "label": "Model Layer (MMM, Incrementality, Attribution, Experimentation)",
+      "upstream": [
+        "Feature Layer"
+      ],
+      "downstream": [
+        "Serving + Activation"
+      ],
+      "business_summary": "Generates recommendations and causal insights to optimize marketing outcomes.",
+      "technical_summary": "Pluggable model registry validates outputs against contract fields.",
+      "components": {
+        "current": [
+          "Use-case model modules",
+          "Output schema validator"
+        ],
+        "oss_profile": [
+          "Local model execution",
+          "OSS data sinks for all use cases"
+        ],
+        "scalable_swap_ins": [
+          "MLflow",
+          "Airflow",
+          "PyMC",
+          "EconML"
+        ]
+      }
+    },
+    {
+      "order": 7,
+      "layer_id": "serving_activation",
+      "label": "Serving + Activation",
+      "upstream": [
+        "Model Layer (MMM, Incrementality, Attribution, Experimentation)"
+      ],
+      "downstream": [
+        "Monitoring + Governance"
+      ],
+      "business_summary": "Turns model output into actions that campaign systems can execute.",
+      "technical_summary": "Use-case payload adapters map model rows into destination contracts.",
+      "components": {
+        "current": [
+          "Python payload adapters",
+          "Activation artifacts"
+        ],
+        "oss_profile": [
+          "File-backed payload delivery"
+        ],
+        "scalable_swap_ins": [
+          "FastAPI",
+          "BentoML",
+          "Webhook connectors"
+        ]
+      }
+    },
+    {
+      "order": 8,
+      "layer_id": "monitoring_governance",
+      "label": "Monitoring + Governance",
+      "upstream": [
+        "Serving + Activation"
+      ],
+      "downstream": [
+        "Feedback to Data Sources and Model Layer"
+      ],
+      "business_summary": "Maintains trust through validation gates, alerts, and deployment readiness checks.",
+      "technical_summary": "Contract coverage checks, gate results, and run-status reporting.",
+      "components": {
+        "current": [
+          "Validation gate evaluator",
+          "Run report artifacts"
+        ],
+        "oss_profile": [
+          "Local governance reports"
+        ],
+        "scalable_swap_ins": [
+          "Great Expectations",
+          "Evidently",
+          "Prometheus",
+          "Grafana"
+        ]
+      }
+    }
+  ],
+  "portfolio_snapshot": {
+    "use_cases_total": 4,
+    "use_cases_with_runs": 4,
+    "latest_runs_pass": 4,
+    "latest_runs_fail": 0,
+    "total_latest_curated_rows": 338
+  },
+  "use_cases": [
+    {
+      "use_case_id": "UC-CHURN-RET-002",
+      "name": "Churn Prediction and Retention Actioning",
+      "primary_kpi": "60_day_incremental_churn_reduction",
+      "business_problem": "High-risk customers are not identified early enough for effective retention intervention.",
+      "business_outcome": "Reduce avoidable churn by prioritizing high-risk segments with action recommendations.",
+      "contract": {
+        "baseline": 0.12,
+        "target": 0.102,
+        "entities": [
+          "customer",
+          "transaction",
+          "event",
+          "support_case",
+          "consent"
+        ],
+        "features": [
+          "tenure_days",
+          "recency_days",
+          "frequency_60d",
+          "monetary_90d",
+          "support_tickets_30d",
+          "complaint_count_30d",
+          "campaign_response_rate_90d"
+        ],
+        "output_type": "score_and_recommendation",
+        "output_fields": [
+          "customer_id",
+          "churn_risk_score",
+          "risk_band",
+          "recommended_action",
+          "expected_uplift",
+          "reason_codes",
+          "score_ts",
+          "model_version"
+        ],
+        "sla_latency_ms": 250,
+        "refresh": "daily_batch_plus_high_risk_event_triggered",
+        "decision_policy": {
+          "eligibility_rules": [
+            "consent_status == true",
+            "no_active_fraud_flag == true",
+            "profile_completeness >= 0.8"
+          ],
+          "suppression_rules": [
+            "last_marketing_contact_hours < 72",
+            "active_retention_journey == true"
+          ],
+          "fallback": "risk_decile_rules_v1"
+        },
+        "experiment": {
+          "unit": "customer_id",
+          "split": "80_treatment_20_control",
+          "duration_days": 56,
+          "mde": 0.01,
+          "success_rule": "churn_reduction_ci_low > 0 and cost_guardrails_ok"
+        },
+        "governance": {
+          "validation_gates": [
+            "auc_threshold_pass",
+            "pr_auc_threshold_pass",
+            "calibration_pass",
+            "stability_by_segment_pass",
+            "contract_tests_pass"
+          ],
+          "approval_required": true
+        },
+        "monitoring": {
+          "drift_thresholds": {
+            "psi_feature_major": 0.2,
+            "calibration_error_alert": 0.05
+          },
+          "alert_channels": [
+            "slack-marketing-mlops",
+            "pagerduty-mlops"
+          ]
+        }
+      },
+      "latest_run": {
+        "run_id": "20260423T032819Z",
+        "summary_path": "artifacts/UC-CHURN-RET-002/20260423T032819Z/summary.json",
+        "run_status": "pass",
+        "infra_profile": "local",
+        "seed": 101,
+        "records": {
+          "source_tables": {
+            "crm_customers": 140,
+            "usage_signals": 140,
+            "support_events": 140
+          },
+          "curated_rows": 140,
+          "feature_rows": 140,
+          "model_rows": 140,
+          "activation_rows": 140
+        },
+        "model_metrics": {
+          "primary_kpi": "60_day_incremental_churn_reduction",
+          "avg_churn_risk_score": 0.3367,
+          "avg_expected_uplift": 0.0791,
+          "model_backend": "tensorflow",
+          "train_rows": 112,
+          "holdout_rows": 28,
+          "tf_train_loss": 0.06479080766439438,
+          "tf_holdout_loss": 0.1432807892560959,
+          "tf_holdout_auc": 1.0,
+          "auc_overall": 1.0,
+          "supervision_mode": "observed_labels",
+          "observed_churn_labels": 140,
+          "model_version": "churn_retention_tf_v1",
+          "model_versions": [
+            "churn_retention_tf_v1"
+          ],
+          "train_row_count": 112,
+          "holdout_row_count": 28,
+          "holdout_ratio": 0.2,
+          "train_signal_mean": 0.226417,
+          "holdout_signal_mean": 0.133766,
+          "signal_drift_abs": 0.092651
+        },
+        "metric_highlights": [
+          {
+            "name": "auc_overall",
+            "value": 1.0
+          },
+          {
+            "name": "avg_churn_risk_score",
+            "value": 0.3367
+          },
+          {
+            "name": "avg_expected_uplift",
+            "value": 0.0791
+          },
+          {
+            "name": "holdout_ratio",
+            "value": 0.2
+          },
+          {
+            "name": "holdout_row_count",
+            "value": 28
+          },
+          {
+            "name": "holdout_rows",
+            "value": 28
+          },
+          {
+            "name": "holdout_signal_mean",
+            "value": 0.133766
+          },
+          {
+            "name": "model_backend",
+            "value": "tensorflow"
+          },
+          {
+            "name": "model_version",
+            "value": "churn_retention_tf_v1"
+          },
+          {
+            "name": "model_versions",
+            "value": [
+              "churn_retention_tf_v1"
+            ]
+          },
+          {
+            "name": "observed_churn_labels",
+            "value": 140
+          },
+          {
+            "name": "signal_drift_abs",
+            "value": 0.092651
+          },
+          {
+            "name": "supervision_mode",
+            "value": "observed_labels"
+          },
+          {
+            "name": "tf_holdout_auc",
+            "value": 1.0
+          },
+          {
+            "name": "tf_holdout_loss",
+            "value": 0.1432807892560959
+          },
+          {
+            "name": "tf_train_loss",
+            "value": 0.06479080766439438
+          },
+          {
+            "name": "train_row_count",
+            "value": 112
+          },
+          {
+            "name": "train_rows",
+            "value": 112
+          },
+          {
+            "name": "train_signal_mean",
+            "value": 0.226417
+          }
+        ],
+        "monitoring_report": {
+          "use_case_id": "UC-CHURN-RET-002",
+          "rows_scored": 140,
+          "required_field_coverage": 1.0,
+          "primary_kpi": "60_day_incremental_churn_reduction",
+          "model_metrics": {
+            "primary_kpi": "60_day_incremental_churn_reduction",
+            "avg_churn_risk_score": 0.3367,
+            "avg_expected_uplift": 0.0791,
+            "model_backend": "tensorflow",
+            "train_rows": 112,
+            "holdout_rows": 28,
+            "tf_train_loss": 0.06479080766439438,
+            "tf_holdout_loss": 0.1432807892560959,
+            "tf_holdout_auc": 1.0,
+            "auc_overall": 1.0,
+            "supervision_mode": "observed_labels",
+            "observed_churn_labels": 140,
+            "model_version": "churn_retention_tf_v1",
+            "model_versions": [
+              "churn_retention_tf_v1"
+            ],
+            "train_row_count": 112,
+            "holdout_row_count": 28,
+            "holdout_ratio": 0.2,
+            "train_signal_mean": 0.226417,
+            "holdout_signal_mean": 0.133766,
+            "signal_drift_abs": 0.092651
+          },
+          "validation_gates": {
+            "auc_threshold_pass": "pass",
+            "pr_auc_threshold_pass": "pass",
+            "calibration_pass": "pass",
+            "stability_by_segment_pass": "pass",
+            "contract_tests_pass": "pass"
+          },
+          "run_status": "pass",
+          "alert_channels": [
+            "slack-marketing-mlops",
+            "pagerduty-mlops"
+          ],
+          "model_validation": {
+            "standard_version": "v1",
+            "checks": [
+              {
+                "name": "rows_scored_positive",
+                "status": "pass",
+                "actual": 140,
+                "expectation": "rows_scored > 0",
+                "reason": "ok"
+              },
+              {
+                "name": "required_field_coverage_full",
+                "status": "pass",
+                "actual": 1.0,
+                "expectation": "required_field_coverage == 1.0",
+                "reason": "ok"
+              },
+              {
+                "name": "avg_churn_risk_score_range",
+                "status": "pass",
+                "actual": 0.3367,
+                "expectation": "avg_churn_risk_score in [0.0, 1.0]",
+                "reason": "within expected bounds"
+              },
+              {
+                "name": "avg_expected_uplift_range",
+                "status": "pass",
+                "actual": 0.0791,
+                "expectation": "avg_expected_uplift in [0.0, 0.5]",
+                "reason": "within expected bounds"
+              }
+            ],
+            "summary": {
+              "total_checks": 4,
+              "passed_checks": 4,
+              "failed_checks": 0,
+              "pass_rate": 1.0
+            }
+          },
+          "data_quality": {
+            "status": "pass",
+            "mode": "real_dataset",
+            "summary": {
+              "total_checks": 21,
+              "passed_checks": 21,
+              "warn_checks": 0,
+              "failed_checks": 0
+            },
+            "checks": [
+              {
+                "name": "required_non_null_customer_id",
+                "table": "crm_customers",
+                "severity": "fail",
+                "status": "pass",
+                "expectation": "customer_id is non-null for all rows",
+                "reason": "within expected constraints",
+                "evaluated_rows": 140,
+                "violation_count": 0,
+                "sample_values": [],
+                "source_path": "data/production/UC-CHURN-RET-002/crm_customers.csv"
+              },
+              {
+                "name": "required_non_null_consent_status",
+                "table": "crm_customers",
+                "severity": "fail",
+                "status": "pass",
+                "expectation": "consent_status is non-null for all rows",
+                "reason": "within expected constraints",
+                "evaluated_rows": 140,
+                "violation_count": 0,
+                "sample_values": [],
+                "source_path": "data/production/UC-CHURN-RET-002/crm_customers.csv"
+              },
+              {
+                "name": "required_non_null_profile_completeness",
+                "table": "crm_customers",
+                "severity": "fail",
+                "status": "pass",
+                "expectation": "profile_completeness is non-null for all rows",
+                "reason": "within expected constraints",
+                "evaluated_rows": 140,
+                "violation_count": 0,
+                "sample_values": [],
+                "source_path": "data/production/UC-CHURN-RET-002/crm_customers.csv"
+              },
+              {
+                "name": "required_non_null_no_active_fraud_flag",
+                "table": "crm_customers",
+                "severity": "fail",
+                "status": "pass",
+                "expectation": "no_active_fraud_flag is non-null for all rows",
+                "reason": "within expected constraints",
+                "evaluated_rows": 140,
+                "violation_count": 0,
+                "sample_values": [],
+                "source_path": "data/production/UC-CHURN-RET-002/crm_customers.csv"
+              },
+              {
+                "name": "required_non_null_active_retention_journey",
+                "table": "crm_customers",
+                "severity": "fail",
+                "status": "pass",
+                "expectation": "active_retention_journey is non-null for all rows",
+                "reason": "within expected constraints",
+                "evaluated_rows": 140,
+                "violation_count": 0,
+                "sample_values": [],
+                "source_path": "data/production/UC-CHURN-RET-002/crm_customers.csv"
+              },
+              {
+                "name": "required_non_null_last_marketing_contact_hours",
+                "table": "crm_customers",
+                "severity": "fail",
+                "status": "pass",
+                "expectation": "last_marketing_contact_hours is non-null for all rows",
+                "reason": "within expected constraints",
+                "evaluated_rows": 140,
+                "violation_count": 0,
+                "sample_values": [],
+                "source_path": "data/production/UC-CHURN-RET-002/crm_customers.csv"
+              },
+              {
+                "name": "unique_key_customer_id",
+                "table": "crm_customers",
+                "severity": "fail",
+                "status": "pass",
+                "expectation": "unique key values",
+                "reason": "within expected constraints",
+                "evaluated_rows": 140,
+                "violation_count": 0,
+                "sample_values": [],
+                "source_path": "data/production/UC-CHURN-RET-002/crm_customers.csv"
+              },
+              {
+                "name": "range_last_marketing_contact_hours",
+                "table": "crm_customers",
+                "severity": "fail",
+                "status": "pass",
+                "expectation": "last_marketing_contact_hours >= 0.0",
+                "reason": "within expected constraints",
+                "evaluated_rows": 140,
+                "violation_count": 0,
+                "sample_values": [],
+                "source_path": "data/production/UC-CHURN-RET-002/crm_customers.csv"
+              },
+              {
+                "name": "range_profile_completeness",
+                "table": "crm_customers",
+                "severity": "fail",
+                "status": "pass",
+                "expectation": "profile_completeness in [0.0, 1.0]",
+                "reason": "within expected constraints",
+                "evaluated_rows": 140,
+                "violation_count": 0,
+                "sample_values": [],
+                "source_path": "data/production/UC-CHURN-RET-002/crm_customers.csv"
+              },
+              {
+                "name": "required_non_null_customer_id",
+                "table": "usage_signals",
+                "severity": "fail",
+                "status": "pass",
+                "expectation": "customer_id is non-null for all rows",
+                "reason": "within expected constraints",
+                "evaluated_rows": 140,
+                "violation_count": 0,
+                "sample_values": [],
+                "source_path": "data/production/UC-CHURN-RET-002/usage_signals.csv"
+              },
+              {
+                "name": "required_non_null_recency_norm",
+                "table": "usage_signals",
+                "severity": "fail",
+                "status": "pass",
+                "expectation": "recency_norm is non-null for all rows",
+                "reason": "within expected constraints",
+                "evaluated_rows": 140,
+                "violation_count": 0,
+                "sample_values": [],
+                "source_path": "data/production/UC-CHURN-RET-002/usage_signals.csv"
+              },
+              {
+                "name": "required_non_null_engagement_norm",
+                "table": "usage_signals",
+                "severity": "fail",
+                "status": "pass",
+                "expectation": "engagement_norm is non-null for all rows",
+                "reason": "within expected constraints",
+                "evaluated_rows": 140,
+                "violation_count": 0,
+                "sample_values": [],
+                "source_path": "data/production/UC-CHURN-RET-002/usage_signals.csv"
+              },
+              {
+                "name": "required_non_null_score_ts",
+                "table": "usage_signals",
+                "severity": "fail",
+                "status": "pass",
+                "expectation": "score_ts is non-null for all rows",
+                "reason": "within expected constraints",
+                "evaluated_rows": 140,
+                "violation_count": 0,
+                "sample_values": [],
+                "source_path": "data/production/UC-CHURN-RET-002/usage_signals.csv"
+              },
+              {
+                "name": "unique_key_customer_id",
+                "table": "usage_signals",
+                "severity": "fail",
+                "status": "pass",
+                "expectation": "unique key values",
+                "reason": "within expected constraints",
+                "evaluated_rows": 140,
+                "violation_count": 0,
+                "sample_values": [],
+                "source_path": "data/production/UC-CHURN-RET-002/usage_signals.csv"
+              },
+              {
+                "name": "range_churned_60d",
+                "table": "usage_signals",
+                "severity": "fail",
+                "status": "pass",
+                "expectation": "churned_60d in [0.0, 1.0]",
+                "reason": "within expected constraints",
+                "evaluated_rows": 140,
+                "violation_count": 0,
+                "sample_values": [],
+                "source_path": "data/production/UC-CHURN-RET-002/usage_signals.csv"
+              },
+              {
+                "name": "range_engagement_norm",
+                "table": "usage_signals",
+                "severity": "fail",
+                "status": "pass",
+                "expectation": "engagement_norm in [0.0, 1.0]",
+                "reason": "within expected constraints",
+                "evaluated_rows": 140,
+                "violation_count": 0,
+                "sample_values": [],
+                "source_path": "data/production/UC-CHURN-RET-002/usage_signals.csv"
+              },
+              {
+                "name": "range_recency_norm",
+                "table": "usage_signals",
+                "severity": "fail",
+                "status": "pass",
+                "expectation": "recency_norm in [0.0, 1.0]",
+                "reason": "within expected constraints",
+                "evaluated_rows": 140,
+                "violation_count": 0,
+                "sample_values": [],
+                "source_path": "data/production/UC-CHURN-RET-002/usage_signals.csv"
+              },
+              {
+                "name": "required_non_null_customer_id",
+                "table": "support_events",
+                "severity": "fail",
+                "status": "pass",
+                "expectation": "customer_id is non-null for all rows",
+                "reason": "within expected constraints",
+                "evaluated_rows": 140,
+                "violation_count": 0,
+                "sample_values": [],
+                "source_path": "data/production/UC-CHURN-RET-002/support_events.csv"
+              },
+              {
+                "name": "required_non_null_support_ticket_norm",
+                "table": "support_events",
+                "severity": "fail",
+                "status": "pass",
+                "expectation": "support_ticket_norm is non-null for all rows",
+                "reason": "within expected constraints",
+                "evaluated_rows": 140,
+                "violation_count": 0,
+                "sample_values": [],
+                "source_path": "data/production/UC-CHURN-RET-002/support_events.csv"
+              },
+              {
+                "name": "unique_key_customer_id",
+                "table": "support_events",
+                "severity": "fail",
+                "status": "pass",
+                "expectation": "unique key values",
+                "reason": "within expected constraints",
+                "evaluated_rows": 140,
+                "violation_count": 0,
+                "sample_values": [],
+                "source_path": "data/production/UC-CHURN-RET-002/support_events.csv"
+              },
+              {
+                "name": "range_support_ticket_norm",
+                "table": "support_events",
+                "severity": "fail",
+                "status": "pass",
+                "expectation": "support_ticket_norm in [0.0, 1.0]",
+                "reason": "within expected constraints",
+                "evaluated_rows": 140,
+                "violation_count": 0,
+                "sample_values": [],
+                "source_path": "data/production/UC-CHURN-RET-002/support_events.csv"
+              }
+            ],
+            "table_summaries": {
+              "crm_customers": {
+                "status": "pass",
+                "total_checks": 9,
+                "passed_checks": 9,
+                "warn_checks": 0,
+                "failed_checks": 0
+              },
+              "usage_signals": {
+                "status": "pass",
+                "total_checks": 8,
+                "passed_checks": 8,
+                "warn_checks": 0,
+                "failed_checks": 0
+              },
+              "support_events": {
+                "status": "pass",
+                "total_checks": 4,
+                "passed_checks": 4,
+                "warn_checks": 0,
+                "failed_checks": 0
+              }
+            },
+            "gates": {
+              "fail_gate": "pass",
+              "warn_gate": "pass"
+            },
+            "reason": null
+          },
+          "deployment_readiness": {
+            "status": "ready",
+            "score": 1.0,
+            "approval_required": true,
+            "blockers": [],
+            "failed_gates": [],
+            "failed_model_checks": [],
+            "failed_data_quality_checks": [],
+            "warning_data_quality_checks": [],
+            "approval": {
+              "status": "approved",
+              "approved_at_utc": "2026-04-23T06:04:31Z",
+              "approved_by": "platform-admin",
+              "method": "manual_signoff",
+              "notes": "Governance sign-off completed after strict-run review."
+            }
+          },
+          "scientific_governance": {
+            "standard_version": "v1",
+            "generated_at_utc": "2026-04-23T03:28:26.168092+00:00",
+            "run_id": "20260423T032819Z",
+            "seed": 101,
+            "contract_fingerprint_sha256": "40a67b918aa1fe800244ca1f5505a854ee602a58bcdcd15e87577274beef9976",
+            "model_versions": [
+              "churn_retention_tf_v1"
+            ],
+            "reproducibility": {
+              "row_count": 140,
+              "seed_provided": true,
+              "contract_hash_present": true
+            }
+          }
+        },
+        "artifacts": {
+          "ingestion_event_bus": {
+            "raw.uc_churn_ret_002.crm_customers.v1": "artifacts/UC-CHURN-RET-002/20260423T032819Z/ingestion/event_bus/raw_uc_churn_ret_002_crm_customers_v1.jsonl",
+            "raw.uc_churn_ret_002.usage_signals.v1": "artifacts/UC-CHURN-RET-002/20260423T032819Z/ingestion/event_bus/raw_uc_churn_ret_002_usage_signals_v1.jsonl",
+            "raw.uc_churn_ret_002.support_events.v1": "artifacts/UC-CHURN-RET-002/20260423T032819Z/ingestion/event_bus/raw_uc_churn_ret_002_support_events_v1.jsonl"
+          },
+          "raw_events": "artifacts/UC-CHURN-RET-002/20260423T032819Z/storage/raw/events.jsonl",
+          "curated_records": "artifacts/UC-CHURN-RET-002/20260423T032819Z/storage/curated/records.json",
+          "curated_records_jsonl": "artifacts/UC-CHURN-RET-002/20260423T032819Z/storage/curated/records.jsonl",
+          "identity_map": "artifacts/UC-CHURN-RET-002/20260423T032819Z/identity_360/identity_map.json",
+          "resolved_records": "artifacts/UC-CHURN-RET-002/20260423T032819Z/identity_360/resolved_records.json",
+          "feature_rows": "artifacts/UC-CHURN-RET-002/20260423T032819Z/features/feature_rows.json",
+          "model_predictions": "artifacts/UC-CHURN-RET-002/20260423T032819Z/models/predictions.json",
+          "model_metrics": "artifacts/UC-CHURN-RET-002/20260423T032819Z/models/metrics.json",
+          "model_manifest": "artifacts/UC-CHURN-RET-002/20260423T032819Z/models/manifest.json",
+          "model_binary": "artifacts/UC-CHURN-RET-002/20260423T032819Z/models/churn_tf_saved_model",
+          "model_training_report": "artifacts/UC-CHURN-RET-002/20260423T032819Z/models/churn_training_report.json",
+          "activation_payloads": "artifacts/UC-CHURN-RET-002/20260423T032819Z/serving_activation/activation_payloads.json",
+          "monitoring_report": "artifacts/UC-CHURN-RET-002/20260423T032819Z/monitoring_governance/report.json"
+        },
+        "artifact_file_checks": [
+          {
+            "label": "topic::raw.uc_churn_ret_002.crm_customers.v1",
+            "path": "artifacts/UC-CHURN-RET-002/20260423T032819Z/ingestion/event_bus/raw_uc_churn_ret_002_crm_customers_v1.jsonl",
+            "exists": true
+          },
+          {
+            "label": "topic::raw.uc_churn_ret_002.support_events.v1",
+            "path": "artifacts/UC-CHURN-RET-002/20260423T032819Z/ingestion/event_bus/raw_uc_churn_ret_002_support_events_v1.jsonl",
+            "exists": true
+          },
+          {
+            "label": "topic::raw.uc_churn_ret_002.usage_signals.v1",
+            "path": "artifacts/UC-CHURN-RET-002/20260423T032819Z/ingestion/event_bus/raw_uc_churn_ret_002_usage_signals_v1.jsonl",
+            "exists": true
+          },
+          {
+            "label": "activation_payloads",
+            "path": "artifacts/UC-CHURN-RET-002/20260423T032819Z/serving_activation/activation_payloads.json",
+            "exists": true
+          },
+          {
+            "label": "curated_records",
+            "path": "artifacts/UC-CHURN-RET-002/20260423T032819Z/storage/curated/records.json",
+            "exists": true
+          },
+          {
+            "label": "curated_records_jsonl",
+            "path": "artifacts/UC-CHURN-RET-002/20260423T032819Z/storage/curated/records.jsonl",
+            "exists": true
+          },
+          {
+            "label": "feature_rows",
+            "path": "artifacts/UC-CHURN-RET-002/20260423T032819Z/features/feature_rows.json",
+            "exists": true
+          },
+          {
+            "label": "identity_map",
+            "path": "artifacts/UC-CHURN-RET-002/20260423T032819Z/identity_360/identity_map.json",
+            "exists": true
+          },
+          {
+            "label": "model_binary",
+            "path": "artifacts/UC-CHURN-RET-002/20260423T032819Z/models/churn_tf_saved_model",
+            "exists": true
+          },
+          {
+            "label": "model_manifest",
+            "path": "artifacts/UC-CHURN-RET-002/20260423T032819Z/models/manifest.json",
+            "exists": true
+          },
+          {
+            "label": "model_metrics",
+            "path": "artifacts/UC-CHURN-RET-002/20260423T032819Z/models/metrics.json",
+            "exists": true
+          },
+          {
+            "label": "model_predictions",
+            "path": "artifacts/UC-CHURN-RET-002/20260423T032819Z/models/predictions.json",
+            "exists": true
+          },
+          {
+            "label": "model_training_report",
+            "path": "artifacts/UC-CHURN-RET-002/20260423T032819Z/models/churn_training_report.json",
+            "exists": true
+          },
+          {
+            "label": "monitoring_report",
+            "path": "artifacts/UC-CHURN-RET-002/20260423T032819Z/monitoring_governance/report.json",
+            "exists": true
+          },
+          {
+            "label": "raw_events",
+            "path": "artifacts/UC-CHURN-RET-002/20260423T032819Z/storage/raw/events.jsonl",
+            "exists": true
+          },
+          {
+            "label": "resolved_records",
+            "path": "artifacts/UC-CHURN-RET-002/20260423T032819Z/identity_360/resolved_records.json",
+            "exists": true
+          }
+        ],
+        "stage_health": [
+          {
+            "layer_id": "data_sources",
+            "label": "Data Sources",
+            "status": "pass",
+            "detail": "420 source rows observed across tables."
+          },
+          {
+            "layer_id": "ingestion_event_bus",
+            "label": "Ingestion + Event Bus",
+            "status": "pass",
+            "detail": "3 ingestion topic artifact(s) present."
+          },
+          {
+            "layer_id": "raw_curated_storage",
+            "label": "Raw Storage + Curated Warehouse",
+            "status": "pass",
+            "detail": "Required artifacts found."
+          },
+          {
+            "layer_id": "identity_customer_360",
+            "label": "Identity Resolution + Customer 360",
+            "status": "pass",
+            "detail": "Required artifacts found."
+          },
+          {
+            "layer_id": "feature_layer",
+            "label": "Feature Layer",
+            "status": "pass",
+            "detail": "Required artifacts found."
+          },
+          {
+            "layer_id": "model_layer",
+            "label": "Model Layer",
+            "status": "pass",
+            "detail": "Required artifacts found."
+          },
+          {
+            "layer_id": "serving_activation",
+            "label": "Serving + Activation",
+            "status": "pass",
+            "detail": "Required artifacts found."
+          },
+          {
+            "layer_id": "monitoring_governance",
+            "label": "Monitoring + Governance",
+            "status": "pass",
+            "detail": "Required artifacts found."
+          }
+        ],
+        "guided_steps": [
+          {
+            "layer_id": "data_sources",
+            "label": "Data Sources",
+            "status": "pass",
+            "detail": "420 source rows observed across tables.",
+            "explanation": "Contract-aware source generation and connector abstraction for repeatable ingestion.",
+            "inputs": [
+              {
+                "name": "contract.entities",
+                "value": "customer, transaction, event, support_case, consent"
+              },
+              {
+                "name": "contract.features",
+                "value": "7"
+              }
+            ],
+            "outputs": [
+              {
+                "name": "crm_customers",
+                "path": null,
+                "exists": true,
+                "row_count": 140,
+                "sample_fields": [],
+                "note": "Source table row count from summary."
+              },
+              {
+                "name": "support_events",
+                "path": null,
+                "exists": true,
+                "row_count": 140,
+                "sample_fields": [],
+                "note": "Source table row count from summary."
+              },
+              {
+                "name": "usage_signals",
+                "path": null,
+                "exists": true,
+                "row_count": 140,
+                "sample_fields": [],
+                "note": "Source table row count from summary."
+              }
+            ]
+          },
+          {
+            "layer_id": "ingestion_event_bus",
+            "label": "Ingestion + Event Bus",
+            "status": "pass",
+            "detail": "3 ingestion topic artifact(s) present.",
+            "explanation": "Canonical topic naming, append-only events, and deterministic artifact persistence.",
+            "inputs": [
+              {
+                "name": "source_tables",
+                "value": "3"
+              }
+            ],
+            "outputs": [
+              {
+                "name": "raw.uc_churn_ret_002.crm_customers.v1",
+                "path": "artifacts/UC-CHURN-RET-002/20260423T032819Z/ingestion/event_bus/raw_uc_churn_ret_002_crm_customers_v1.jsonl",
+                "exists": true,
+                "row_count": 140,
+                "sample_fields": [
+                  "active_retention_journey",
+                  "consent_status",
+                  "customer_id",
+                  "last_marketing_contact_hours",
+                  "no_active_fraud_flag",
+                  "profile_completeness"
+                ],
+                "note": ""
+              },
+              {
+                "name": "raw.uc_churn_ret_002.support_events.v1",
+                "path": "artifacts/UC-CHURN-RET-002/20260423T032819Z/ingestion/event_bus/raw_uc_churn_ret_002_support_events_v1.jsonl",
+                "exists": true,
+                "row_count": 140,
+                "sample_fields": [
+                  "customer_id",
+                  "support_ticket_norm"
+                ],
+                "note": ""
+              },
+              {
+                "name": "raw.uc_churn_ret_002.usage_signals.v1",
+                "path": "artifacts/UC-CHURN-RET-002/20260423T032819Z/ingestion/event_bus/raw_uc_churn_ret_002_usage_signals_v1.jsonl",
+                "exists": true,
+                "row_count": 140,
+                "sample_fields": [
+                  "churned_60d",
+                  "customer_id",
+                  "engagement_norm",
+                  "recency_norm",
+                  "score_ts"
+                ],
+                "note": ""
+              }
+            ]
+          },
+          {
+            "layer_id": "raw_curated_storage",
+            "label": "Raw Storage + Curated Warehouse",
+            "status": "pass",
+            "detail": "Required artifacts found.",
+            "explanation": "Stores raw event logs and curated joins in JSON/JSONL with warehouse mirroring options.",
+            "inputs": [
+              {
+                "name": "topic_files",
+                "value": "3"
+              }
+            ],
+            "outputs": [
+              {
+                "name": "raw_events",
+                "path": "artifacts/UC-CHURN-RET-002/20260423T032819Z/storage/raw/events.jsonl",
+                "exists": true,
+                "row_count": 420,
+                "sample_fields": [
+                  "active_retention_journey",
+                  "consent_status",
+                  "customer_id",
+                  "last_marketing_contact_hours",
+                  "no_active_fraud_flag",
+                  "profile_completeness"
+                ],
+                "note": ""
+              },
+              {
+                "name": "curated_records",
+                "path": "artifacts/UC-CHURN-RET-002/20260423T032819Z/storage/curated/records.json",
+                "exists": true,
+                "row_count": 140,
+                "sample_fields": [
+                  "active_retention_journey",
+                  "churned_60d",
+                  "consent_status",
+                  "customer_id",
+                  "engagement_norm",
+                  "last_marketing_contact_hours",
+                  "no_active_fraud_flag",
+                  "profile_completeness",
+                  "recency_norm",
+                  "score_ts",
+                  "support_ticket_norm"
+                ],
+                "note": ""
+              },
+              {
+                "name": "curated_records_jsonl",
+                "path": "artifacts/UC-CHURN-RET-002/20260423T032819Z/storage/curated/records.jsonl",
+                "exists": true,
+                "row_count": 140,
+                "sample_fields": [
+                  "active_retention_journey",
+                  "churned_60d",
+                  "consent_status",
+                  "customer_id",
+                  "engagement_norm",
+                  "last_marketing_contact_hours",
+                  "no_active_fraud_flag",
+                  "profile_completeness",
+                  "recency_norm",
+                  "score_ts",
+                  "support_ticket_norm"
+                ],
+                "note": ""
+              }
+            ]
+          },
+          {
+            "layer_id": "identity_customer_360",
+            "label": "Identity Resolution + Customer 360",
+            "status": "pass",
+            "detail": "Required artifacts found.",
+            "explanation": "Deterministic unified IDs and household keys for person-level use cases.",
+            "inputs": [
+              {
+                "name": "curated_rows",
+                "value": "140"
+              }
+            ],
+            "outputs": [
+              {
+                "name": "identity_map",
+                "path": "artifacts/UC-CHURN-RET-002/20260423T032819Z/identity_360/identity_map.json",
+                "exists": true,
+                "row_count": 140,
+                "sample_fields": [
+                  "household_id",
+                  "match_confidence",
+                  "resolution_type",
+                  "source_customer_id",
+                  "unified_customer_id"
+                ],
+                "note": ""
+              },
+              {
+                "name": "resolved_records",
+                "path": "artifacts/UC-CHURN-RET-002/20260423T032819Z/identity_360/resolved_records.json",
+                "exists": true,
+                "row_count": 140,
+                "sample_fields": [
+                  "active_retention_journey",
+                  "churned_60d",
+                  "consent_status",
+                  "customer_id",
+                  "engagement_norm",
+                  "household_id",
+                  "last_marketing_contact_hours",
+                  "no_active_fraud_flag",
+                  "profile_completeness",
+                  "recency_norm",
+                  "score_ts",
+                  "support_ticket_norm"
+                ],
+                "note": ""
+              }
+            ]
+          },
+          {
+            "layer_id": "feature_layer",
+            "label": "Feature Layer",
+            "status": "pass",
+            "detail": "Required artifacts found.",
+            "explanation": "Use-case-specific feature projections persisted as model-ready rows.",
+            "inputs": [
+              {
+                "name": "resolved_rows",
+                "value": "140"
+              }
+            ],
+            "outputs": [
+              {
+                "name": "feature_rows",
+                "path": "artifacts/UC-CHURN-RET-002/20260423T032819Z/features/feature_rows.json",
+                "exists": true,
+                "row_count": 140,
+                "sample_fields": [
+                  "churned_60d",
+                  "customer_id",
+                  "engagement_norm",
+                  "recency_norm",
+                  "score_ts",
+                  "support_ticket_norm"
+                ],
+                "note": ""
+              }
+            ]
+          },
+          {
+            "layer_id": "model_layer",
+            "label": "Model Layer (MMM, Incrementality, Attribution, Experimentation)",
+            "status": "pass",
+            "detail": "Required artifacts found.",
+            "explanation": "Pluggable model registry validates outputs against contract fields.",
+            "inputs": [
+              {
+                "name": "feature_rows",
+                "value": "140"
+              },
+              {
+                "name": "output_contract_fields",
+                "value": "8"
+              }
+            ],
+            "outputs": [
+              {
+                "name": "model_predictions",
+                "path": "artifacts/UC-CHURN-RET-002/20260423T032819Z/models/predictions.json",
+                "exists": true,
+                "row_count": 140,
+                "sample_fields": [
+                  "churn_risk_score",
+                  "customer_id",
+                  "expected_uplift",
+                  "model_version",
+                  "reason_codes",
+                  "recommended_action",
+                  "risk_band",
+                  "score_ts"
+                ],
+                "note": ""
+              },
+              {
+                "name": "model_metrics",
+                "path": null,
+                "exists": true,
+                "row_count": null,
+                "sample_fields": [
+                  "auc_overall",
+                  "avg_churn_risk_score",
+                  "avg_expected_uplift",
+                  "holdout_ratio",
+                  "holdout_row_count",
+                  "holdout_rows",
+                  "holdout_signal_mean",
+                  "model_backend",
+                  "model_version",
+                  "model_versions",
+                  "observed_churn_labels",
+                  "primary_kpi",
+                  "signal_drift_abs",
+                  "supervision_mode",
+                  "tf_holdout_auc",
+                  "tf_holdout_loss",
+                  "tf_train_loss",
+                  "train_row_count",
+                  "train_rows",
+                  "train_signal_mean"
+                ],
+                "note": "Metric keys reported by model layer."
+              }
+            ]
+          },
+          {
+            "layer_id": "serving_activation",
+            "label": "Serving + Activation",
+            "status": "pass",
+            "detail": "Required artifacts found.",
+            "explanation": "Use-case payload adapters map model rows into destination contracts.",
+            "inputs": [
+              {
+                "name": "model_rows",
+                "value": "140"
+              }
+            ],
+            "outputs": [
+              {
+                "name": "activation_payloads",
+                "path": "artifacts/UC-CHURN-RET-002/20260423T032819Z/serving_activation/activation_payloads.json",
+                "exists": true,
+                "row_count": 140,
+                "sample_fields": [
+                  "customer_id",
+                  "destination",
+                  "priority",
+                  "recommended_action",
+                  "risk_band"
+                ],
+                "note": ""
+              }
+            ]
+          },
+          {
+            "layer_id": "monitoring_governance",
+            "label": "Monitoring + Governance",
+            "status": "pass",
+            "detail": "Required artifacts found.",
+            "explanation": "Contract coverage checks, gate results, and run-status reporting.",
+            "inputs": [
+              {
+                "name": "model_metrics",
+                "value": "20"
+              }
+            ],
+            "outputs": [
+              {
+                "name": "monitoring_report",
+                "path": "artifacts/UC-CHURN-RET-002/20260423T032819Z/monitoring_governance/report.json",
+                "exists": true,
+                "row_count": null,
+                "sample_fields": [
+                  "alert_channels",
+                  "data_quality",
+                  "deployment_readiness",
+                  "model_metrics",
+                  "model_validation",
+                  "primary_kpi",
+                  "required_field_coverage",
+                  "rows_scored",
+                  "run_status",
+                  "scientific_governance",
+                  "use_case_id",
+                  "validation_gates"
+                ],
+                "note": "Object artifact"
+              }
+            ]
+          }
+        ],
+        "oss_runtime": null,
+        "oss_mirror": null
+      }
+    },
+    {
+      "use_case_id": "UC-INCR-MKT-004",
+      "name": "Campaign Incrementality Measurement",
+      "primary_kpi": "incremental_conversions_per_campaign",
+      "business_problem": "Attribution alone cannot separate true causal lift from correlated conversions.",
+      "business_outcome": "Measure incrementality and recommend scale/pause/retest decisions with confidence bounds.",
+      "contract": {
+        "baseline": null,
+        "target": null,
+        "entities": [
+          "exposure",
+          "assignment",
+          "conversion",
+          "order",
+          "campaign_metadata",
+          "suppression_log"
+        ],
+        "features": [
+          "assignment_group",
+          "exposure_recency",
+          "conversion_lag",
+          "campaign_channel",
+          "creative_type",
+          "audience_tier"
+        ],
+        "output_type": "causal_attribution_and_recommendation",
+        "output_fields": [
+          "campaign_id",
+          "test_window",
+          "incremental_lift",
+          "ci_low",
+          "ci_high",
+          "p_value",
+          "iROAS",
+          "decision_recommendation",
+          "analysis_version"
+        ],
+        "sla_latency_ms": 2000,
+        "refresh": "weekly_interim_plus_final_readout",
+        "decision_policy": {
+          "eligibility_rules": [
+            "minimum_sample_size_reached == true",
+            "randomization_integrity_pass == true",
+            "power_estimate >= 0.8"
+          ],
+          "suppression_rules": [
+            "sample_ratio_mismatch_detected == true",
+            "exposure_logging_gap_detected == true"
+          ],
+          "fallback": "hold_current_budget_and_request_retest"
+        },
+        "experiment": {
+          "unit": "customer_id_or_geo_cluster_id",
+          "split": "80_treatment_20_control",
+          "duration_days": 42,
+          "mde": 0.05,
+          "success_rule": "incremental_lift_ci_low > 0 and guardrails_ok"
+        },
+        "governance": {
+          "validation_gates": [
+            "randomization_integrity_pass",
+            "pre_period_balance_pass",
+            "srm_check_pass",
+            "placebo_test_pass",
+            "analysis_contract_tests_pass"
+          ],
+          "approval_required": true
+        },
+        "monitoring": {
+          "drift_thresholds": {
+            "traffic_mix_shift_alert": 0.15,
+            "power_shortfall_alert": 0.8
+          },
+          "alert_channels": [
+            "slack-experimentation-ops",
+            "pagerduty-causal-science"
+          ]
+        }
+      },
+      "latest_run": {
+        "run_id": "20260423T220328Z",
+        "summary_path": "artifacts/UC-INCR-MKT-004/20260423T220328Z/summary.json",
+        "run_status": "pass",
+        "infra_profile": "local",
+        "seed": 7,
+        "records": {
+          "source_tables": {
+            "campaign_experiments": 18
+          },
+          "curated_rows": 18,
+          "feature_rows": 18,
+          "model_rows": 18,
+          "activation_rows": 18
+        },
+        "model_metrics": {
+          "primary_kpi": "incremental_conversions_per_campaign",
+          "avg_incremental_lift": 0.0048,
+          "avg_iROAS": 0.9791,
+          "model_backend": "econml_dowhy",
+          "ate": 0.004815,
+          "cate_std": 0.005946,
+          "dowhy_placebo_p_value": 1.3530843112619095e-15,
+          "causal_sample_rows": 14400,
+          "covariates_used": 4,
+          "model_version": "incrementality_causal_v1",
+          "model_versions": [
+            "incrementality_causal_v1"
+          ],
+          "train_row_count": 16,
+          "holdout_row_count": 2,
+          "holdout_ratio": 0.1111,
+          "train_signal_mean": 0.398994,
+          "holdout_signal_mean": 0.309,
+          "signal_drift_abs": 0.089994,
+          "split_validation": {
+            "status": "pass",
+            "rules": {
+              "min_train_rows": 10,
+              "min_holdout_rows": 2,
+              "min_holdout_ratio": 0.05,
+              "max_holdout_ratio": 0.45
+            },
+            "checks": [
+              {
+                "name": "train_rows_min",
+                "status": "pass",
+                "actual": 16,
+                "expectation": "train_row_count >= 10",
+                "reason": "within expected constraints"
+              },
+              {
+                "name": "holdout_rows_min",
+                "status": "pass",
+                "actual": 2,
+                "expectation": "holdout_row_count >= 2",
+                "reason": "within expected constraints"
+              },
+              {
+                "name": "holdout_ratio_range",
+                "status": "pass",
+                "actual": 0.1111,
+                "expectation": "holdout_ratio in [0.05, 0.45]",
+                "reason": "within expected constraints"
+              }
+            ],
+            "summary": {
+              "total_checks": 3,
+              "passed_checks": 3,
+              "failed_checks": 0
+            }
+          }
+        },
+        "metric_highlights": [
+          {
+            "name": "ate",
+            "value": 0.004815
+          },
+          {
+            "name": "avg_iROAS",
+            "value": 0.9791
+          },
+          {
+            "name": "avg_incremental_lift",
+            "value": 0.0048
+          },
+          {
+            "name": "cate_std",
+            "value": 0.005946
+          },
+          {
+            "name": "causal_sample_rows",
+            "value": 14400
+          },
+          {
+            "name": "covariates_used",
+            "value": 4
+          },
+          {
+            "name": "dowhy_placebo_p_value",
+            "value": 1.3530843112619095e-15
+          },
+          {
+            "name": "holdout_ratio",
+            "value": 0.1111
+          },
+          {
+            "name": "holdout_row_count",
+            "value": 2
+          },
+          {
+            "name": "holdout_signal_mean",
+            "value": 0.309
+          },
+          {
+            "name": "model_backend",
+            "value": "econml_dowhy"
+          },
+          {
+            "name": "model_version",
+            "value": "incrementality_causal_v1"
+          },
+          {
+            "name": "model_versions",
+            "value": [
+              "incrementality_causal_v1"
+            ]
+          },
+          {
+            "name": "signal_drift_abs",
+            "value": 0.089994
+          },
+          {
+            "name": "split_validation",
+            "value": {
+              "status": "pass",
+              "rules": {
+                "min_train_rows": 10,
+                "min_holdout_rows": 2,
+                "min_holdout_ratio": 0.05,
+                "max_holdout_ratio": 0.45
+              },
+              "checks": [
+                {
+                  "name": "train_rows_min",
+                  "status": "pass",
+                  "actual": 16,
+                  "expectation": "train_row_count >= 10",
+                  "reason": "within expected constraints"
+                },
+                {
+                  "name": "holdout_rows_min",
+                  "status": "pass",
+                  "actual": 2,
+                  "expectation": "holdout_row_count >= 2",
+                  "reason": "within expected constraints"
+                },
+                {
+                  "name": "holdout_ratio_range",
+                  "status": "pass",
+                  "actual": 0.1111,
+                  "expectation": "holdout_ratio in [0.05, 0.45]",
+                  "reason": "within expected constraints"
+                }
+              ],
+              "summary": {
+                "total_checks": 3,
+                "passed_checks": 3,
+                "failed_checks": 0
+              }
+            }
+          },
+          {
+            "name": "train_row_count",
+            "value": 16
+          },
+          {
+            "name": "train_signal_mean",
+            "value": 0.398994
+          }
+        ],
+        "monitoring_report": {
+          "use_case_id": "UC-INCR-MKT-004",
+          "rows_scored": 18,
+          "required_field_coverage": 1.0,
+          "primary_kpi": "incremental_conversions_per_campaign",
+          "model_metrics": {
+            "primary_kpi": "incremental_conversions_per_campaign",
+            "avg_incremental_lift": 0.0048,
+            "avg_iROAS": 0.9791,
+            "model_backend": "econml_dowhy",
+            "ate": 0.004815,
+            "cate_std": 0.005946,
+            "dowhy_placebo_p_value": 1.3530843112619095e-15,
+            "causal_sample_rows": 14400,
+            "covariates_used": 4,
+            "model_version": "incrementality_causal_v1",
+            "model_versions": [
+              "incrementality_causal_v1"
+            ],
+            "train_row_count": 16,
+            "holdout_row_count": 2,
+            "holdout_ratio": 0.1111,
+            "train_signal_mean": 0.398994,
+            "holdout_signal_mean": 0.309,
+            "signal_drift_abs": 0.089994,
+            "split_validation": {
+              "status": "pass",
+              "rules": {
+                "min_train_rows": 10,
+                "min_holdout_rows": 2,
+                "min_holdout_ratio": 0.05,
+                "max_holdout_ratio": 0.45
+              },
+              "checks": [
+                {
+                  "name": "train_rows_min",
+                  "status": "pass",
+                  "actual": 16,
+                  "expectation": "train_row_count >= 10",
+                  "reason": "within expected constraints"
+                },
+                {
+                  "name": "holdout_rows_min",
+                  "status": "pass",
+                  "actual": 2,
+                  "expectation": "holdout_row_count >= 2",
+                  "reason": "within expected constraints"
+                },
+                {
+                  "name": "holdout_ratio_range",
+                  "status": "pass",
+                  "actual": 0.1111,
+                  "expectation": "holdout_ratio in [0.05, 0.45]",
+                  "reason": "within expected constraints"
+                }
+              ],
+              "summary": {
+                "total_checks": 3,
+                "passed_checks": 3,
+                "failed_checks": 0
+              }
+            }
+          },
+          "validation_gates": {
+            "randomization_integrity_pass": "pass",
+            "pre_period_balance_pass": "pass",
+            "srm_check_pass": "pass",
+            "placebo_test_pass": "pass",
+            "analysis_contract_tests_pass": "pass"
+          },
+          "run_status": "pass",
+          "alert_channels": [
+            "slack-experimentation-ops",
+            "pagerduty-causal-science"
+          ],
+          "model_validation": {
+            "standard_version": "v1",
+            "checks": [
+              {
+                "name": "rows_scored_positive",
+                "status": "pass",
+                "actual": 18,
+                "expectation": "rows_scored > 0",
+                "reason": "ok"
+              },
+              {
+                "name": "required_field_coverage_full",
+                "status": "pass",
+                "actual": 1.0,
+                "expectation": "required_field_coverage == 1.0",
+                "reason": "ok"
+              },
+              {
+                "name": "avg_incremental_lift_range",
+                "status": "pass",
+                "actual": 0.0048,
+                "expectation": "avg_incremental_lift in [-0.2, 0.3]",
+                "reason": "within expected bounds"
+              },
+              {
+                "name": "avg_iROAS_positive",
+                "status": "pass",
+                "actual": 0.9791,
+                "expectation": "avg_iROAS >= 0.0",
+                "reason": "within expected bounds"
+              }
+            ],
+            "summary": {
+              "total_checks": 4,
+              "passed_checks": 4,
+              "failed_checks": 0,
+              "pass_rate": 1.0
+            }
+          },
+          "data_quality": {
+            "status": "pass",
+            "mode": "real_dataset",
+            "summary": {
+              "total_checks": 19,
+              "passed_checks": 19,
+              "warn_checks": 0,
+              "failed_checks": 0
+            },
+            "checks": [
+              {
+                "name": "required_non_null_campaign_id",
+                "table": "campaign_experiments",
+                "severity": "fail",
+                "status": "pass",
+                "expectation": "campaign_id is non-null for all rows",
+                "reason": "within expected constraints",
+                "evaluated_rows": 18,
+                "violation_count": 0,
+                "sample_values": [],
+                "source_path": "data/production/UC-INCR-MKT-004/campaign_experiments.csv"
+              },
+              {
+                "name": "required_non_null_test_window",
+                "table": "campaign_experiments",
+                "severity": "fail",
+                "status": "pass",
+                "expectation": "test_window is non-null for all rows",
+                "reason": "within expected constraints",
+                "evaluated_rows": 18,
+                "violation_count": 0,
+                "sample_values": [],
+                "source_path": "data/production/UC-INCR-MKT-004/campaign_experiments.csv"
+              },
+              {
+                "name": "required_non_null_treated_customers",
+                "table": "campaign_experiments",
+                "severity": "fail",
+                "status": "pass",
+                "expectation": "treated_customers is non-null for all rows",
+                "reason": "within expected constraints",
+                "evaluated_rows": 18,
+                "violation_count": 0,
+                "sample_values": [],
+                "source_path": "data/production/UC-INCR-MKT-004/campaign_experiments.csv"
+              },
+              {
+                "name": "required_non_null_control_customers",
+                "table": "campaign_experiments",
+                "severity": "fail",
+                "status": "pass",
+                "expectation": "control_customers is non-null for all rows",
+                "reason": "within expected constraints",
+                "evaluated_rows": 18,
+                "violation_count": 0,
+                "sample_values": [],
+                "source_path": "data/production/UC-INCR-MKT-004/campaign_experiments.csv"
+              },
+              {
+                "name": "required_non_null_treated_conversions",
+                "table": "campaign_experiments",
+                "severity": "fail",
+                "status": "pass",
+                "expectation": "treated_conversions is non-null for all rows",
+                "reason": "within expected constraints",
+                "evaluated_rows": 18,
+                "violation_count": 0,
+                "sample_values": [],
+                "source_path": "data/production/UC-INCR-MKT-004/campaign_experiments.csv"
+              },
+              {
+                "name": "required_non_null_control_conversions",
+                "table": "campaign_experiments",
+                "severity": "fail",
+                "status": "pass",
+                "expectation": "control_conversions is non-null for all rows",
+                "reason": "within expected constraints",
+                "evaluated_rows": 18,
+                "violation_count": 0,
+                "sample_values": [],
+                "source_path": "data/production/UC-INCR-MKT-004/campaign_experiments.csv"
+              },
+              {
+                "name": "required_non_null_aov",
+                "table": "campaign_experiments",
+                "severity": "fail",
+                "status": "pass",
+                "expectation": "aov is non-null for all rows",
+                "reason": "within expected constraints",
+                "evaluated_rows": 18,
+                "violation_count": 0,
+                "sample_values": [],
+                "source_path": "data/production/UC-INCR-MKT-004/campaign_experiments.csv"
+              },
+              {
+                "name": "required_non_null_campaign_cost",
+                "table": "campaign_experiments",
+                "severity": "fail",
+                "status": "pass",
+                "expectation": "campaign_cost is non-null for all rows",
+                "reason": "within expected constraints",
+                "evaluated_rows": 18,
+                "violation_count": 0,
+                "sample_values": [],
+                "source_path": "data/production/UC-INCR-MKT-004/campaign_experiments.csv"
+              },
+              {
+                "name": "unique_key_campaign_id_test_window",
+                "table": "campaign_experiments",
+                "severity": "fail",
+                "status": "pass",
+                "expectation": "unique key values",
+                "reason": "within expected constraints",
+                "evaluated_rows": 18,
+                "violation_count": 0,
+                "sample_values": [],
+                "source_path": "data/production/UC-INCR-MKT-004/campaign_experiments.csv"
+              },
+              {
+                "name": "range_aov",
+                "table": "campaign_experiments",
+                "severity": "fail",
+                "status": "pass",
+                "expectation": "aov >= 0.0",
+                "reason": "within expected constraints",
+                "evaluated_rows": 18,
+                "violation_count": 0,
+                "sample_values": [],
+                "source_path": "data/production/UC-INCR-MKT-004/campaign_experiments.csv"
+              },
+              {
+                "name": "range_campaign_cost",
+                "table": "campaign_experiments",
+                "severity": "fail",
+                "status": "pass",
+                "expectation": "campaign_cost >= 0.0",
+                "reason": "within expected constraints",
+                "evaluated_rows": 18,
+                "violation_count": 0,
+                "sample_values": [],
+                "source_path": "data/production/UC-INCR-MKT-004/campaign_experiments.csv"
+              },
+              {
+                "name": "range_control_conversions",
+                "table": "campaign_experiments",
+                "severity": "fail",
+                "status": "pass",
+                "expectation": "control_conversions >= 0.0",
+                "reason": "within expected constraints",
+                "evaluated_rows": 18,
+                "violation_count": 0,
+                "sample_values": [],
+                "source_path": "data/production/UC-INCR-MKT-004/campaign_experiments.csv"
+              },
+              {
+                "name": "range_control_customers",
+                "table": "campaign_experiments",
+                "severity": "fail",
+                "status": "pass",
+                "expectation": "control_customers >= 1.0",
+                "reason": "within expected constraints",
+                "evaluated_rows": 18,
+                "violation_count": 0,
+                "sample_values": [],
+                "source_path": "data/production/UC-INCR-MKT-004/campaign_experiments.csv"
+              },
+              {
+                "name": "range_pre_period_conversion_rate",
+                "table": "campaign_experiments",
+                "severity": "warn",
+                "status": "pass",
+                "expectation": "pre_period_conversion_rate in [0.0, 1.0]",
+                "reason": "within expected constraints",
+                "evaluated_rows": 18,
+                "violation_count": 0,
+                "sample_values": [],
+                "source_path": "data/production/UC-INCR-MKT-004/campaign_experiments.csv"
+              },
+              {
+                "name": "range_treated_conversions",
+                "table": "campaign_experiments",
+                "severity": "fail",
+                "status": "pass",
+                "expectation": "treated_conversions >= 0.0",
+                "reason": "within expected constraints",
+                "evaluated_rows": 18,
+                "violation_count": 0,
+                "sample_values": [],
+                "source_path": "data/production/UC-INCR-MKT-004/campaign_experiments.csv"
+              },
+              {
+                "name": "range_treated_customers",
+                "table": "campaign_experiments",
+                "severity": "fail",
+                "status": "pass",
+                "expectation": "treated_customers >= 1.0",
+                "reason": "within expected constraints",
+                "evaluated_rows": 18,
+                "violation_count": 0,
+                "sample_values": [],
+                "source_path": "data/production/UC-INCR-MKT-004/campaign_experiments.csv"
+              },
+              {
+                "name": "enum_audience_tier",
+                "table": "campaign_experiments",
+                "severity": "warn",
+                "status": "pass",
+                "expectation": "audience_tier in ['high_value', 'low_value', 'mid_value', 'tier_1', 'tier_2', 'tier_3', 'tier_4']",
+                "reason": "within expected constraints",
+                "evaluated_rows": 18,
+                "violation_count": 0,
+                "sample_values": [],
+                "source_path": "data/production/UC-INCR-MKT-004/campaign_experiments.csv"
+              },
+              {
+                "name": "treated_conversions_le_treated_customers",
+                "table": "campaign_experiments",
+                "severity": "fail",
+                "status": "pass",
+                "expectation": "treated_conversions <= treated_customers",
+                "reason": "within expected constraints",
+                "evaluated_rows": 18,
+                "violation_count": 0,
+                "sample_values": [],
+                "source_path": "data/production/UC-INCR-MKT-004/campaign_experiments.csv"
+              },
+              {
+                "name": "control_conversions_le_control_customers",
+                "table": "campaign_experiments",
+                "severity": "fail",
+                "status": "pass",
+                "expectation": "control_conversions <= control_customers",
+                "reason": "within expected constraints",
+                "evaluated_rows": 18,
+                "violation_count": 0,
+                "sample_values": [],
+                "source_path": "data/production/UC-INCR-MKT-004/campaign_experiments.csv"
+              }
+            ],
+            "table_summaries": {
+              "campaign_experiments": {
+                "status": "pass",
+                "total_checks": 19,
+                "passed_checks": 19,
+                "warn_checks": 0,
+                "failed_checks": 0
+              }
+            },
+            "gates": {
+              "fail_gate": "pass",
+              "warn_gate": "pass"
+            },
+            "reason": null
+          },
+          "deployment_readiness": {
+            "status": "ready",
+            "score": 1.0,
+            "approval_required": true,
+            "blockers": [],
+            "failed_gates": [],
+            "failed_model_checks": [],
+            "failed_data_quality_checks": [],
+            "warning_data_quality_checks": [],
+            "approval": {
+              "status": "approved",
+              "approved_at_utc": "2026-04-23T22:04:09.917960Z",
+              "approved_by": "platform-admin",
+              "method": "manual_signoff",
+              "notes": "Default-seed strict run sign-off after deterministic split fix",
+              "forced": false,
+              "blockers_at_approval": []
+            },
+            "approval_history": [
+              {
+                "status": "approved",
+                "approved_at_utc": "2026-04-23T22:04:09.917960Z",
+                "approved_by": "platform-admin",
+                "method": "manual_signoff",
+                "notes": "Default-seed strict run sign-off after deterministic split fix",
+                "forced": false,
+                "blockers_at_approval": []
+              }
+            ],
+            "warning_dispositions": []
+          },
+          "scientific_governance": {
+            "standard_version": "v1",
+            "generated_at_utc": "2026-04-23T22:03:48.499434+00:00",
+            "run_id": "20260423T220328Z",
+            "seed": 7,
+            "contract_fingerprint_sha256": "20dcf89e03a9919a1cbb8b8e0fa85e7e6f48ba3576fb25b6d1d34bbd750854e5",
+            "model_versions": [
+              "incrementality_causal_v1"
+            ],
+            "reproducibility": {
+              "row_count": 18,
+              "seed_provided": true,
+              "contract_hash_present": true
+            }
+          }
+        },
+        "artifacts": {
+          "ingestion_event_bus": {
+            "raw.uc_incr_mkt_004.campaign_experiments.v1": "artifacts/UC-INCR-MKT-004/20260423T220328Z/ingestion/event_bus/raw_uc_incr_mkt_004_campaign_experiments_v1.jsonl"
+          },
+          "raw_events": "artifacts/UC-INCR-MKT-004/20260423T220328Z/storage/raw/events.jsonl",
+          "curated_records": "artifacts/UC-INCR-MKT-004/20260423T220328Z/storage/curated/records.json",
+          "curated_records_jsonl": "artifacts/UC-INCR-MKT-004/20260423T220328Z/storage/curated/records.jsonl",
+          "resolved_records": "artifacts/UC-INCR-MKT-004/20260423T220328Z/identity_360/resolved_records.json",
+          "note": "artifacts/UC-INCR-MKT-004/20260423T220328Z/identity_360/note.txt",
+          "feature_rows": "artifacts/UC-INCR-MKT-004/20260423T220328Z/features/feature_rows.json",
+          "model_predictions": "artifacts/UC-INCR-MKT-004/20260423T220328Z/models/predictions.json",
+          "model_metrics": "artifacts/UC-INCR-MKT-004/20260423T220328Z/models/metrics.json",
+          "model_manifest": "artifacts/UC-INCR-MKT-004/20260423T220328Z/models/manifest.json",
+          "model_training_report": "artifacts/UC-INCR-MKT-004/20260423T220328Z/models/incrementality_causal_report.json",
+          "activation_payloads": "artifacts/UC-INCR-MKT-004/20260423T220328Z/serving_activation/activation_payloads.json",
+          "monitoring_report": "artifacts/UC-INCR-MKT-004/20260423T220328Z/monitoring_governance/report.json"
+        },
+        "artifact_file_checks": [
+          {
+            "label": "topic::raw.uc_incr_mkt_004.campaign_experiments.v1",
+            "path": "artifacts/UC-INCR-MKT-004/20260423T220328Z/ingestion/event_bus/raw_uc_incr_mkt_004_campaign_experiments_v1.jsonl",
+            "exists": true
+          },
+          {
+            "label": "activation_payloads",
+            "path": "artifacts/UC-INCR-MKT-004/20260423T220328Z/serving_activation/activation_payloads.json",
+            "exists": true
+          },
+          {
+            "label": "curated_records",
+            "path": "artifacts/UC-INCR-MKT-004/20260423T220328Z/storage/curated/records.json",
+            "exists": true
+          },
+          {
+            "label": "curated_records_jsonl",
+            "path": "artifacts/UC-INCR-MKT-004/20260423T220328Z/storage/curated/records.jsonl",
+            "exists": true
+          },
+          {
+            "label": "feature_rows",
+            "path": "artifacts/UC-INCR-MKT-004/20260423T220328Z/features/feature_rows.json",
+            "exists": true
+          },
+          {
+            "label": "model_manifest",
+            "path": "artifacts/UC-INCR-MKT-004/20260423T220328Z/models/manifest.json",
+            "exists": true
+          },
+          {
+            "label": "model_metrics",
+            "path": "artifacts/UC-INCR-MKT-004/20260423T220328Z/models/metrics.json",
+            "exists": true
+          },
+          {
+            "label": "model_predictions",
+            "path": "artifacts/UC-INCR-MKT-004/20260423T220328Z/models/predictions.json",
+            "exists": true
+          },
+          {
+            "label": "model_training_report",
+            "path": "artifacts/UC-INCR-MKT-004/20260423T220328Z/models/incrementality_causal_report.json",
+            "exists": true
+          },
+          {
+            "label": "monitoring_report",
+            "path": "artifacts/UC-INCR-MKT-004/20260423T220328Z/monitoring_governance/report.json",
+            "exists": true
+          },
+          {
+            "label": "note",
+            "path": "artifacts/UC-INCR-MKT-004/20260423T220328Z/identity_360/note.txt",
+            "exists": true
+          },
+          {
+            "label": "raw_events",
+            "path": "artifacts/UC-INCR-MKT-004/20260423T220328Z/storage/raw/events.jsonl",
+            "exists": true
+          },
+          {
+            "label": "resolved_records",
+            "path": "artifacts/UC-INCR-MKT-004/20260423T220328Z/identity_360/resolved_records.json",
+            "exists": true
+          }
+        ],
+        "stage_health": [
+          {
+            "layer_id": "data_sources",
+            "label": "Data Sources",
+            "status": "pass",
+            "detail": "18 source rows observed across tables."
+          },
+          {
+            "layer_id": "ingestion_event_bus",
+            "label": "Ingestion + Event Bus",
+            "status": "pass",
+            "detail": "1 ingestion topic artifact(s) present."
+          },
+          {
+            "layer_id": "raw_curated_storage",
+            "label": "Raw Storage + Curated Warehouse",
+            "status": "pass",
+            "detail": "Required artifacts found."
+          },
+          {
+            "layer_id": "identity_customer_360",
+            "label": "Identity Resolution + Customer 360",
+            "status": "pass",
+            "detail": "Required artifacts found."
+          },
+          {
+            "layer_id": "feature_layer",
+            "label": "Feature Layer",
+            "status": "pass",
+            "detail": "Required artifacts found."
+          },
+          {
+            "layer_id": "model_layer",
+            "label": "Model Layer",
+            "status": "pass",
+            "detail": "Required artifacts found."
+          },
+          {
+            "layer_id": "serving_activation",
+            "label": "Serving + Activation",
+            "status": "pass",
+            "detail": "Required artifacts found."
+          },
+          {
+            "layer_id": "monitoring_governance",
+            "label": "Monitoring + Governance",
+            "status": "pass",
+            "detail": "Required artifacts found."
+          }
+        ],
+        "guided_steps": [
+          {
+            "layer_id": "data_sources",
+            "label": "Data Sources",
+            "status": "pass",
+            "detail": "18 source rows observed across tables.",
+            "explanation": "Contract-aware source generation and connector abstraction for repeatable ingestion.",
+            "inputs": [
+              {
+                "name": "contract.entities",
+                "value": "exposure, assignment, conversion, order, campaign_metadata, suppression_log"
+              },
+              {
+                "name": "contract.features",
+                "value": "6"
+              }
+            ],
+            "outputs": [
+              {
+                "name": "campaign_experiments",
+                "path": null,
+                "exists": true,
+                "row_count": 18,
+                "sample_fields": [],
+                "note": "Source table row count from summary."
+              }
+            ]
+          },
+          {
+            "layer_id": "ingestion_event_bus",
+            "label": "Ingestion + Event Bus",
+            "status": "pass",
+            "detail": "1 ingestion topic artifact(s) present.",
+            "explanation": "Canonical topic naming, append-only events, and deterministic artifact persistence.",
+            "inputs": [
+              {
+                "name": "source_tables",
+                "value": "1"
+              }
+            ],
+            "outputs": [
+              {
+                "name": "raw.uc_incr_mkt_004.campaign_experiments.v1",
+                "path": "artifacts/UC-INCR-MKT-004/20260423T220328Z/ingestion/event_bus/raw_uc_incr_mkt_004_campaign_experiments_v1.jsonl",
+                "exists": true,
+                "row_count": 18,
+                "sample_fields": [
+                  "aov",
+                  "audience_tier",
+                  "campaign_cost",
+                  "campaign_id",
+                  "control_conversions",
+                  "control_customers",
+                  "pre_period_conversion_rate",
+                  "test_window",
+                  "treated_conversions",
+                  "treated_customers"
+                ],
+                "note": ""
+              }
+            ]
+          },
+          {
+            "layer_id": "raw_curated_storage",
+            "label": "Raw Storage + Curated Warehouse",
+            "status": "pass",
+            "detail": "Required artifacts found.",
+            "explanation": "Stores raw event logs and curated joins in JSON/JSONL with warehouse mirroring options.",
+            "inputs": [
+              {
+                "name": "topic_files",
+                "value": "1"
+              }
+            ],
+            "outputs": [
+              {
+                "name": "raw_events",
+                "path": "artifacts/UC-INCR-MKT-004/20260423T220328Z/storage/raw/events.jsonl",
+                "exists": true,
+                "row_count": 18,
+                "sample_fields": [
+                  "aov",
+                  "audience_tier",
+                  "campaign_cost",
+                  "campaign_id",
+                  "control_conversions",
+                  "control_customers",
+                  "pre_period_conversion_rate",
+                  "test_window",
+                  "treated_conversions",
+                  "treated_customers"
+                ],
+                "note": ""
+              },
+              {
+                "name": "curated_records",
+                "path": "artifacts/UC-INCR-MKT-004/20260423T220328Z/storage/curated/records.json",
+                "exists": true,
+                "row_count": 18,
+                "sample_fields": [
+                  "aov",
+                  "audience_tier",
+                  "campaign_cost",
+                  "campaign_id",
+                  "control_conversions",
+                  "control_customers",
+                  "pre_period_conversion_rate",
+                  "test_window",
+                  "treated_conversions",
+                  "treated_customers"
+                ],
+                "note": ""
+              },
+              {
+                "name": "curated_records_jsonl",
+                "path": "artifacts/UC-INCR-MKT-004/20260423T220328Z/storage/curated/records.jsonl",
+                "exists": true,
+                "row_count": 18,
+                "sample_fields": [
+                  "aov",
+                  "audience_tier",
+                  "campaign_cost",
+                  "campaign_id",
+                  "control_conversions",
+                  "control_customers",
+                  "pre_period_conversion_rate",
+                  "test_window",
+                  "treated_conversions",
+                  "treated_customers"
+                ],
+                "note": ""
+              }
+            ]
+          },
+          {
+            "layer_id": "identity_customer_360",
+            "label": "Identity Resolution + Customer 360",
+            "status": "pass",
+            "detail": "Required artifacts found.",
+            "explanation": "Deterministic unified IDs and household keys for person-level use cases.",
+            "inputs": [
+              {
+                "name": "curated_rows",
+                "value": "18"
+              }
+            ],
+            "outputs": [
+              {
+                "name": "resolved_records",
+                "path": "artifacts/UC-INCR-MKT-004/20260423T220328Z/identity_360/resolved_records.json",
+                "exists": true,
+                "row_count": 18,
+                "sample_fields": [
+                  "aov",
+                  "audience_tier",
+                  "campaign_cost",
+                  "campaign_id",
+                  "control_conversions",
+                  "control_customers",
+                  "pre_period_conversion_rate",
+                  "test_window",
+                  "treated_conversions",
+                  "treated_customers"
+                ],
+                "note": ""
+              },
+              {
+                "name": "note",
+                "path": "artifacts/UC-INCR-MKT-004/20260423T220328Z/identity_360/note.txt",
+                "exists": true,
+                "row_count": null,
+                "sample_fields": [],
+                "note": "Unsupported artifact type"
+              }
+            ]
+          },
+          {
+            "layer_id": "feature_layer",
+            "label": "Feature Layer",
+            "status": "pass",
+            "detail": "Required artifacts found.",
+            "explanation": "Use-case-specific feature projections persisted as model-ready rows.",
+            "inputs": [
+              {
+                "name": "resolved_rows",
+                "value": "18"
+              }
+            ],
+            "outputs": [
+              {
+                "name": "feature_rows",
+                "path": "artifacts/UC-INCR-MKT-004/20260423T220328Z/features/feature_rows.json",
+                "exists": true,
+                "row_count": 18,
+                "sample_fields": [
+                  "aov",
+                  "campaign_cost",
+                  "campaign_id",
+                  "control_conversions",
+                  "control_customers",
+                  "test_window",
+                  "treated_conversions",
+                  "treated_customers"
+                ],
+                "note": ""
+              }
+            ]
+          },
+          {
+            "layer_id": "model_layer",
+            "label": "Model Layer (MMM, Incrementality, Attribution, Experimentation)",
+            "status": "pass",
+            "detail": "Required artifacts found.",
+            "explanation": "Pluggable model registry validates outputs against contract fields.",
+            "inputs": [
+              {
+                "name": "feature_rows",
+                "value": "18"
+              },
+              {
+                "name": "output_contract_fields",
+                "value": "9"
+              }
+            ],
+            "outputs": [
+              {
+                "name": "model_predictions",
+                "path": "artifacts/UC-INCR-MKT-004/20260423T220328Z/models/predictions.json",
+                "exists": true,
+                "row_count": 18,
+                "sample_fields": [
+                  "analysis_version",
+                  "campaign_id",
+                  "ci_high",
+                  "ci_low",
+                  "decision_recommendation",
+                  "iROAS",
+                  "incremental_lift",
+                  "p_value",
+                  "test_window"
+                ],
+                "note": ""
+              },
+              {
+                "name": "model_metrics",
+                "path": null,
+                "exists": true,
+                "row_count": null,
+                "sample_fields": [
+                  "ate",
+                  "avg_iROAS",
+                  "avg_incremental_lift",
+                  "cate_std",
+                  "causal_sample_rows",
+                  "covariates_used",
+                  "dowhy_placebo_p_value",
+                  "holdout_ratio",
+                  "holdout_row_count",
+                  "holdout_signal_mean",
+                  "model_backend",
+                  "model_version",
+                  "model_versions",
+                  "primary_kpi",
+                  "signal_drift_abs",
+                  "split_validation",
+                  "train_row_count",
+                  "train_signal_mean"
+                ],
+                "note": "Metric keys reported by model layer."
+              }
+            ]
+          },
+          {
+            "layer_id": "serving_activation",
+            "label": "Serving + Activation",
+            "status": "pass",
+            "detail": "Required artifacts found.",
+            "explanation": "Use-case payload adapters map model rows into destination contracts.",
+            "inputs": [
+              {
+                "name": "model_rows",
+                "value": "18"
+              }
+            ],
+            "outputs": [
+              {
+                "name": "activation_payloads",
+                "path": "artifacts/UC-INCR-MKT-004/20260423T220328Z/serving_activation/activation_payloads.json",
+                "exists": true,
+                "row_count": 18,
+                "sample_fields": [
+                  "campaign_id",
+                  "decision_recommendation",
+                  "destination",
+                  "iROAS",
+                  "incremental_lift"
+                ],
+                "note": ""
+              }
+            ]
+          },
+          {
+            "layer_id": "monitoring_governance",
+            "label": "Monitoring + Governance",
+            "status": "pass",
+            "detail": "Required artifacts found.",
+            "explanation": "Contract coverage checks, gate results, and run-status reporting.",
+            "inputs": [
+              {
+                "name": "model_metrics",
+                "value": "18"
+              }
+            ],
+            "outputs": [
+              {
+                "name": "monitoring_report",
+                "path": "artifacts/UC-INCR-MKT-004/20260423T220328Z/monitoring_governance/report.json",
+                "exists": true,
+                "row_count": null,
+                "sample_fields": [
+                  "alert_channels",
+                  "data_quality",
+                  "deployment_readiness",
+                  "model_metrics",
+                  "model_validation",
+                  "primary_kpi",
+                  "required_field_coverage",
+                  "rows_scored",
+                  "run_status",
+                  "scientific_governance",
+                  "use_case_id",
+                  "validation_gates"
+                ],
+                "note": "Object artifact"
+              }
+            ]
+          }
+        ],
+        "oss_runtime": null,
+        "oss_mirror": null
+      }
+    },
+    {
+      "use_case_id": "UC-MMM-PLN-003",
+      "name": "Media Mix Modeling and Budget Optimization",
+      "primary_kpi": "portfolio_incremental_revenue_at_fixed_budget",
+      "business_problem": "Budget allocation across channels is often based on lagging heuristics.",
+      "business_outcome": "Optimize channel spend to maximize incremental revenue at fixed portfolio budget.",
+      "contract": {
+        "baseline": 1.0,
+        "target": 1.15,
+        "entities": [
+          "channel_spend",
+          "campaign",
+          "conversion",
+          "revenue",
+          "seasonality",
+          "macro_factors"
+        ],
+        "features": [
+          "weekly_spend_by_channel",
+          "impressions_by_channel",
+          "clicks_by_channel",
+          "promotions_index",
+          "holiday_flag",
+          "macro_index"
+        ],
+        "output_type": "forecast_and_optimization",
+        "output_fields": [
+          "period",
+          "channel",
+          "base_contribution",
+          "incremental_contribution",
+          "response_curve_params",
+          "saturation_point",
+          "recommended_spend",
+          "expected_incremental_revenue",
+          "uncertainty_interval",
+          "model_version"
+        ],
+        "sla_latency_ms": 5000,
+        "refresh": "monthly_full_refresh_with_weekly_diagnostics",
+        "decision_policy": {
+          "eligibility_rules": [
+            "channel_history_weeks >= 52",
+            "tracking_stability_score >= 0.9"
+          ],
+          "suppression_rules": [
+            "tracking_anomaly_open == true"
+          ],
+          "fallback": "previous_approved_budget_plan"
+        },
+        "experiment": {
+          "unit": "campaign_group_or_geo_cluster",
+          "split": "50_model_informed_50_baseline",
+          "duration_days": 70,
+          "mde": 0.08,
+          "success_rule": "observed_lift_within_expected_interval and guardrails_ok"
+        },
+        "governance": {
+          "validation_gates": [
+            "rolling_backtest_pass",
+            "mape_threshold_pass",
+            "coefficient_sanity_pass",
+            "reproducibility_pass"
+          ],
+          "approval_required": true
+        },
+        "monitoring": {
+          "drift_thresholds": {
+            "spend_mix_shift_alert": 0.15,
+            "forecast_error_alert": 0.2
+          },
+          "alert_channels": [
+            "slack-marketing-science",
+            "pagerduty-analytics-ops"
+          ]
+        }
+      },
+      "latest_run": {
+        "run_id": "20260423T032828Z",
+        "summary_path": "artifacts/UC-MMM-PLN-003/20260423T032828Z/summary.json",
+        "run_status": "pass",
+        "infra_profile": "local",
+        "seed": 101,
+        "records": {
+          "source_tables": {
+            "media_spend": 60
+          },
+          "curated_rows": 60,
+          "feature_rows": 60,
+          "model_rows": 60,
+          "activation_rows": 60
+        },
+        "model_metrics": {
+          "primary_kpi": "portfolio_incremental_revenue_at_fixed_budget",
+          "avg_recommended_spend": 40958.33,
+          "avg_expected_incremental_revenue": 6961.74,
+          "observed_revenue_rows": 60,
+          "revenue_mape": 0.901276,
+          "supervision_mode": "observed_revenue",
+          "model_backend": "pymc_marketing_adapter",
+          "backend_library_version": "0.19.2",
+          "model_version": "mmm_bayesian_v1",
+          "model_versions": [
+            "mmm_bayesian_v1"
+          ],
+          "train_row_count": 46,
+          "holdout_row_count": 14,
+          "holdout_ratio": 0.2333,
+          "train_signal_mean": 29057.147663,
+          "holdout_signal_mean": 32078.834583,
+          "signal_drift_abs": 3021.68692
+        },
+        "metric_highlights": [
+          {
+            "name": "avg_expected_incremental_revenue",
+            "value": 6961.74
+          },
+          {
+            "name": "avg_recommended_spend",
+            "value": 40958.33
+          },
+          {
+            "name": "backend_library_version",
+            "value": "0.19.2"
+          },
+          {
+            "name": "holdout_ratio",
+            "value": 0.2333
+          },
+          {
+            "name": "holdout_row_count",
+            "value": 14
+          },
+          {
+            "name": "holdout_signal_mean",
+            "value": 32078.834583
+          },
+          {
+            "name": "model_backend",
+            "value": "pymc_marketing_adapter"
+          },
+          {
+            "name": "model_version",
+            "value": "mmm_bayesian_v1"
+          },
+          {
+            "name": "model_versions",
+            "value": [
+              "mmm_bayesian_v1"
+            ]
+          },
+          {
+            "name": "observed_revenue_rows",
+            "value": 60
+          },
+          {
+            "name": "revenue_mape",
+            "value": 0.901276
+          },
+          {
+            "name": "signal_drift_abs",
+            "value": 3021.68692
+          },
+          {
+            "name": "supervision_mode",
+            "value": "observed_revenue"
+          },
+          {
+            "name": "train_row_count",
+            "value": 46
+          },
+          {
+            "name": "train_signal_mean",
+            "value": 29057.147663
+          }
+        ],
+        "monitoring_report": {
+          "use_case_id": "UC-MMM-PLN-003",
+          "rows_scored": 60,
+          "required_field_coverage": 1.0,
+          "primary_kpi": "portfolio_incremental_revenue_at_fixed_budget",
+          "model_metrics": {
+            "primary_kpi": "portfolio_incremental_revenue_at_fixed_budget",
+            "avg_recommended_spend": 40958.33,
+            "avg_expected_incremental_revenue": 6961.74,
+            "observed_revenue_rows": 60,
+            "revenue_mape": 0.901276,
+            "supervision_mode": "observed_revenue",
+            "model_backend": "pymc_marketing_adapter",
+            "backend_library_version": "0.19.2",
+            "model_version": "mmm_bayesian_v1",
+            "model_versions": [
+              "mmm_bayesian_v1"
+            ],
+            "train_row_count": 46,
+            "holdout_row_count": 14,
+            "holdout_ratio": 0.2333,
+            "train_signal_mean": 29057.147663,
+            "holdout_signal_mean": 32078.834583,
+            "signal_drift_abs": 3021.68692
+          },
+          "validation_gates": {
+            "rolling_backtest_pass": "pass",
+            "mape_threshold_pass": "pass",
+            "coefficient_sanity_pass": "pass",
+            "reproducibility_pass": "pass"
+          },
+          "run_status": "pass",
+          "alert_channels": [
+            "slack-marketing-science",
+            "pagerduty-analytics-ops"
+          ],
+          "model_validation": {
+            "standard_version": "v1",
+            "checks": [
+              {
+                "name": "rows_scored_positive",
+                "status": "pass",
+                "actual": 60,
+                "expectation": "rows_scored > 0",
+                "reason": "ok"
+              },
+              {
+                "name": "required_field_coverage_full",
+                "status": "pass",
+                "actual": 1.0,
+                "expectation": "required_field_coverage == 1.0",
+                "reason": "ok"
+              },
+              {
+                "name": "avg_recommended_spend_positive",
+                "status": "pass",
+                "actual": 40958.33,
+                "expectation": "avg_recommended_spend >= 0.0",
+                "reason": "within expected bounds"
+              },
+              {
+                "name": "avg_expected_incremental_revenue_positive",
+                "status": "pass",
+                "actual": 6961.74,
+                "expectation": "avg_expected_incremental_revenue >= 0.0",
+                "reason": "within expected bounds"
+              }
+            ],
+            "summary": {
+              "total_checks": 4,
+              "passed_checks": 4,
+              "failed_checks": 0,
+              "pass_rate": 1.0
+            }
+          },
+          "data_quality": {
+            "status": "pass",
+            "mode": "real_dataset",
+            "summary": {
+              "total_checks": 16,
+              "passed_checks": 16,
+              "warn_checks": 0,
+              "failed_checks": 0
+            },
+            "checks": [
+              {
+                "name": "required_non_null_period",
+                "table": "media_spend",
+                "severity": "fail",
+                "status": "pass",
+                "expectation": "period is non-null for all rows",
+                "reason": "within expected constraints",
+                "evaluated_rows": 60,
+                "violation_count": 0,
+                "sample_values": [],
+                "source_path": "data/production/UC-MMM-PLN-003/media_spend.csv"
+              },
+              {
+                "name": "required_non_null_channel",
+                "table": "media_spend",
+                "severity": "fail",
+                "status": "pass",
+                "expectation": "channel is non-null for all rows",
+                "reason": "within expected constraints",
+                "evaluated_rows": 60,
+                "violation_count": 0,
+                "sample_values": [],
+                "source_path": "data/production/UC-MMM-PLN-003/media_spend.csv"
+              },
+              {
+                "name": "required_non_null_weekly_spend",
+                "table": "media_spend",
+                "severity": "fail",
+                "status": "pass",
+                "expectation": "weekly_spend is non-null for all rows",
+                "reason": "within expected constraints",
+                "evaluated_rows": 60,
+                "violation_count": 0,
+                "sample_values": [],
+                "source_path": "data/production/UC-MMM-PLN-003/media_spend.csv"
+              },
+              {
+                "name": "required_non_null_impressions",
+                "table": "media_spend",
+                "severity": "fail",
+                "status": "pass",
+                "expectation": "impressions is non-null for all rows",
+                "reason": "within expected constraints",
+                "evaluated_rows": 60,
+                "violation_count": 0,
+                "sample_values": [],
+                "source_path": "data/production/UC-MMM-PLN-003/media_spend.csv"
+              },
+              {
+                "name": "required_non_null_clicks",
+                "table": "media_spend",
+                "severity": "fail",
+                "status": "pass",
+                "expectation": "clicks is non-null for all rows",
+                "reason": "within expected constraints",
+                "evaluated_rows": 60,
+                "violation_count": 0,
+                "sample_values": [],
+                "source_path": "data/production/UC-MMM-PLN-003/media_spend.csv"
+              },
+              {
+                "name": "required_non_null_promo_index",
+                "table": "media_spend",
+                "severity": "fail",
+                "status": "pass",
+                "expectation": "promo_index is non-null for all rows",
+                "reason": "within expected constraints",
+                "evaluated_rows": 60,
+                "violation_count": 0,
+                "sample_values": [],
+                "source_path": "data/production/UC-MMM-PLN-003/media_spend.csv"
+              },
+              {
+                "name": "unique_key_period_channel",
+                "table": "media_spend",
+                "severity": "fail",
+                "status": "pass",
+                "expectation": "unique key values",
+                "reason": "within expected constraints",
+                "evaluated_rows": 60,
+                "violation_count": 0,
+                "sample_values": [],
+                "source_path": "data/production/UC-MMM-PLN-003/media_spend.csv"
+              },
+              {
+                "name": "range_clicks",
+                "table": "media_spend",
+                "severity": "fail",
+                "status": "pass",
+                "expectation": "clicks >= 0.0",
+                "reason": "within expected constraints",
+                "evaluated_rows": 60,
+                "violation_count": 0,
+                "sample_values": [],
+                "source_path": "data/production/UC-MMM-PLN-003/media_spend.csv"
+              },
+              {
+                "name": "range_impressions",
+                "table": "media_spend",
+                "severity": "fail",
+                "status": "pass",
+                "expectation": "impressions >= 0.0",
+                "reason": "within expected constraints",
+                "evaluated_rows": 60,
+                "violation_count": 0,
+                "sample_values": [],
+                "source_path": "data/production/UC-MMM-PLN-003/media_spend.csv"
+              },
+              {
+                "name": "range_macro_index",
+                "table": "media_spend",
+                "severity": "warn",
+                "status": "pass",
+                "expectation": "macro_index in [0.0, 2.0]",
+                "reason": "within expected constraints",
+                "evaluated_rows": 60,
+                "violation_count": 0,
+                "sample_values": [],
+                "source_path": "data/production/UC-MMM-PLN-003/media_spend.csv"
+              },
+              {
+                "name": "range_observed_revenue",
+                "table": "media_spend",
+                "severity": "warn",
+                "status": "pass",
+                "expectation": "observed_revenue >= 0.0",
+                "reason": "within expected constraints",
+                "evaluated_rows": 60,
+                "violation_count": 0,
+                "sample_values": [],
+                "source_path": "data/production/UC-MMM-PLN-003/media_spend.csv"
+              },
+              {
+                "name": "range_promo_index",
+                "table": "media_spend",
+                "severity": "warn",
+                "status": "pass",
+                "expectation": "promo_index in [0.0, 3.0]",
+                "reason": "within expected constraints",
+                "evaluated_rows": 60,
+                "violation_count": 0,
+                "sample_values": [],
+                "source_path": "data/production/UC-MMM-PLN-003/media_spend.csv"
+              },
+              {
+                "name": "range_seasonality_index",
+                "table": "media_spend",
+                "severity": "warn",
+                "status": "pass",
+                "expectation": "seasonality_index in [0.0, 2.0]",
+                "reason": "within expected constraints",
+                "evaluated_rows": 60,
+                "violation_count": 0,
+                "sample_values": [],
+                "source_path": "data/production/UC-MMM-PLN-003/media_spend.csv"
+              },
+              {
+                "name": "range_weekly_spend",
+                "table": "media_spend",
+                "severity": "fail",
+                "status": "pass",
+                "expectation": "weekly_spend >= 0.0",
+                "reason": "within expected constraints",
+                "evaluated_rows": 60,
+                "violation_count": 0,
+                "sample_values": [],
+                "source_path": "data/production/UC-MMM-PLN-003/media_spend.csv"
+              },
+              {
+                "name": "enum_channel",
+                "table": "media_spend",
+                "severity": "fail",
+                "status": "pass",
+                "expectation": "channel in ['affiliate', 'display', 'email', 'search', 'social']",
+                "reason": "within expected constraints",
+                "evaluated_rows": 60,
+                "violation_count": 0,
+                "sample_values": [],
+                "source_path": "data/production/UC-MMM-PLN-003/media_spend.csv"
+              },
+              {
+                "name": "clicks_le_impressions",
+                "table": "media_spend",
+                "severity": "fail",
+                "status": "pass",
+                "expectation": "clicks <= impressions",
+                "reason": "within expected constraints",
+                "evaluated_rows": 60,
+                "violation_count": 0,
+                "sample_values": [],
+                "source_path": "data/production/UC-MMM-PLN-003/media_spend.csv"
+              }
+            ],
+            "table_summaries": {
+              "media_spend": {
+                "status": "pass",
+                "total_checks": 16,
+                "passed_checks": 16,
+                "warn_checks": 0,
+                "failed_checks": 0
+              }
+            },
+            "gates": {
+              "fail_gate": "pass",
+              "warn_gate": "pass"
+            },
+            "reason": null
+          },
+          "deployment_readiness": {
+            "status": "ready",
+            "score": 1.0,
+            "approval_required": true,
+            "blockers": [],
+            "failed_gates": [],
+            "failed_model_checks": [],
+            "failed_data_quality_checks": [],
+            "warning_data_quality_checks": [],
+            "approval": {
+              "status": "approved",
+              "approved_at_utc": "2026-04-23T06:04:31Z",
+              "approved_by": "platform-admin",
+              "method": "manual_signoff",
+              "notes": "Governance sign-off completed after strict-run review."
+            }
+          },
+          "scientific_governance": {
+            "standard_version": "v1",
+            "generated_at_utc": "2026-04-23T03:28:30.498149+00:00",
+            "run_id": "20260423T032828Z",
+            "seed": 101,
+            "contract_fingerprint_sha256": "604e1161393acbf8551cca8da781c8b2de94c5687afdeb0269bb18e08a1922cb",
+            "model_versions": [
+              "mmm_bayesian_v1"
+            ],
+            "reproducibility": {
+              "row_count": 60,
+              "seed_provided": true,
+              "contract_hash_present": true
+            }
+          }
+        },
+        "artifacts": {
+          "ingestion_event_bus": {
+            "raw.uc_mmm_pln_003.media_spend.v1": "artifacts/UC-MMM-PLN-003/20260423T032828Z/ingestion/event_bus/raw_uc_mmm_pln_003_media_spend_v1.jsonl"
+          },
+          "raw_events": "artifacts/UC-MMM-PLN-003/20260423T032828Z/storage/raw/events.jsonl",
+          "curated_records": "artifacts/UC-MMM-PLN-003/20260423T032828Z/storage/curated/records.json",
+          "curated_records_jsonl": "artifacts/UC-MMM-PLN-003/20260423T032828Z/storage/curated/records.jsonl",
+          "resolved_records": "artifacts/UC-MMM-PLN-003/20260423T032828Z/identity_360/resolved_records.json",
+          "note": "artifacts/UC-MMM-PLN-003/20260423T032828Z/identity_360/note.txt",
+          "feature_rows": "artifacts/UC-MMM-PLN-003/20260423T032828Z/features/feature_rows.json",
+          "model_predictions": "artifacts/UC-MMM-PLN-003/20260423T032828Z/models/predictions.json",
+          "model_metrics": "artifacts/UC-MMM-PLN-003/20260423T032828Z/models/metrics.json",
+          "model_manifest": "artifacts/UC-MMM-PLN-003/20260423T032828Z/models/manifest.json",
+          "model_training_report": "artifacts/UC-MMM-PLN-003/20260423T032828Z/models/mmm_training_report.json",
+          "activation_payloads": "artifacts/UC-MMM-PLN-003/20260423T032828Z/serving_activation/activation_payloads.json",
+          "monitoring_report": "artifacts/UC-MMM-PLN-003/20260423T032828Z/monitoring_governance/report.json"
+        },
+        "artifact_file_checks": [
+          {
+            "label": "topic::raw.uc_mmm_pln_003.media_spend.v1",
+            "path": "artifacts/UC-MMM-PLN-003/20260423T032828Z/ingestion/event_bus/raw_uc_mmm_pln_003_media_spend_v1.jsonl",
+            "exists": true
+          },
+          {
+            "label": "activation_payloads",
+            "path": "artifacts/UC-MMM-PLN-003/20260423T032828Z/serving_activation/activation_payloads.json",
+            "exists": true
+          },
+          {
+            "label": "curated_records",
+            "path": "artifacts/UC-MMM-PLN-003/20260423T032828Z/storage/curated/records.json",
+            "exists": true
+          },
+          {
+            "label": "curated_records_jsonl",
+            "path": "artifacts/UC-MMM-PLN-003/20260423T032828Z/storage/curated/records.jsonl",
+            "exists": true
+          },
+          {
+            "label": "feature_rows",
+            "path": "artifacts/UC-MMM-PLN-003/20260423T032828Z/features/feature_rows.json",
+            "exists": true
+          },
+          {
+            "label": "model_manifest",
+            "path": "artifacts/UC-MMM-PLN-003/20260423T032828Z/models/manifest.json",
+            "exists": true
+          },
+          {
+            "label": "model_metrics",
+            "path": "artifacts/UC-MMM-PLN-003/20260423T032828Z/models/metrics.json",
+            "exists": true
+          },
+          {
+            "label": "model_predictions",
+            "path": "artifacts/UC-MMM-PLN-003/20260423T032828Z/models/predictions.json",
+            "exists": true
+          },
+          {
+            "label": "model_training_report",
+            "path": "artifacts/UC-MMM-PLN-003/20260423T032828Z/models/mmm_training_report.json",
+            "exists": true
+          },
+          {
+            "label": "monitoring_report",
+            "path": "artifacts/UC-MMM-PLN-003/20260423T032828Z/monitoring_governance/report.json",
+            "exists": true
+          },
+          {
+            "label": "note",
+            "path": "artifacts/UC-MMM-PLN-003/20260423T032828Z/identity_360/note.txt",
+            "exists": true
+          },
+          {
+            "label": "raw_events",
+            "path": "artifacts/UC-MMM-PLN-003/20260423T032828Z/storage/raw/events.jsonl",
+            "exists": true
+          },
+          {
+            "label": "resolved_records",
+            "path": "artifacts/UC-MMM-PLN-003/20260423T032828Z/identity_360/resolved_records.json",
+            "exists": true
+          }
+        ],
+        "stage_health": [
+          {
+            "layer_id": "data_sources",
+            "label": "Data Sources",
+            "status": "pass",
+            "detail": "60 source rows observed across tables."
+          },
+          {
+            "layer_id": "ingestion_event_bus",
+            "label": "Ingestion + Event Bus",
+            "status": "pass",
+            "detail": "1 ingestion topic artifact(s) present."
+          },
+          {
+            "layer_id": "raw_curated_storage",
+            "label": "Raw Storage + Curated Warehouse",
+            "status": "pass",
+            "detail": "Required artifacts found."
+          },
+          {
+            "layer_id": "identity_customer_360",
+            "label": "Identity Resolution + Customer 360",
+            "status": "pass",
+            "detail": "Required artifacts found."
+          },
+          {
+            "layer_id": "feature_layer",
+            "label": "Feature Layer",
+            "status": "pass",
+            "detail": "Required artifacts found."
+          },
+          {
+            "layer_id": "model_layer",
+            "label": "Model Layer",
+            "status": "pass",
+            "detail": "Required artifacts found."
+          },
+          {
+            "layer_id": "serving_activation",
+            "label": "Serving + Activation",
+            "status": "pass",
+            "detail": "Required artifacts found."
+          },
+          {
+            "layer_id": "monitoring_governance",
+            "label": "Monitoring + Governance",
+            "status": "pass",
+            "detail": "Required artifacts found."
+          }
+        ],
+        "guided_steps": [
+          {
+            "layer_id": "data_sources",
+            "label": "Data Sources",
+            "status": "pass",
+            "detail": "60 source rows observed across tables.",
+            "explanation": "Contract-aware source generation and connector abstraction for repeatable ingestion.",
+            "inputs": [
+              {
+                "name": "contract.entities",
+                "value": "channel_spend, campaign, conversion, revenue, seasonality, macro_factors"
+              },
+              {
+                "name": "contract.features",
+                "value": "6"
+              }
+            ],
+            "outputs": [
+              {
+                "name": "media_spend",
+                "path": null,
+                "exists": true,
+                "row_count": 60,
+                "sample_fields": [],
+                "note": "Source table row count from summary."
+              }
+            ]
+          },
+          {
+            "layer_id": "ingestion_event_bus",
+            "label": "Ingestion + Event Bus",
+            "status": "pass",
+            "detail": "1 ingestion topic artifact(s) present.",
+            "explanation": "Canonical topic naming, append-only events, and deterministic artifact persistence.",
+            "inputs": [
+              {
+                "name": "source_tables",
+                "value": "1"
+              }
+            ],
+            "outputs": [
+              {
+                "name": "raw.uc_mmm_pln_003.media_spend.v1",
+                "path": "artifacts/UC-MMM-PLN-003/20260423T032828Z/ingestion/event_bus/raw_uc_mmm_pln_003_media_spend_v1.jsonl",
+                "exists": true,
+                "row_count": 60,
+                "sample_fields": [
+                  "channel",
+                  "clicks",
+                  "impressions",
+                  "macro_index",
+                  "observed_revenue",
+                  "period",
+                  "promo_index",
+                  "seasonality_index",
+                  "weekly_spend"
+                ],
+                "note": ""
+              }
+            ]
+          },
+          {
+            "layer_id": "raw_curated_storage",
+            "label": "Raw Storage + Curated Warehouse",
+            "status": "pass",
+            "detail": "Required artifacts found.",
+            "explanation": "Stores raw event logs and curated joins in JSON/JSONL with warehouse mirroring options.",
+            "inputs": [
+              {
+                "name": "topic_files",
+                "value": "1"
+              }
+            ],
+            "outputs": [
+              {
+                "name": "raw_events",
+                "path": "artifacts/UC-MMM-PLN-003/20260423T032828Z/storage/raw/events.jsonl",
+                "exists": true,
+                "row_count": 60,
+                "sample_fields": [
+                  "channel",
+                  "clicks",
+                  "impressions",
+                  "macro_index",
+                  "observed_revenue",
+                  "period",
+                  "promo_index",
+                  "seasonality_index",
+                  "weekly_spend"
+                ],
+                "note": ""
+              },
+              {
+                "name": "curated_records",
+                "path": "artifacts/UC-MMM-PLN-003/20260423T032828Z/storage/curated/records.json",
+                "exists": true,
+                "row_count": 60,
+                "sample_fields": [
+                  "channel",
+                  "clicks",
+                  "impressions",
+                  "macro_index",
+                  "observed_revenue",
+                  "period",
+                  "promo_index",
+                  "seasonality_index",
+                  "weekly_spend"
+                ],
+                "note": ""
+              },
+              {
+                "name": "curated_records_jsonl",
+                "path": "artifacts/UC-MMM-PLN-003/20260423T032828Z/storage/curated/records.jsonl",
+                "exists": true,
+                "row_count": 60,
+                "sample_fields": [
+                  "channel",
+                  "clicks",
+                  "impressions",
+                  "macro_index",
+                  "observed_revenue",
+                  "period",
+                  "promo_index",
+                  "seasonality_index",
+                  "weekly_spend"
+                ],
+                "note": ""
+              }
+            ]
+          },
+          {
+            "layer_id": "identity_customer_360",
+            "label": "Identity Resolution + Customer 360",
+            "status": "pass",
+            "detail": "Required artifacts found.",
+            "explanation": "Deterministic unified IDs and household keys for person-level use cases.",
+            "inputs": [
+              {
+                "name": "curated_rows",
+                "value": "60"
+              }
+            ],
+            "outputs": [
+              {
+                "name": "resolved_records",
+                "path": "artifacts/UC-MMM-PLN-003/20260423T032828Z/identity_360/resolved_records.json",
+                "exists": true,
+                "row_count": 60,
+                "sample_fields": [
+                  "channel",
+                  "clicks",
+                  "impressions",
+                  "macro_index",
+                  "observed_revenue",
+                  "period",
+                  "promo_index",
+                  "seasonality_index",
+                  "weekly_spend"
+                ],
+                "note": ""
+              },
+              {
+                "name": "note",
+                "path": "artifacts/UC-MMM-PLN-003/20260423T032828Z/identity_360/note.txt",
+                "exists": true,
+                "row_count": null,
+                "sample_fields": [],
+                "note": "Unsupported artifact type"
+              }
+            ]
+          },
+          {
+            "layer_id": "feature_layer",
+            "label": "Feature Layer",
+            "status": "pass",
+            "detail": "Required artifacts found.",
+            "explanation": "Use-case-specific feature projections persisted as model-ready rows.",
+            "inputs": [
+              {
+                "name": "resolved_rows",
+                "value": "60"
+              }
+            ],
+            "outputs": [
+              {
+                "name": "feature_rows",
+                "path": "artifacts/UC-MMM-PLN-003/20260423T032828Z/features/feature_rows.json",
+                "exists": true,
+                "row_count": 60,
+                "sample_fields": [
+                  "channel",
+                  "clicks",
+                  "impressions",
+                  "macro_index",
+                  "observed_revenue",
+                  "period",
+                  "promo_index",
+                  "seasonality_index",
+                  "weekly_spend"
+                ],
+                "note": ""
+              }
+            ]
+          },
+          {
+            "layer_id": "model_layer",
+            "label": "Model Layer (MMM, Incrementality, Attribution, Experimentation)",
+            "status": "pass",
+            "detail": "Required artifacts found.",
+            "explanation": "Pluggable model registry validates outputs against contract fields.",
+            "inputs": [
+              {
+                "name": "feature_rows",
+                "value": "60"
+              },
+              {
+                "name": "output_contract_fields",
+                "value": "10"
+              }
+            ],
+            "outputs": [
+              {
+                "name": "model_predictions",
+                "path": "artifacts/UC-MMM-PLN-003/20260423T032828Z/models/predictions.json",
+                "exists": true,
+                "row_count": 60,
+                "sample_fields": [
+                  "base_contribution",
+                  "channel",
+                  "expected_incremental_revenue",
+                  "incremental_contribution",
+                  "model_version",
+                  "observed_revenue",
+                  "period",
+                  "recommended_spend",
+                  "response_curve_params",
+                  "revenue_error_abs_pct",
+                  "saturation_point",
+                  "uncertainty_interval"
+                ],
+                "note": ""
+              },
+              {
+                "name": "model_metrics",
+                "path": null,
+                "exists": true,
+                "row_count": null,
+                "sample_fields": [
+                  "avg_expected_incremental_revenue",
+                  "avg_recommended_spend",
+                  "backend_library_version",
+                  "holdout_ratio",
+                  "holdout_row_count",
+                  "holdout_signal_mean",
+                  "model_backend",
+                  "model_version",
+                  "model_versions",
+                  "observed_revenue_rows",
+                  "primary_kpi",
+                  "revenue_mape",
+                  "signal_drift_abs",
+                  "supervision_mode",
+                  "train_row_count",
+                  "train_signal_mean"
+                ],
+                "note": "Metric keys reported by model layer."
+              }
+            ]
+          },
+          {
+            "layer_id": "serving_activation",
+            "label": "Serving + Activation",
+            "status": "pass",
+            "detail": "Required artifacts found.",
+            "explanation": "Use-case payload adapters map model rows into destination contracts.",
+            "inputs": [
+              {
+                "name": "model_rows",
+                "value": "60"
+              }
+            ],
+            "outputs": [
+              {
+                "name": "activation_payloads",
+                "path": "artifacts/UC-MMM-PLN-003/20260423T032828Z/serving_activation/activation_payloads.json",
+                "exists": true,
+                "row_count": 60,
+                "sample_fields": [
+                  "channel",
+                  "destination",
+                  "expected_incremental_revenue",
+                  "recommended_spend",
+                  "uncertainty_interval"
+                ],
+                "note": ""
+              }
+            ]
+          },
+          {
+            "layer_id": "monitoring_governance",
+            "label": "Monitoring + Governance",
+            "status": "pass",
+            "detail": "Required artifacts found.",
+            "explanation": "Contract coverage checks, gate results, and run-status reporting.",
+            "inputs": [
+              {
+                "name": "model_metrics",
+                "value": "16"
+              }
+            ],
+            "outputs": [
+              {
+                "name": "monitoring_report",
+                "path": "artifacts/UC-MMM-PLN-003/20260423T032828Z/monitoring_governance/report.json",
+                "exists": true,
+                "row_count": null,
+                "sample_fields": [
+                  "alert_channels",
+                  "data_quality",
+                  "deployment_readiness",
+                  "model_metrics",
+                  "model_validation",
+                  "primary_kpi",
+                  "required_field_coverage",
+                  "rows_scored",
+                  "run_status",
+                  "scientific_governance",
+                  "use_case_id",
+                  "validation_gates"
+                ],
+                "note": "Object artifact"
+              }
+            ]
+          }
+        ],
+        "oss_runtime": null,
+        "oss_mirror": null
+      }
+    },
+    {
+      "use_case_id": "UC-NBA-RET-001",
+      "name": "Next Best Action for Retention",
+      "primary_kpi": "30_day_incremental_retention_lift",
+      "business_problem": "Retention teams need personalized, policy-safe actions for each customer touchpoint.",
+      "business_outcome": "Increase incremental retention lift while controlling contact fatigue and compliance risk.",
+      "contract": {
+        "baseline": 0.68,
+        "target": 0.705,
+        "entities": [
+          "customer",
+          "event",
+          "campaign",
+          "transaction",
+          "consent"
+        ],
+        "features": [
+          "recency_days",
+          "frequency_30d",
+          "monetary_90d",
+          "tenure_days",
+          "email_engagement_30d",
+          "push_engagement_30d",
+          "last_offer_response"
+        ],
+        "output_type": "recommendation",
+        "output_fields": [
+          "customer_id",
+          "action_id",
+          "action_channel",
+          "expected_uplift",
+          "confidence",
+          "reason_codes",
+          "score_ts",
+          "model_version",
+          "policy_version"
+        ],
+        "sla_latency_ms": 200,
+        "refresh": "daily_batch_plus_event_triggered",
+        "decision_policy": {
+          "eligibility_rules": [
+            "consent_status == true",
+            "profile_completeness >= 0.8",
+            "no_critical_service_case == true"
+          ],
+          "suppression_rules": [
+            "last_marketing_contact_hours < 72",
+            "contacts_last_7d > 4",
+            "do_not_contact == true"
+          ],
+          "fallback": "rule_based_recommendation_v1"
+        },
+        "experiment": {
+          "unit": "customer_id",
+          "split": "80_treatment_20_control",
+          "duration_days": 42,
+          "mde": 0.015,
+          "success_rule": "lift_ci_low > 0 and guardrails_ok"
+        },
+        "governance": {
+          "validation_gates": [
+            "uplift_validation_pass",
+            "calibration_pass",
+            "policy_compliance_pass",
+            "contract_tests_pass"
+          ],
+          "approval_required": true
+        },
+        "monitoring": {
+          "drift_thresholds": {
+            "psi_feature_major": 0.2,
+            "uplift_decay_alert": 0.005
+          },
+          "alert_channels": [
+            "slack-marketing-mlops",
+            "pagerduty-mlops"
+          ]
+        }
+      },
+      "latest_run": {
+        "run_id": "20260425T193444Z",
+        "summary_path": "artifacts/UC-NBA-RET-001/20260425T193444Z/summary.json",
+        "run_status": "pass",
+        "infra_profile": "oss",
+        "seed": 101,
+        "records": {
+          "source_tables": {
+            "crm_customers": 120,
+            "behavior_signals": 120,
+            "contact_history": 120
+          },
+          "curated_rows": 120,
+          "feature_rows": 120,
+          "model_rows": 120,
+          "activation_rows": 120
+        },
+        "model_metrics": {
+          "primary_kpi": "30_day_incremental_retention_lift",
+          "avg_expected_uplift": 0.1576,
+          "avg_confidence": 0.5,
+          "model_backend": "tensorflow",
+          "train_rows": 96,
+          "holdout_rows": 24,
+          "tf_train_loss": 1.3845958709716797,
+          "tf_train_action_acc": 0.2916666567325592,
+          "tf_holdout_loss": 1.4221267700195312,
+          "tf_holdout_action_acc": 0.125,
+          "supervision_mode": "observed_labels",
+          "observed_action_labels": 120,
+          "observed_uplift_labels": 120,
+          "model_version": "nba_retention_tf_v1",
+          "model_versions": [
+            "nba_retention_tf_v1"
+          ],
+          "train_row_count": 106,
+          "holdout_row_count": 14,
+          "holdout_ratio": 0.1167,
+          "train_signal_mean": 0.328655,
+          "holdout_signal_mean": 0.329714,
+          "signal_drift_abs": 0.001059,
+          "split_validation": {
+            "status": "pass",
+            "rules": {
+              "min_train_rows": 80,
+              "min_holdout_rows": 10,
+              "min_holdout_ratio": 0.05,
+              "max_holdout_ratio": 0.35
+            },
+            "checks": [
+              {
+                "name": "train_rows_min",
+                "status": "pass",
+                "actual": 106,
+                "expectation": "train_row_count >= 80",
+                "reason": "within expected constraints"
+              },
+              {
+                "name": "holdout_rows_min",
+                "status": "pass",
+                "actual": 14,
+                "expectation": "holdout_row_count >= 10",
+                "reason": "within expected constraints"
+              },
+              {
+                "name": "holdout_ratio_range",
+                "status": "pass",
+                "actual": 0.1167,
+                "expectation": "holdout_ratio in [0.05, 0.35]",
+                "reason": "within expected constraints"
+              }
+            ],
+            "summary": {
+              "total_checks": 3,
+              "passed_checks": 3,
+              "failed_checks": 0
+            }
+          }
+        },
+        "metric_highlights": [
+          {
+            "name": "avg_confidence",
+            "value": 0.5
+          },
+          {
+            "name": "avg_expected_uplift",
+            "value": 0.1576
+          },
+          {
+            "name": "holdout_ratio",
+            "value": 0.1167
+          },
+          {
+            "name": "holdout_row_count",
+            "value": 14
+          },
+          {
+            "name": "holdout_rows",
+            "value": 24
+          },
+          {
+            "name": "holdout_signal_mean",
+            "value": 0.329714
+          },
+          {
+            "name": "model_backend",
+            "value": "tensorflow"
+          },
+          {
+            "name": "model_version",
+            "value": "nba_retention_tf_v1"
+          },
+          {
+            "name": "model_versions",
+            "value": [
+              "nba_retention_tf_v1"
+            ]
+          },
+          {
+            "name": "observed_action_labels",
+            "value": 120
+          },
+          {
+            "name": "observed_uplift_labels",
+            "value": 120
+          },
+          {
+            "name": "signal_drift_abs",
+            "value": 0.001059
+          },
+          {
+            "name": "split_validation",
+            "value": {
+              "status": "pass",
+              "rules": {
+                "min_train_rows": 80,
+                "min_holdout_rows": 10,
+                "min_holdout_ratio": 0.05,
+                "max_holdout_ratio": 0.35
+              },
+              "checks": [
+                {
+                  "name": "train_rows_min",
+                  "status": "pass",
+                  "actual": 106,
+                  "expectation": "train_row_count >= 80",
+                  "reason": "within expected constraints"
+                },
+                {
+                  "name": "holdout_rows_min",
+                  "status": "pass",
+                  "actual": 14,
+                  "expectation": "holdout_row_count >= 10",
+                  "reason": "within expected constraints"
+                },
+                {
+                  "name": "holdout_ratio_range",
+                  "status": "pass",
+                  "actual": 0.1167,
+                  "expectation": "holdout_ratio in [0.05, 0.35]",
+                  "reason": "within expected constraints"
+                }
+              ],
+              "summary": {
+                "total_checks": 3,
+                "passed_checks": 3,
+                "failed_checks": 0
+              }
+            }
+          },
+          {
+            "name": "supervision_mode",
+            "value": "observed_labels"
+          },
+          {
+            "name": "tf_holdout_action_acc",
+            "value": 0.125
+          },
+          {
+            "name": "tf_holdout_loss",
+            "value": 1.4221267700195312
+          },
+          {
+            "name": "tf_train_action_acc",
+            "value": 0.2916666567325592
+          },
+          {
+            "name": "tf_train_loss",
+            "value": 1.3845958709716797
+          },
+          {
+            "name": "train_row_count",
+            "value": 106
+          },
+          {
+            "name": "train_rows",
+            "value": 96
+          },
+          {
+            "name": "train_signal_mean",
+            "value": 0.328655
+          }
+        ],
+        "monitoring_report": {
+          "use_case_id": "UC-NBA-RET-001",
+          "rows_scored": 120,
+          "required_field_coverage": 1.0,
+          "primary_kpi": "30_day_incremental_retention_lift",
+          "model_metrics": {
+            "primary_kpi": "30_day_incremental_retention_lift",
+            "avg_expected_uplift": 0.1576,
+            "avg_confidence": 0.5,
+            "model_backend": "tensorflow",
+            "train_rows": 96,
+            "holdout_rows": 24,
+            "tf_train_loss": 1.3845958709716797,
+            "tf_train_action_acc": 0.2916666567325592,
+            "tf_holdout_loss": 1.4221267700195312,
+            "tf_holdout_action_acc": 0.125,
+            "supervision_mode": "observed_labels",
+            "observed_action_labels": 120,
+            "observed_uplift_labels": 120,
+            "model_version": "nba_retention_tf_v1",
+            "model_versions": [
+              "nba_retention_tf_v1"
+            ],
+            "train_row_count": 106,
+            "holdout_row_count": 14,
+            "holdout_ratio": 0.1167,
+            "train_signal_mean": 0.328655,
+            "holdout_signal_mean": 0.329714,
+            "signal_drift_abs": 0.001059,
+            "split_validation": {
+              "status": "pass",
+              "rules": {
+                "min_train_rows": 80,
+                "min_holdout_rows": 10,
+                "min_holdout_ratio": 0.05,
+                "max_holdout_ratio": 0.35
+              },
+              "checks": [
+                {
+                  "name": "train_rows_min",
+                  "status": "pass",
+                  "actual": 106,
+                  "expectation": "train_row_count >= 80",
+                  "reason": "within expected constraints"
+                },
+                {
+                  "name": "holdout_rows_min",
+                  "status": "pass",
+                  "actual": 14,
+                  "expectation": "holdout_row_count >= 10",
+                  "reason": "within expected constraints"
+                },
+                {
+                  "name": "holdout_ratio_range",
+                  "status": "pass",
+                  "actual": 0.1167,
+                  "expectation": "holdout_ratio in [0.05, 0.35]",
+                  "reason": "within expected constraints"
+                }
+              ],
+              "summary": {
+                "total_checks": 3,
+                "passed_checks": 3,
+                "failed_checks": 0
+              }
+            }
+          },
+          "validation_gates": {
+            "uplift_validation_pass": "pass",
+            "calibration_pass": "pass",
+            "policy_compliance_pass": "pass",
+            "contract_tests_pass": "pass"
+          },
+          "run_status": "pass",
+          "alert_channels": [
+            "slack-marketing-mlops",
+            "pagerduty-mlops"
+          ],
+          "model_validation": {
+            "standard_version": "v1",
+            "checks": [
+              {
+                "name": "rows_scored_positive",
+                "status": "pass",
+                "actual": 120,
+                "expectation": "rows_scored > 0",
+                "reason": "ok"
+              },
+              {
+                "name": "required_field_coverage_full",
+                "status": "pass",
+                "actual": 1.0,
+                "expectation": "required_field_coverage == 1.0",
+                "reason": "ok"
+              },
+              {
+                "name": "avg_expected_uplift_range",
+                "status": "pass",
+                "actual": 0.1576,
+                "expectation": "avg_expected_uplift in [0.0, 0.5]",
+                "reason": "within expected bounds"
+              },
+              {
+                "name": "avg_confidence_range",
+                "status": "pass",
+                "actual": 0.5,
+                "expectation": "avg_confidence in [0.5, 1.0]",
+                "reason": "within expected bounds"
+              }
+            ],
+            "summary": {
+              "total_checks": 4,
+              "passed_checks": 4,
+              "failed_checks": 0,
+              "pass_rate": 1.0
+            }
+          },
+          "data_quality": {
+            "status": "pass",
+            "mode": "real_dataset",
+            "summary": {
+              "total_checks": 23,
+              "passed_checks": 23,
+              "warn_checks": 0,
+              "failed_checks": 0
+            },
+            "checks": [
+              {
+                "name": "required_non_null_customer_id",
+                "table": "crm_customers",
+                "severity": "fail",
+                "status": "pass",
+                "expectation": "customer_id is non-null for all rows",
+                "reason": "within expected constraints",
+                "evaluated_rows": 120,
+                "violation_count": 0,
+                "sample_values": [],
+                "source_path": "data/production/UC-NBA-RET-001/crm_customers.csv"
+              },
+              {
+                "name": "required_non_null_consent_status",
+                "table": "crm_customers",
+                "severity": "fail",
+                "status": "pass",
+                "expectation": "consent_status is non-null for all rows",
+                "reason": "within expected constraints",
+                "evaluated_rows": 120,
+                "violation_count": 0,
+                "sample_values": [],
+                "source_path": "data/production/UC-NBA-RET-001/crm_customers.csv"
+              },
+              {
+                "name": "required_non_null_profile_completeness",
+                "table": "crm_customers",
+                "severity": "fail",
+                "status": "pass",
+                "expectation": "profile_completeness is non-null for all rows",
+                "reason": "within expected constraints",
+                "evaluated_rows": 120,
+                "violation_count": 0,
+                "sample_values": [],
+                "source_path": "data/production/UC-NBA-RET-001/crm_customers.csv"
+              },
+              {
+                "name": "required_non_null_no_critical_service_case",
+                "table": "crm_customers",
+                "severity": "fail",
+                "status": "pass",
+                "expectation": "no_critical_service_case is non-null for all rows",
+                "reason": "within expected constraints",
+                "evaluated_rows": 120,
+                "violation_count": 0,
+                "sample_values": [],
+                "source_path": "data/production/UC-NBA-RET-001/crm_customers.csv"
+              },
+              {
+                "name": "required_non_null_do_not_contact",
+                "table": "crm_customers",
+                "severity": "fail",
+                "status": "pass",
+                "expectation": "do_not_contact is non-null for all rows",
+                "reason": "within expected constraints",
+                "evaluated_rows": 120,
+                "violation_count": 0,
+                "sample_values": [],
+                "source_path": "data/production/UC-NBA-RET-001/crm_customers.csv"
+              },
+              {
+                "name": "unique_key_customer_id",
+                "table": "crm_customers",
+                "severity": "fail",
+                "status": "pass",
+                "expectation": "unique key values",
+                "reason": "within expected constraints",
+                "evaluated_rows": 120,
+                "violation_count": 0,
+                "sample_values": [],
+                "source_path": "data/production/UC-NBA-RET-001/crm_customers.csv"
+              },
+              {
+                "name": "range_profile_completeness",
+                "table": "crm_customers",
+                "severity": "fail",
+                "status": "pass",
+                "expectation": "profile_completeness in [0.0, 1.0]",
+                "reason": "within expected constraints",
+                "evaluated_rows": 120,
+                "violation_count": 0,
+                "sample_values": [],
+                "source_path": "data/production/UC-NBA-RET-001/crm_customers.csv"
+              },
+              {
+                "name": "required_non_null_customer_id",
+                "table": "behavior_signals",
+                "severity": "fail",
+                "status": "pass",
+                "expectation": "customer_id is non-null for all rows",
+                "reason": "within expected constraints",
+                "evaluated_rows": 120,
+                "violation_count": 0,
+                "sample_values": [],
+                "source_path": "data/production/UC-NBA-RET-001/behavior_signals.csv"
+              },
+              {
+                "name": "required_non_null_risk_score",
+                "table": "behavior_signals",
+                "severity": "fail",
+                "status": "pass",
+                "expectation": "risk_score is non-null for all rows",
+                "reason": "within expected constraints",
+                "evaluated_rows": 120,
+                "violation_count": 0,
+                "sample_values": [],
+                "source_path": "data/production/UC-NBA-RET-001/behavior_signals.csv"
+              },
+              {
+                "name": "required_non_null_value_score",
+                "table": "behavior_signals",
+                "severity": "fail",
+                "status": "pass",
+                "expectation": "value_score is non-null for all rows",
+                "reason": "within expected constraints",
+                "evaluated_rows": 120,
+                "violation_count": 0,
+                "sample_values": [],
+                "source_path": "data/production/UC-NBA-RET-001/behavior_signals.csv"
+              },
+              {
+                "name": "required_non_null_score_ts",
+                "table": "behavior_signals",
+                "severity": "fail",
+                "status": "pass",
+                "expectation": "score_ts is non-null for all rows",
+                "reason": "within expected constraints",
+                "evaluated_rows": 120,
+                "violation_count": 0,
+                "sample_values": [],
+                "source_path": "data/production/UC-NBA-RET-001/behavior_signals.csv"
+              },
+              {
+                "name": "unique_key_customer_id",
+                "table": "behavior_signals",
+                "severity": "fail",
+                "status": "pass",
+                "expectation": "unique key values",
+                "reason": "within expected constraints",
+                "evaluated_rows": 120,
+                "violation_count": 0,
+                "sample_values": [],
+                "source_path": "data/production/UC-NBA-RET-001/behavior_signals.csv"
+              },
+              {
+                "name": "range_observed_uplift",
+                "table": "behavior_signals",
+                "severity": "warn",
+                "status": "pass",
+                "expectation": "observed_uplift in [0.0, 1.0]",
+                "reason": "within expected constraints",
+                "evaluated_rows": 120,
+                "violation_count": 0,
+                "sample_values": [],
+                "source_path": "data/production/UC-NBA-RET-001/behavior_signals.csv"
+              },
+              {
+                "name": "range_retained_30d",
+                "table": "behavior_signals",
+                "severity": "fail",
+                "status": "pass",
+                "expectation": "retained_30d in [0.0, 1.0]",
+                "reason": "within expected constraints",
+                "evaluated_rows": 120,
+                "violation_count": 0,
+                "sample_values": [],
+                "source_path": "data/production/UC-NBA-RET-001/behavior_signals.csv"
+              },
+              {
+                "name": "range_risk_score",
+                "table": "behavior_signals",
+                "severity": "fail",
+                "status": "pass",
+                "expectation": "risk_score in [0.0, 1.0]",
+                "reason": "within expected constraints",
+                "evaluated_rows": 120,
+                "violation_count": 0,
+                "sample_values": [],
+                "source_path": "data/production/UC-NBA-RET-001/behavior_signals.csv"
+              },
+              {
+                "name": "range_value_score",
+                "table": "behavior_signals",
+                "severity": "fail",
+                "status": "pass",
+                "expectation": "value_score in [0.0, 1.0]",
+                "reason": "within expected constraints",
+                "evaluated_rows": 120,
+                "violation_count": 0,
+                "sample_values": [],
+                "source_path": "data/production/UC-NBA-RET-001/behavior_signals.csv"
+              },
+              {
+                "name": "enum_historical_action_id",
+                "table": "behavior_signals",
+                "severity": "warn",
+                "status": "pass",
+                "expectation": "historical_action_id in ['free_shipping_offer', 'loyalty_bonus_points', 'offer_10pct_discount', 'retargeting_creative_a']",
+                "reason": "within expected constraints",
+                "evaluated_rows": 120,
+                "violation_count": 0,
+                "sample_values": [],
+                "source_path": "data/production/UC-NBA-RET-001/behavior_signals.csv"
+              },
+              {
+                "name": "required_non_null_customer_id",
+                "table": "contact_history",
+                "severity": "fail",
+                "status": "pass",
+                "expectation": "customer_id is non-null for all rows",
+                "reason": "within expected constraints",
+                "evaluated_rows": 120,
+                "violation_count": 0,
+                "sample_values": [],
+                "source_path": "data/production/UC-NBA-RET-001/contact_history.csv"
+              },
+              {
+                "name": "required_non_null_last_marketing_contact_hours",
+                "table": "contact_history",
+                "severity": "fail",
+                "status": "pass",
+                "expectation": "last_marketing_contact_hours is non-null for all rows",
+                "reason": "within expected constraints",
+                "evaluated_rows": 120,
+                "violation_count": 0,
+                "sample_values": [],
+                "source_path": "data/production/UC-NBA-RET-001/contact_history.csv"
+              },
+              {
+                "name": "required_non_null_contacts_last_7d",
+                "table": "contact_history",
+                "severity": "fail",
+                "status": "pass",
+                "expectation": "contacts_last_7d is non-null for all rows",
+                "reason": "within expected constraints",
+                "evaluated_rows": 120,
+                "violation_count": 0,
+                "sample_values": [],
+                "source_path": "data/production/UC-NBA-RET-001/contact_history.csv"
+              },
+              {
+                "name": "unique_key_customer_id",
+                "table": "contact_history",
+                "severity": "fail",
+                "status": "pass",
+                "expectation": "unique key values",
+                "reason": "within expected constraints",
+                "evaluated_rows": 120,
+                "violation_count": 0,
+                "sample_values": [],
+                "source_path": "data/production/UC-NBA-RET-001/contact_history.csv"
+              },
+              {
+                "name": "range_contacts_last_7d",
+                "table": "contact_history",
+                "severity": "fail",
+                "status": "pass",
+                "expectation": "contacts_last_7d in [0.0, 50.0]",
+                "reason": "within expected constraints",
+                "evaluated_rows": 120,
+                "violation_count": 0,
+                "sample_values": [],
+                "source_path": "data/production/UC-NBA-RET-001/contact_history.csv"
+              },
+              {
+                "name": "range_last_marketing_contact_hours",
+                "table": "contact_history",
+                "severity": "fail",
+                "status": "pass",
+                "expectation": "last_marketing_contact_hours >= 0.0",
+                "reason": "within expected constraints",
+                "evaluated_rows": 120,
+                "violation_count": 0,
+                "sample_values": [],
+                "source_path": "data/production/UC-NBA-RET-001/contact_history.csv"
+              }
+            ],
+            "table_summaries": {
+              "crm_customers": {
+                "status": "pass",
+                "total_checks": 7,
+                "passed_checks": 7,
+                "warn_checks": 0,
+                "failed_checks": 0
+              },
+              "behavior_signals": {
+                "status": "pass",
+                "total_checks": 10,
+                "passed_checks": 10,
+                "warn_checks": 0,
+                "failed_checks": 0
+              },
+              "contact_history": {
+                "status": "pass",
+                "total_checks": 6,
+                "passed_checks": 6,
+                "warn_checks": 0,
+                "failed_checks": 0
+              }
+            },
+            "gates": {
+              "fail_gate": "pass",
+              "warn_gate": "pass"
+            },
+            "reason": null
+          },
+          "deployment_readiness": {
+            "status": "pending_approval",
+            "score": 1.0,
+            "approval_required": true,
+            "blockers": [],
+            "failed_gates": [],
+            "failed_model_checks": [],
+            "failed_data_quality_checks": [],
+            "warning_data_quality_checks": []
+          },
+          "scientific_governance": {
+            "standard_version": "v1",
+            "generated_at_utc": "2026-04-25T19:34:51.489795+00:00",
+            "run_id": "20260425T193444Z",
+            "seed": 101,
+            "contract_fingerprint_sha256": "79b8053e50cd94229b32e8446a26468b899113ff333f0c670dce3ae8b8f9b406",
+            "model_versions": [
+              "nba_retention_tf_v1"
+            ],
+            "reproducibility": {
+              "row_count": 120,
+              "seed_provided": true,
+              "contract_hash_present": true
+            }
+          }
+        },
+        "artifacts": {
+          "ingestion_event_bus": {
+            "raw.uc_nba_ret_001.crm_customers.v1": "artifacts/UC-NBA-RET-001/20260425T193444Z/ingestion/event_bus/raw_uc_nba_ret_001_crm_customers_v1.jsonl",
+            "raw.uc_nba_ret_001.behavior_signals.v1": "artifacts/UC-NBA-RET-001/20260425T193444Z/ingestion/event_bus/raw_uc_nba_ret_001_behavior_signals_v1.jsonl",
+            "raw.uc_nba_ret_001.contact_history.v1": "artifacts/UC-NBA-RET-001/20260425T193444Z/ingestion/event_bus/raw_uc_nba_ret_001_contact_history_v1.jsonl"
+          },
+          "raw_events": "artifacts/UC-NBA-RET-001/20260425T193444Z/storage/raw/events.jsonl",
+          "curated_records": "artifacts/UC-NBA-RET-001/20260425T193444Z/storage/curated/records.json",
+          "curated_records_jsonl": "artifacts/UC-NBA-RET-001/20260425T193444Z/storage/curated/records.jsonl",
+          "identity_map": "artifacts/UC-NBA-RET-001/20260425T193444Z/identity_360/identity_map.json",
+          "resolved_records": "artifacts/UC-NBA-RET-001/20260425T193444Z/identity_360/resolved_records.json",
+          "splink_identity_resolution": "artifacts/UC-NBA-RET-001/20260425T193444Z/enterprise_hardening/splink_identity_resolution.json",
+          "feature_rows": "artifacts/UC-NBA-RET-001/20260425T193444Z/features/feature_rows.json",
+          "feast_registry": "artifacts/UC-NBA-RET-001/20260425T193444Z/feature_store/feast_registry.json",
+          "feast_feature_view": "artifacts/UC-NBA-RET-001/20260425T193444Z/feature_store/feature_view.json",
+          "feast_offline_features": "artifacts/UC-NBA-RET-001/20260425T193444Z/feature_store/offline_features.json",
+          "feast_repo_config": "artifacts/UC-NBA-RET-001/20260425T193444Z/feature_store/feature_store.yaml",
+          "model_predictions": "artifacts/UC-NBA-RET-001/20260425T193444Z/models/predictions.json",
+          "model_metrics": "artifacts/UC-NBA-RET-001/20260425T193444Z/models/metrics.json",
+          "model_manifest": "artifacts/UC-NBA-RET-001/20260425T193444Z/models/manifest.json",
+          "model_binary": "artifacts/UC-NBA-RET-001/20260425T193444Z/models/nba_tf_saved_model",
+          "model_training_report": "artifacts/UC-NBA-RET-001/20260425T193444Z/models/nba_training_report.json",
+          "mlflow_lineage": "artifacts/UC-NBA-RET-001/20260425T193444Z/enterprise_hardening/mlflow_lineage.json",
+          "activation_payloads": "artifacts/UC-NBA-RET-001/20260425T193444Z/serving_activation/activation_payloads.json",
+          "monitoring_report": "artifacts/UC-NBA-RET-001/20260425T193444Z/monitoring_governance/report.json",
+          "data_quality_expectations": "artifacts/UC-NBA-RET-001/20260425T193444Z/enterprise_hardening/data_quality_expectations.json",
+          "monitoring_summary": "artifacts/UC-NBA-RET-001/20260425T193444Z/enterprise_hardening/monitoring_summary.json",
+          "airflow_dag_metadata": "artifacts/UC-NBA-RET-001/20260425T193444Z/orchestration/airflow_dag_metadata.json",
+          "keycloak_oidc_readiness": "artifacts/UC-NBA-RET-001/20260425T193444Z/security/keycloak_oidc_readiness.json",
+          "product_like_integrations": "artifacts/UC-NBA-RET-001/20260425T193444Z/enterprise_hardening/product_like_integrations.json",
+          "stage_telemetry": "artifacts/UC-NBA-RET-001/20260425T193444Z/telemetry/stage_events.jsonl"
+        },
+        "artifact_file_checks": [
+          {
+            "label": "topic::raw.uc_nba_ret_001.behavior_signals.v1",
+            "path": "artifacts/UC-NBA-RET-001/20260425T193444Z/ingestion/event_bus/raw_uc_nba_ret_001_behavior_signals_v1.jsonl",
+            "exists": true
+          },
+          {
+            "label": "topic::raw.uc_nba_ret_001.contact_history.v1",
+            "path": "artifacts/UC-NBA-RET-001/20260425T193444Z/ingestion/event_bus/raw_uc_nba_ret_001_contact_history_v1.jsonl",
+            "exists": true
+          },
+          {
+            "label": "topic::raw.uc_nba_ret_001.crm_customers.v1",
+            "path": "artifacts/UC-NBA-RET-001/20260425T193444Z/ingestion/event_bus/raw_uc_nba_ret_001_crm_customers_v1.jsonl",
+            "exists": true
+          },
+          {
+            "label": "activation_payloads",
+            "path": "artifacts/UC-NBA-RET-001/20260425T193444Z/serving_activation/activation_payloads.json",
+            "exists": true
+          },
+          {
+            "label": "airflow_dag_metadata",
+            "path": "artifacts/UC-NBA-RET-001/20260425T193444Z/orchestration/airflow_dag_metadata.json",
+            "exists": true
+          },
+          {
+            "label": "curated_records",
+            "path": "artifacts/UC-NBA-RET-001/20260425T193444Z/storage/curated/records.json",
+            "exists": true
+          },
+          {
+            "label": "curated_records_jsonl",
+            "path": "artifacts/UC-NBA-RET-001/20260425T193444Z/storage/curated/records.jsonl",
+            "exists": true
+          },
+          {
+            "label": "data_quality_expectations",
+            "path": "artifacts/UC-NBA-RET-001/20260425T193444Z/enterprise_hardening/data_quality_expectations.json",
+            "exists": true
+          },
+          {
+            "label": "feast_feature_view",
+            "path": "artifacts/UC-NBA-RET-001/20260425T193444Z/feature_store/feature_view.json",
+            "exists": true
+          },
+          {
+            "label": "feast_offline_features",
+            "path": "artifacts/UC-NBA-RET-001/20260425T193444Z/feature_store/offline_features.json",
+            "exists": true
+          },
+          {
+            "label": "feast_registry",
+            "path": "artifacts/UC-NBA-RET-001/20260425T193444Z/feature_store/feast_registry.json",
+            "exists": true
+          },
+          {
+            "label": "feast_repo_config",
+            "path": "artifacts/UC-NBA-RET-001/20260425T193444Z/feature_store/feature_store.yaml",
+            "exists": true
+          },
+          {
+            "label": "feature_rows",
+            "path": "artifacts/UC-NBA-RET-001/20260425T193444Z/features/feature_rows.json",
+            "exists": true
+          },
+          {
+            "label": "identity_map",
+            "path": "artifacts/UC-NBA-RET-001/20260425T193444Z/identity_360/identity_map.json",
+            "exists": true
+          },
+          {
+            "label": "keycloak_oidc_readiness",
+            "path": "artifacts/UC-NBA-RET-001/20260425T193444Z/security/keycloak_oidc_readiness.json",
+            "exists": true
+          },
+          {
+            "label": "mlflow_lineage",
+            "path": "artifacts/UC-NBA-RET-001/20260425T193444Z/enterprise_hardening/mlflow_lineage.json",
+            "exists": true
+          },
+          {
+            "label": "model_binary",
+            "path": "artifacts/UC-NBA-RET-001/20260425T193444Z/models/nba_tf_saved_model",
+            "exists": true
+          },
+          {
+            "label": "model_manifest",
+            "path": "artifacts/UC-NBA-RET-001/20260425T193444Z/models/manifest.json",
+            "exists": true
+          },
+          {
+            "label": "model_metrics",
+            "path": "artifacts/UC-NBA-RET-001/20260425T193444Z/models/metrics.json",
+            "exists": true
+          },
+          {
+            "label": "model_predictions",
+            "path": "artifacts/UC-NBA-RET-001/20260425T193444Z/models/predictions.json",
+            "exists": true
+          },
+          {
+            "label": "model_training_report",
+            "path": "artifacts/UC-NBA-RET-001/20260425T193444Z/models/nba_training_report.json",
+            "exists": true
+          },
+          {
+            "label": "monitoring_report",
+            "path": "artifacts/UC-NBA-RET-001/20260425T193444Z/monitoring_governance/report.json",
+            "exists": true
+          },
+          {
+            "label": "monitoring_summary",
+            "path": "artifacts/UC-NBA-RET-001/20260425T193444Z/enterprise_hardening/monitoring_summary.json",
+            "exists": true
+          },
+          {
+            "label": "product_like_integrations",
+            "path": "artifacts/UC-NBA-RET-001/20260425T193444Z/enterprise_hardening/product_like_integrations.json",
+            "exists": true
+          },
+          {
+            "label": "raw_events",
+            "path": "artifacts/UC-NBA-RET-001/20260425T193444Z/storage/raw/events.jsonl",
+            "exists": true
+          },
+          {
+            "label": "resolved_records",
+            "path": "artifacts/UC-NBA-RET-001/20260425T193444Z/identity_360/resolved_records.json",
+            "exists": true
+          },
+          {
+            "label": "splink_identity_resolution",
+            "path": "artifacts/UC-NBA-RET-001/20260425T193444Z/enterprise_hardening/splink_identity_resolution.json",
+            "exists": true
+          },
+          {
+            "label": "stage_telemetry",
+            "path": "artifacts/UC-NBA-RET-001/20260425T193444Z/telemetry/stage_events.jsonl",
+            "exists": true
+          }
+        ],
+        "stage_health": [
+          {
+            "layer_id": "data_sources",
+            "label": "Data Sources",
+            "status": "pass",
+            "detail": "360 source rows observed across tables."
+          },
+          {
+            "layer_id": "ingestion_event_bus",
+            "label": "Ingestion + Event Bus",
+            "status": "pass",
+            "detail": "3 ingestion topic artifact(s) present."
+          },
+          {
+            "layer_id": "raw_curated_storage",
+            "label": "Raw Storage + Curated Warehouse",
+            "status": "pass",
+            "detail": "Required artifacts found."
+          },
+          {
+            "layer_id": "identity_customer_360",
+            "label": "Identity Resolution + Customer 360",
+            "status": "pass",
+            "detail": "Required artifacts found."
+          },
+          {
+            "layer_id": "feature_layer",
+            "label": "Feature Layer",
+            "status": "pass",
+            "detail": "Required artifacts found."
+          },
+          {
+            "layer_id": "model_layer",
+            "label": "Model Layer",
+            "status": "pass",
+            "detail": "Required artifacts found."
+          },
+          {
+            "layer_id": "serving_activation",
+            "label": "Serving + Activation",
+            "status": "pass",
+            "detail": "Required artifacts found."
+          },
+          {
+            "layer_id": "monitoring_governance",
+            "label": "Monitoring + Governance",
+            "status": "pass",
+            "detail": "Required artifacts found."
+          }
+        ],
+        "guided_steps": [
+          {
+            "layer_id": "data_sources",
+            "label": "Data Sources",
+            "status": "pass",
+            "detail": "360 source rows observed across tables.",
+            "explanation": "Contract-aware source generation and connector abstraction for repeatable ingestion.",
+            "inputs": [
+              {
+                "name": "contract.entities",
+                "value": "customer, event, campaign, transaction, consent"
+              },
+              {
+                "name": "contract.features",
+                "value": "7"
+              }
+            ],
+            "outputs": [
+              {
+                "name": "behavior_signals",
+                "path": null,
+                "exists": true,
+                "row_count": 120,
+                "sample_fields": [],
+                "note": "Source table row count from summary."
+              },
+              {
+                "name": "contact_history",
+                "path": null,
+                "exists": true,
+                "row_count": 120,
+                "sample_fields": [],
+                "note": "Source table row count from summary."
+              },
+              {
+                "name": "crm_customers",
+                "path": null,
+                "exists": true,
+                "row_count": 120,
+                "sample_fields": [],
+                "note": "Source table row count from summary."
+              }
+            ]
+          },
+          {
+            "layer_id": "ingestion_event_bus",
+            "label": "Ingestion + Event Bus",
+            "status": "pass",
+            "detail": "3 ingestion topic artifact(s) present.",
+            "explanation": "Canonical topic naming, append-only events, and deterministic artifact persistence.",
+            "inputs": [
+              {
+                "name": "source_tables",
+                "value": "3"
+              }
+            ],
+            "outputs": [
+              {
+                "name": "raw.uc_nba_ret_001.behavior_signals.v1",
+                "path": "artifacts/UC-NBA-RET-001/20260425T193444Z/ingestion/event_bus/raw_uc_nba_ret_001_behavior_signals_v1.jsonl",
+                "exists": true,
+                "row_count": 120,
+                "sample_fields": [
+                  "customer_id",
+                  "historical_action_id",
+                  "observed_uplift",
+                  "retained_30d",
+                  "risk_score",
+                  "score_ts",
+                  "value_score"
+                ],
+                "note": ""
+              },
+              {
+                "name": "raw.uc_nba_ret_001.contact_history.v1",
+                "path": "artifacts/UC-NBA-RET-001/20260425T193444Z/ingestion/event_bus/raw_uc_nba_ret_001_contact_history_v1.jsonl",
+                "exists": true,
+                "row_count": 120,
+                "sample_fields": [
+                  "contacts_last_7d",
+                  "customer_id",
+                  "last_marketing_contact_hours"
+                ],
+                "note": ""
+              },
+              {
+                "name": "raw.uc_nba_ret_001.crm_customers.v1",
+                "path": "artifacts/UC-NBA-RET-001/20260425T193444Z/ingestion/event_bus/raw_uc_nba_ret_001_crm_customers_v1.jsonl",
+                "exists": true,
+                "row_count": 120,
+                "sample_fields": [
+                  "consent_status",
+                  "customer_id",
+                  "do_not_contact",
+                  "no_critical_service_case",
+                  "profile_completeness"
+                ],
+                "note": ""
+              }
+            ]
+          },
+          {
+            "layer_id": "raw_curated_storage",
+            "label": "Raw Storage + Curated Warehouse",
+            "status": "pass",
+            "detail": "Required artifacts found.",
+            "explanation": "Stores raw event logs and curated joins in JSON/JSONL with warehouse mirroring options.",
+            "inputs": [
+              {
+                "name": "topic_files",
+                "value": "3"
+              }
+            ],
+            "outputs": [
+              {
+                "name": "raw_events",
+                "path": "artifacts/UC-NBA-RET-001/20260425T193444Z/storage/raw/events.jsonl",
+                "exists": true,
+                "row_count": 360,
+                "sample_fields": [
+                  "customer_id",
+                  "historical_action_id",
+                  "observed_uplift",
+                  "retained_30d",
+                  "risk_score",
+                  "score_ts",
+                  "value_score"
+                ],
+                "note": ""
+              },
+              {
+                "name": "curated_records",
+                "path": "artifacts/UC-NBA-RET-001/20260425T193444Z/storage/curated/records.json",
+                "exists": true,
+                "row_count": 120,
+                "sample_fields": [
+                  "consent_status",
+                  "contacts_last_7d",
+                  "customer_id",
+                  "do_not_contact",
+                  "historical_action_id",
+                  "last_marketing_contact_hours",
+                  "no_critical_service_case",
+                  "observed_uplift",
+                  "profile_completeness",
+                  "retained_30d",
+                  "risk_score",
+                  "score_ts"
+                ],
+                "note": ""
+              },
+              {
+                "name": "curated_records_jsonl",
+                "path": "artifacts/UC-NBA-RET-001/20260425T193444Z/storage/curated/records.jsonl",
+                "exists": true,
+                "row_count": 120,
+                "sample_fields": [
+                  "consent_status",
+                  "contacts_last_7d",
+                  "customer_id",
+                  "do_not_contact",
+                  "historical_action_id",
+                  "last_marketing_contact_hours",
+                  "no_critical_service_case",
+                  "observed_uplift",
+                  "profile_completeness",
+                  "retained_30d",
+                  "risk_score",
+                  "score_ts"
+                ],
+                "note": ""
+              }
+            ]
+          },
+          {
+            "layer_id": "identity_customer_360",
+            "label": "Identity Resolution + Customer 360",
+            "status": "pass",
+            "detail": "Required artifacts found.",
+            "explanation": "Deterministic unified IDs and household keys for person-level use cases.",
+            "inputs": [
+              {
+                "name": "curated_rows",
+                "value": "120"
+              }
+            ],
+            "outputs": [
+              {
+                "name": "identity_map",
+                "path": "artifacts/UC-NBA-RET-001/20260425T193444Z/identity_360/identity_map.json",
+                "exists": true,
+                "row_count": 120,
+                "sample_fields": [
+                  "household_id",
+                  "match_confidence",
+                  "resolution_type",
+                  "source_customer_id",
+                  "unified_customer_id"
+                ],
+                "note": ""
+              },
+              {
+                "name": "resolved_records",
+                "path": "artifacts/UC-NBA-RET-001/20260425T193444Z/identity_360/resolved_records.json",
+                "exists": true,
+                "row_count": 120,
+                "sample_fields": [
+                  "consent_status",
+                  "contacts_last_7d",
+                  "customer_id",
+                  "do_not_contact",
+                  "historical_action_id",
+                  "household_id",
+                  "last_marketing_contact_hours",
+                  "no_critical_service_case",
+                  "observed_uplift",
+                  "profile_completeness",
+                  "retained_30d",
+                  "risk_score"
+                ],
+                "note": ""
+              }
+            ]
+          },
+          {
+            "layer_id": "feature_layer",
+            "label": "Feature Layer",
+            "status": "pass",
+            "detail": "Required artifacts found.",
+            "explanation": "Use-case-specific feature projections persisted as model-ready rows.",
+            "inputs": [
+              {
+                "name": "resolved_rows",
+                "value": "120"
+              }
+            ],
+            "outputs": [
+              {
+                "name": "feature_rows",
+                "path": "artifacts/UC-NBA-RET-001/20260425T193444Z/features/feature_rows.json",
+                "exists": true,
+                "row_count": 120,
+                "sample_fields": [
+                  "customer_id",
+                  "historical_action_id",
+                  "observed_uplift",
+                  "retained_30d",
+                  "risk_score",
+                  "score_ts",
+                  "value_score"
+                ],
+                "note": ""
+              }
+            ]
+          },
+          {
+            "layer_id": "model_layer",
+            "label": "Model Layer (MMM, Incrementality, Attribution, Experimentation)",
+            "status": "pass",
+            "detail": "Required artifacts found.",
+            "explanation": "Pluggable model registry validates outputs against contract fields.",
+            "inputs": [
+              {
+                "name": "feature_rows",
+                "value": "120"
+              },
+              {
+                "name": "output_contract_fields",
+                "value": "9"
+              }
+            ],
+            "outputs": [
+              {
+                "name": "model_predictions",
+                "path": "artifacts/UC-NBA-RET-001/20260425T193444Z/models/predictions.json",
+                "exists": true,
+                "row_count": 120,
+                "sample_fields": [
+                  "action_channel",
+                  "action_id",
+                  "confidence",
+                  "customer_id",
+                  "expected_uplift",
+                  "model_version",
+                  "policy_version",
+                  "reason_codes",
+                  "score_ts"
+                ],
+                "note": ""
+              },
+              {
+                "name": "model_metrics",
+                "path": null,
+                "exists": true,
+                "row_count": null,
+                "sample_fields": [
+                  "avg_confidence",
+                  "avg_expected_uplift",
+                  "holdout_ratio",
+                  "holdout_row_count",
+                  "holdout_rows",
+                  "holdout_signal_mean",
+                  "model_backend",
+                  "model_version",
+                  "model_versions",
+                  "observed_action_labels",
+                  "observed_uplift_labels",
+                  "primary_kpi",
+                  "signal_drift_abs",
+                  "split_validation",
+                  "supervision_mode",
+                  "tf_holdout_action_acc",
+                  "tf_holdout_loss",
+                  "tf_train_action_acc",
+                  "tf_train_loss",
+                  "train_row_count",
+                  "train_rows",
+                  "train_signal_mean"
+                ],
+                "note": "Metric keys reported by model layer."
+              }
+            ]
+          },
+          {
+            "layer_id": "serving_activation",
+            "label": "Serving + Activation",
+            "status": "pass",
+            "detail": "Required artifacts found.",
+            "explanation": "Use-case payload adapters map model rows into destination contracts.",
+            "inputs": [
+              {
+                "name": "model_rows",
+                "value": "120"
+              }
+            ],
+            "outputs": [
+              {
+                "name": "activation_payloads",
+                "path": "artifacts/UC-NBA-RET-001/20260425T193444Z/serving_activation/activation_payloads.json",
+                "exists": true,
+                "row_count": 120,
+                "sample_fields": [
+                  "action_channel",
+                  "action_id",
+                  "customer_id",
+                  "destination",
+                  "priority",
+                  "reason_code"
+                ],
+                "note": ""
+              }
+            ]
+          },
+          {
+            "layer_id": "monitoring_governance",
+            "label": "Monitoring + Governance",
+            "status": "pass",
+            "detail": "Required artifacts found.",
+            "explanation": "Contract coverage checks, gate results, and run-status reporting.",
+            "inputs": [
+              {
+                "name": "model_metrics",
+                "value": "22"
+              }
+            ],
+            "outputs": [
+              {
+                "name": "monitoring_report",
+                "path": "artifacts/UC-NBA-RET-001/20260425T193444Z/monitoring_governance/report.json",
+                "exists": true,
+                "row_count": null,
+                "sample_fields": [
+                  "alert_channels",
+                  "data_quality",
+                  "deployment_readiness",
+                  "model_metrics",
+                  "model_validation",
+                  "primary_kpi",
+                  "required_field_coverage",
+                  "rows_scored",
+                  "run_status",
+                  "scientific_governance",
+                  "use_case_id",
+                  "validation_gates"
+                ],
+                "note": "Object artifact"
+              }
+            ]
+          }
+        ],
+        "oss_runtime": {
+          "status": "fallback_local",
+          "compose_file": "infra/docker-compose.oss.yml",
+          "kafka_topics_published": 0,
+          "kafka_messages_consumed": 0,
+          "postgres_rows_loaded": 0,
+          "minio_objects_uploaded": 0,
+          "warnings": [
+            "OSS profile services not running: ['kafka', 'mc', 'minio', 'postgres']. Using local fallback."
+          ]
+        },
+        "oss_mirror": null
+      }
+    }
+  ]
+}

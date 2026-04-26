@@ -1,0 +1,62 @@
+use_case_id: "UC-MMM-PLN-003"
+name: "Media Mix Modeling and Budget Optimization"
+primary_kpi: "portfolio_incremental_revenue_at_fixed_budget"
+baseline: 1.00
+target: 1.15
+entities:
+  - channel_spend
+  - campaign
+  - conversion
+  - revenue
+  - seasonality
+  - macro_factors
+features:
+  - weekly_spend_by_channel
+  - impressions_by_channel
+  - clicks_by_channel
+  - promotions_index
+  - holiday_flag
+  - macro_index
+output_contract:
+  type: "forecast_and_optimization"
+  fields:
+    - period
+    - channel
+    - base_contribution
+    - incremental_contribution
+    - response_curve_params
+    - saturation_point
+    - recommended_spend
+    - expected_incremental_revenue
+    - uncertainty_interval
+    - model_version
+  sla_latency_ms: 5000
+  refresh: "monthly_full_refresh_with_weekly_diagnostics"
+decision_policy:
+  eligibility_rules:
+    - "channel_history_weeks >= 52"
+    - "tracking_stability_score >= 0.9"
+  suppression_rules:
+    - "tracking_anomaly_open == true"
+  fallback: "previous_approved_budget_plan"
+experiment:
+  unit: "campaign_group_or_geo_cluster"
+  split: "50_model_informed_50_baseline"
+  duration_days: 70
+  mde: 0.08
+  success_rule: "observed_lift_within_expected_interval and guardrails_ok"
+governance:
+  validation_gates:
+    - "rolling_backtest_pass"
+    - "mape_threshold_pass"
+    - "coefficient_sanity_pass"
+    - "reproducibility_pass"
+  approval_required: true
+monitoring:
+  drift_thresholds:
+    spend_mix_shift_alert: 0.15
+    forecast_error_alert: 0.20
+  alert_channels:
+    - "slack-marketing-science"
+    - "pagerduty-analytics-ops"
+

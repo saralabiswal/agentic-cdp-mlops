@@ -1,0 +1,13 @@
+mode: latest_artifacts
+execution:
+  use_case_id: null
+  infra_profile: local
+  seed: 101
+  runtime_mode: default
+  scenario_id: null
+  failure_injection: []
+  output_dir: artifacts
+  oss_compose_file: infra/docker-compose.oss.yml
+  strict_model_backends: false
+  source_data_root: null
+  require_real_data: false

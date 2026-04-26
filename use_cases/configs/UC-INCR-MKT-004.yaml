@@ -1,0 +1,64 @@
+use_case_id: "UC-INCR-MKT-004"
+name: "Campaign Incrementality Measurement"
+primary_kpi: "incremental_conversions_per_campaign"
+baseline: null
+target: null
+entities:
+  - exposure
+  - assignment
+  - conversion
+  - order
+  - campaign_metadata
+  - suppression_log
+features:
+  - assignment_group
+  - exposure_recency
+  - conversion_lag
+  - campaign_channel
+  - creative_type
+  - audience_tier
+output_contract:
+  type: "causal_attribution_and_recommendation"
+  fields:
+    - campaign_id
+    - test_window
+    - incremental_lift
+    - ci_low
+    - ci_high
+    - p_value
+    - iROAS
+    - decision_recommendation
+    - analysis_version
+  sla_latency_ms: 2000
+  refresh: "weekly_interim_plus_final_readout"
+decision_policy:
+  eligibility_rules:
+    - "minimum_sample_size_reached == true"
+    - "randomization_integrity_pass == true"
+    - "power_estimate >= 0.8"
+  suppression_rules:
+    - "sample_ratio_mismatch_detected == true"
+    - "exposure_logging_gap_detected == true"
+  fallback: "hold_current_budget_and_request_retest"
+experiment:
+  unit: "customer_id_or_geo_cluster_id"
+  split: "80_treatment_20_control"
+  duration_days: 42
+  mde: 0.05
+  success_rule: "incremental_lift_ci_low > 0 and guardrails_ok"
+governance:
+  validation_gates:
+    - "randomization_integrity_pass"
+    - "pre_period_balance_pass"
+    - "srm_check_pass"
+    - "placebo_test_pass"
+    - "analysis_contract_tests_pass"
+  approval_required: true
+monitoring:
+  drift_thresholds:
+    traffic_mix_shift_alert: 0.15
+    power_shortfall_alert: 0.80
+  alert_channels:
+    - "slack-experimentation-ops"
+    - "pagerduty-causal-science"
+

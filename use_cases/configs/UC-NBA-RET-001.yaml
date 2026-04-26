@@ -1,0 +1,64 @@
+use_case_id: "UC-NBA-RET-001"
+name: "Next Best Action for Retention"
+primary_kpi: "30_day_incremental_retention_lift"
+baseline: 0.68
+target: 0.705
+entities:
+  - customer
+  - event
+  - campaign
+  - transaction
+  - consent
+features:
+  - recency_days
+  - frequency_30d
+  - monetary_90d
+  - tenure_days
+  - email_engagement_30d
+  - push_engagement_30d
+  - last_offer_response
+output_contract:
+  type: "recommendation"
+  fields:
+    - customer_id
+    - action_id
+    - action_channel
+    - expected_uplift
+    - confidence
+    - reason_codes
+    - score_ts
+    - model_version
+    - policy_version
+  sla_latency_ms: 200
+  refresh: "daily_batch_plus_event_triggered"
+decision_policy:
+  eligibility_rules:
+    - "consent_status == true"
+    - "profile_completeness >= 0.8"
+    - "no_critical_service_case == true"
+  suppression_rules:
+    - "last_marketing_contact_hours < 72"
+    - "contacts_last_7d > 4"
+    - "do_not_contact == true"
+  fallback: "rule_based_recommendation_v1"
+experiment:
+  unit: "customer_id"
+  split: "80_treatment_20_control"
+  duration_days: 42
+  mde: 0.015
+  success_rule: "lift_ci_low > 0 and guardrails_ok"
+governance:
+  validation_gates:
+    - "uplift_validation_pass"
+    - "calibration_pass"
+    - "policy_compliance_pass"
+    - "contract_tests_pass"
+  approval_required: true
+monitoring:
+  drift_thresholds:
+    psi_feature_major: 0.20
+    uplift_decay_alert: 0.005
+  alert_channels:
+    - "slack-marketing-mlops"
+    - "pagerduty-mlops"
+

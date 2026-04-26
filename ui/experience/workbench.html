@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Model Decision Workbench</title>
+    <link rel="stylesheet" href="workbench.css" />
+  </head>
+  <body>
+    <main class="wb-shell">
+      <nav class="wb-top-nav" aria-label="Workbench navigation">
+        <a href="business-home.html" title="Start with the AI model portfolio and recommended decision sequence.">AI Decision Portfolio</a>
+        <a href="business-exec-summary.html" title="Review portfolio-level AI impact, model health, and readiness.">AI Impact Summary</a>
+        <a href="workbench.html" class="is-active" title="Inspect model recommendations, impact forecasts, and evidence for each flow.">Model Decision Workbench</a>
+        <a href="index.html" title="Open the AI/ML runtime architecture, lineage, and model evidence presentation.">AI/ML Platform Architecture</a>
+      </nav>
+
+      <section class="wb-hero">
+        <p class="wb-eyebrow">Retail + Loyalty Subscription</p>
+        <h1>Model Decision Workbench</h1>
+        <p>
+          Inspect how AI/ML models convert governed inputs into recommendations, impact forecasts,
+          decision evidence, and activation-ready outputs.
+        </p>
+      </section>
+
+      <section class="wb-layout" aria-label="Decision workbench layout">
+        <aside class="wb-left-rail">
+          <div class="wb-rail-block">
+            <p class="wb-rail-label">AI Model</p>
+            <div class="wb-chip-list" role="group" aria-label="AI model selector">
+              <button class="wb-chip is-active" type="button" data-scenario="nba">TensorFlow NBA</button>
+              <button class="wb-chip" type="button" data-scenario="churn">TensorFlow Churn</button>
+              <button class="wb-chip" type="button" data-scenario="mmm">Bayesian MMM</button>
+              <button class="wb-chip" type="button" data-scenario="incrementality">Causal Lift</button>
+            </div>
+          </div>
+
+          <div class="wb-rail-block">
+            <p class="wb-rail-label">Evidence View</p>
+            <div class="wb-chip-list" role="group" aria-label="Evidence view selector">
+              <button class="wb-chip is-active" type="button" data-persona="business">Decision View</button>
+              <button class="wb-chip" type="button" data-persona="technical">Model Evidence</button>
+            </div>
+          </div>
+
+          <div class="wb-rail-block">
+            <p class="wb-rail-label">Step</p>
+            <div class="wb-step-list" role="tablist" aria-label="Step selector">
+              <button class="wb-step-btn is-active" type="button" data-step-index="0">1. Model Inputs</button>
+              <button class="wb-step-btn" type="button" data-step-index="1">2. Recommendation</button>
+              <button class="wb-step-btn" type="button" data-step-index="2">3. Impact Forecast</button>
+              <button class="wb-step-btn" type="button" data-step-index="3">4. Decision Evidence</button>
+            </div>
+          </div>
+
+        </aside>
+
+        <section class="wb-center-panel">
+          <div class="wb-panel-header">
+            <div>
+              <p id="wb-mode-kicker" class="wb-mode-kicker">Decision View</p>
+              <h2 id="wb-page-title">TensorFlow Next Best Action Model</h2>
+            </div>
+            <div class="wb-header-actions">
+              <button id="wb-refresh" class="wb-btn wb-btn-secondary" type="button">Refresh Model Evidence</button>
+            </div>
+          </div>
+
+          <p id="wb-live-status" class="wb-live-status">Loading model evidence...</p>
+
+          <div class="wb-progress-track" aria-hidden="true">
+            <div id="wb-progress-fill" class="wb-progress-fill"></div>
+          </div>
+
+          <div class="wb-step-header-row">
+            <h3 id="wb-step-title">Step 1</h3>
+            <p id="wb-step-subtitle" class="wb-step-subtitle">Loading step narrative...</p>
+          </div>
+
+          <article id="wb-content" class="wb-content-card">
+            <p>Loading live scenario content...</p>
+          </article>
+
+          <div class="wb-step-actions" role="group" aria-label="Step navigation">
+            <button id="wb-prev-step" class="wb-btn wb-btn-secondary" type="button">Previous Step</button>
+            <button id="wb-next-step" class="wb-btn wb-btn-primary" type="button">Next Step</button>
+          </div>
+        </section>
+
+        <aside class="wb-right-panel">
+          <article class="wb-side-card">
+            <h3>Model Run Snapshot</h3>
+            <p class="wb-side-item"><span>Run ID</span><strong id="wb-run-id">n/a</strong></p>
+            <p class="wb-side-item"><span>Status</span><strong id="wb-run-status">n/a</strong></p>
+            <p class="wb-side-item"><span>Stage Pass</span><strong id="wb-pass-rate">n/a</strong></p>
+            <p class="wb-side-item"><span>Runtime</span><strong id="wb-runtime">n/a</strong></p>
+          </article>
+
+          <article id="wb-tech-card" class="wb-side-card" hidden>
+            <h3>Model Evidence Snapshot</h3>
+            <p class="wb-side-item"><span>Components</span><strong id="wb-tech-components">n/a</strong></p>
+            <p class="wb-side-item"><span>Artifacts</span><strong id="wb-tech-artifacts">n/a</strong></p>
+            <p class="wb-side-item"><span>Data Quality</span><strong id="wb-tech-dq">n/a</strong></p>
+            <p class="wb-side-item"><span>Model Backend</span><strong id="wb-tech-backend">n/a</strong></p>
+          </article>
+
+          <article class="wb-side-card">
+            <h3>Quick Actions</h3>
+            <div class="wb-quick-links">
+              <a id="wb-open-storyboard" href="workbench.html?scenario=nba&persona=business&step=1">Open Model Workflow</a>
+              <a href="business-exec-summary.html">Open AI Impact Summary</a>
+            </div>
+          </article>
+        </aside>
+      </section>
+    </main>
+
+    <script src="workbench.js"></script>
+  </body>
+</html>

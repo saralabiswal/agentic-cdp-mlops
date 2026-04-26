@@ -1,0 +1,13 @@
+# Optional advanced modeling stack (production-grade path)
+# Install on top of `requirements.txt` when enabling advanced backends.
+
+tensorflow>=2.15,<3.0
+# PyMC-Marketing 0.9+ is not available for older Python runtimes (for example 3.9).
+# Keep a compatible branch so `make install-ml` works across local dev environments.
+pymc-marketing>=0.4.2,<0.5; python_version < "3.10"
+pymc-marketing>=0.9.0; python_version >= "3.10"
+econml>=0.15.0
+dowhy>=0.12.0
+pandas>=2.0.0
+numpy>=1.26.0
+scikit-learn>=1.4.0

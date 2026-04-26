@@ -1,0 +1,29 @@
+use_case_id: ""
+name: ""
+primary_kpi: ""
+baseline: null
+target: null
+entities: []
+features: []
+output_contract:
+  type: ""
+  fields: []
+  sla_latency_ms: 0
+  refresh: ""
+decision_policy:
+  eligibility_rules: []
+  suppression_rules: []
+  fallback: ""
+experiment:
+  unit: ""
+  split: ""
+  duration_days: 0
+  mde: 0.0
+  success_rule: ""
+governance:
+  validation_gates: []
+  approval_required: true
+monitoring:
+  drift_thresholds: {}
+  alert_channels: []
+

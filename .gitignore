@@ -1,0 +1,41 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Virtual environments
+.venv/
+.venv*/
+venv/
+env/
+
+# Local configuration and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.crt
+
+# Runtime outputs
+artifacts/
+artifacts_*/
+*.log
+
+# OS/editor files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Frontend/tooling caches
+node_modules/
+.next/
+dist/
+build/

@@ -1,0 +1,228 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://cdp.local/ui/view_model.schema.json",
+  "title": "Customer Data Platform UI View Model",
+  "description": "Stable contract consumed by the UI for business and technical personas.",
+  "type": "object",
+  "required": ["meta", "platform_flow", "portfolio_snapshot", "use_cases"],
+  "properties": {
+    "meta": {
+      "type": "object",
+      "required": ["schema_version", "config_root", "artifacts_root"],
+      "properties": {
+        "schema_version": {"type": "string"},
+        "config_root": {"type": "string"},
+        "artifacts_root": {"type": "string"},
+        "runtime": {"type": "object"}
+      },
+      "additionalProperties": true
+    },
+    "platform_flow": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "order",
+          "layer_id",
+          "label",
+          "upstream",
+          "downstream",
+          "business_summary",
+          "technical_summary",
+          "components"
+        ],
+        "properties": {
+          "order": {"type": "integer", "minimum": 1},
+          "layer_id": {"type": "string"},
+          "label": {"type": "string"},
+          "upstream": {"type": "array", "items": {"type": "string"}},
+          "downstream": {"type": "array", "items": {"type": "string"}},
+          "business_summary": {"type": "string"},
+          "technical_summary": {"type": "string"},
+          "components": {
+            "type": "object",
+            "required": ["current", "oss_profile", "scalable_swap_ins"],
+            "properties": {
+              "current": {"type": "array", "items": {"type": "string"}},
+              "oss_profile": {"type": "array", "items": {"type": "string"}},
+              "scalable_swap_ins": {"type": "array", "items": {"type": "string"}}
+            },
+            "additionalProperties": true
+          }
+        },
+        "additionalProperties": true
+      }
+    },
+    "portfolio_snapshot": {
+      "type": "object",
+      "required": ["use_cases_total", "use_cases_with_runs", "latest_runs_pass", "latest_runs_fail"],
+      "properties": {
+        "use_cases_total": {"type": "integer", "minimum": 0},
+        "use_cases_with_runs": {"type": "integer", "minimum": 0},
+        "latest_runs_pass": {"type": "integer", "minimum": 0},
+        "latest_runs_fail": {"type": "integer", "minimum": 0},
+        "total_latest_curated_rows": {"type": "integer", "minimum": 0}
+      },
+      "additionalProperties": true
+    },
+    "use_cases": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "use_case_id",
+          "name",
+          "primary_kpi",
+          "business_problem",
+          "business_outcome",
+          "contract",
+          "latest_run"
+        ],
+        "properties": {
+          "use_case_id": {"type": "string"},
+          "name": {"type": "string"},
+          "primary_kpi": {"type": "string"},
+          "business_problem": {"type": "string"},
+          "business_outcome": {"type": "string"},
+          "contract": {
+            "type": "object",
+            "required": [
+              "baseline",
+              "target",
+              "entities",
+              "features",
+              "output_type",
+              "output_fields",
+              "sla_latency_ms",
+              "refresh",
+              "decision_policy",
+              "experiment",
+              "governance",
+              "monitoring"
+            ],
+            "properties": {
+              "baseline": {"type": ["number", "null"]},
+              "target": {"type": ["number", "null"]},
+              "entities": {"type": "array", "items": {"type": "string"}},
+              "features": {"type": "array", "items": {"type": "string"}},
+              "output_type": {"type": "string"},
+              "output_fields": {"type": "array", "items": {"type": "string"}},
+              "sla_latency_ms": {"type": "integer", "minimum": 0},
+              "refresh": {"type": "string"},
+              "decision_policy": {"type": "object"},
+              "experiment": {"type": "object"},
+              "governance": {"type": "object"},
+              "monitoring": {"type": "object"}
+            },
+            "additionalProperties": true
+          },
+          "latest_run": {
+            "oneOf": [
+              {"type": "null"},
+              {
+                "type": "object",
+                "required": [
+                  "run_id",
+                  "run_status",
+                  "infra_profile",
+                  "seed",
+                  "records",
+                  "model_metrics",
+                  "artifacts",
+                  "stage_health"
+                ],
+                "properties": {
+                  "run_id": {"type": "string"},
+                  "run_status": {"type": "string"},
+                  "infra_profile": {"type": "string"},
+                  "seed": {"type": "integer"},
+                  "records": {"type": "object"},
+                  "model_metrics": {"type": "object"},
+                  "monitoring_report": {"type": ["object", "null"]},
+                  "artifacts": {"type": "object"},
+                  "artifact_file_checks": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "required": ["label", "path", "exists"],
+                      "properties": {
+                        "label": {"type": "string"},
+                        "path": {"type": "string"},
+                        "exists": {"type": "boolean"}
+                      },
+                      "additionalProperties": true
+                    }
+                  },
+                  "guided_steps": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "required": ["layer_id", "label", "status", "explanation", "inputs", "outputs"],
+                      "properties": {
+                        "layer_id": {"type": "string"},
+                        "label": {"type": "string"},
+                        "status": {"type": "string"},
+                        "detail": {"type": "string"},
+                        "explanation": {"type": "string"},
+                        "inputs": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "required": ["name", "value"],
+                            "properties": {
+                              "name": {"type": "string"},
+                              "value": {"type": "string"}
+                            },
+                            "additionalProperties": true
+                          }
+                        },
+                        "outputs": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "required": ["name", "exists"],
+                            "properties": {
+                              "name": {"type": "string"},
+                              "path": {"type": ["string", "null"]},
+                              "exists": {"type": "boolean"},
+                              "row_count": {"type": ["integer", "null"]},
+                              "sample_fields": {"type": "array", "items": {"type": "string"}},
+                              "note": {"type": "string"}
+                            },
+                            "additionalProperties": true
+                          }
+                        }
+                      },
+                      "additionalProperties": true
+                    }
+                  },
+                  "stage_health": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "required": ["layer_id", "label", "status"],
+                      "properties": {
+                        "layer_id": {"type": "string"},
+                        "label": {"type": "string"},
+                        "status": {"type": "string"},
+                        "detail": {"type": "string"}
+                      },
+                      "additionalProperties": true
+                    }
+                  },
+                  "oss_runtime": {"type": ["object", "null"]},
+                  "oss_mirror": {"type": ["object", "null"]}
+                },
+                "additionalProperties": true
+              }
+            ]
+          }
+        },
+        "additionalProperties": true
+      }
+    }
+  },
+  "additionalProperties": true
+}

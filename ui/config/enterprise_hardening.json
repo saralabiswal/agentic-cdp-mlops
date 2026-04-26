@@ -1,0 +1,62 @@
+{
+  "profiles": {
+    "standalone": {
+      "modules": {
+        "mlflow": false,
+        "data_quality_artifacts": true,
+        "monitoring_artifacts": true,
+        "prometheus_metrics": true,
+        "feast": false,
+        "splink": false,
+        "airflow": false,
+        "keycloak": false
+      }
+    },
+    "product_like": {
+      "modules": {
+        "mlflow": true,
+        "data_quality_artifacts": true,
+        "monitoring_artifacts": true,
+        "prometheus_metrics": true,
+        "feast": true,
+        "splink": true,
+        "airflow": true,
+        "keycloak": true
+      }
+    }
+  },
+  "modules": {
+    "mlflow": {
+      "enabled": false,
+      "notes": "Enable when experiment tracking and registry lineage are required."
+    },
+    "data_quality_artifacts": {
+      "enabled": true,
+      "notes": "Built-in Great Expectations-compatible validation export generated from current DQ gates."
+    },
+    "monitoring_artifacts": {
+      "enabled": true,
+      "notes": "Built-in Evidently-compatible monitoring summary generated from current model/governance checks."
+    },
+    "prometheus_metrics": {
+      "enabled": true,
+      "notes": "Built-in Prometheus text endpoint at /metrics."
+    },
+    "feast": {
+      "enabled": false,
+      "notes": "Enable for product-like feature serving integration."
+    },
+    "splink": {
+      "enabled": false,
+      "notes": "Enable for probabilistic identity matching in product-like profile."
+    },
+    "airflow": {
+      "enabled": false,
+      "notes": "Enable when scheduled DAG orchestration is needed."
+    },
+    "keycloak": {
+      "enabled": false,
+      "notes": "Enable for OIDC and multi-user RBAC flows."
+    }
+  }
+}
