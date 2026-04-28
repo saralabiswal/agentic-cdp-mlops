@@ -313,3 +313,2286 @@ body {
     grid-template-columns: 1fr;
   }
 }
+
+/* Redwood presentation layer inspired by the renewal copilot: warm enterprise neutrals,
+   redwood red actions, and denser evidence surfaces. */
+:root {
+  --redwood-bg: #f7f5f1;
+  --redwood-bg-raised: #fbfaf7;
+  --redwood-surface: #fffefa;
+  --redwood-surface-subtle: #f1eee8;
+  --redwood-border: #ddd7cd;
+  --redwood-border-strong: #cfc5b8;
+  --redwood-ink: #211f1d;
+  --redwood-muted: #625c55;
+  --redwood-muted-2: #82786d;
+  --redwood-red: #c74634;
+  --redwood-red-dark: #9f3327;
+  --redwood-red-soft: #f8e9e5;
+  --redwood-blue: #315f72;
+  --redwood-blue-soft: #e7eff2;
+  --redwood-green: #2f6f4e;
+  --redwood-green-soft: #e8f2eb;
+  --redwood-amber: #8b6220;
+  --redwood-amber-soft: #fbf0dc;
+  --redwood-danger: #9e2f25;
+  --redwood-danger-soft: #fae8e5;
+
+  --ink-900: var(--redwood-ink);
+  --ink-700: var(--redwood-muted);
+  --ink-500: var(--redwood-muted-2);
+  --mist-120: #e8e2d8;
+  --mist-80: #f3f0ea;
+  --mist-40: var(--redwood-bg-raised);
+  --surface: var(--redwood-surface);
+  --border-soft: var(--redwood-border);
+  --sky-600: var(--redwood-blue);
+  --sea-600: var(--redwood-green);
+  --amber-600: var(--redwood-amber);
+  --rose-600: var(--redwood-red);
+
+  --bg-deep: #2a2520;
+  --bg-mid: #4d332b;
+  --bg-soft: var(--redwood-bg);
+  --card: var(--redwood-surface);
+  --ink-strong: var(--redwood-ink);
+  --ink-muted: var(--redwood-muted);
+  --accent: var(--redwood-red);
+  --accent-2: #b8753d;
+  --pass: var(--redwood-green);
+  --fail: var(--redwood-danger);
+  --warn: var(--redwood-amber);
+  --unknown: var(--redwood-muted-2);
+  --border: var(--redwood-border);
+  --shadow: 0 1px 2px rgba(33, 31, 29, 0.05);
+
+  --wb-bg-1: var(--redwood-bg);
+  --wb-bg-2: var(--redwood-surface);
+  --wb-ink-900: var(--redwood-ink);
+  --wb-ink-700: var(--redwood-muted);
+  --wb-ink-500: var(--redwood-muted-2);
+  --wb-border: var(--redwood-border);
+  --wb-surface: var(--redwood-surface);
+  --wb-brand: var(--redwood-red);
+  --wb-brand-2: var(--redwood-red);
+  --wb-brand-soft: var(--redwood-red-soft);
+  --wb-good: var(--redwood-green);
+  --wb-warn: var(--redwood-amber);
+  --wb-bad: var(--redwood-danger);
+  --wb-shadow: 0 1px 2px rgba(33, 31, 29, 0.05);
+}
+
+body {
+  background: linear-gradient(180deg, #fbfaf7 0%, var(--redwood-bg) 42%, #f2eee7 100%);
+  color: var(--redwood-ink);
+}
+
+.shell,
+.app-shell {
+  max-width: 1360px;
+}
+
+.top-nav,
+.wb-theme-top-nav {
+  margin-bottom: 12px;
+}
+
+.top-nav a,
+.wb-theme-top-nav a {
+  border-color: var(--redwood-border);
+  background: rgba(255, 254, 250, 0.92);
+  color: var(--redwood-muted);
+  box-shadow: 0 1px 1px rgba(33, 31, 29, 0.025);
+}
+
+.top-nav a:hover,
+.wb-theme-top-nav a:hover {
+  border-color: var(--redwood-border-strong);
+  background: var(--redwood-surface-subtle);
+  color: var(--redwood-ink);
+}
+
+.top-nav a.is-active,
+.wb-theme-top-nav a.is-active {
+  background: var(--redwood-red);
+  border-color: var(--redwood-red-dark);
+  color: #fffefa;
+}
+
+.hero {
+  border: 1px solid var(--redwood-border);
+  background:
+    linear-gradient(90deg, rgba(199, 70, 52, 0.12) 0 8px, transparent 8px),
+    linear-gradient(180deg, #fffefa 0%, #f6f2ec 100%);
+  color: var(--redwood-ink);
+  box-shadow: 0 10px 26px rgba(33, 31, 29, 0.08);
+  padding: 18px 20px;
+}
+
+.hero h1 {
+  color: var(--redwood-ink);
+  font-size: clamp(26px, 3.2vw, 38px);
+  letter-spacing: 0;
+}
+
+.hero p,
+.subtitle {
+  color: var(--redwood-muted);
+}
+
+.eyebrow,
+.label,
+.metric-label,
+.flow-card-mode,
+.history-run,
+.svg-eyebrow {
+  color: var(--redwood-red-dark);
+}
+
+.flow-strip {
+  grid-template-columns: repeat(3, minmax(180px, 1fr));
+}
+
+.flow-pill {
+  border-color: var(--redwood-border);
+  background: var(--redwood-bg-raised);
+  color: var(--redwood-ink);
+}
+
+.card,
+.flow-card,
+.exec-portfolio-card,
+.exec-card,
+.support-panel,
+.presentation-path,
+.technical-proof-strip article,
+.presentation-steps,
+.backend-support-card,
+.architecture-stage-card,
+.architecture-stage-intro,
+.guided-step,
+.tile,
+.layer-card,
+.row-item,
+.history-card,
+.decision-panel,
+.stage,
+.stage-metric,
+.signal-list li,
+.impact-row {
+  border-color: var(--redwood-border);
+  background: var(--redwood-surface);
+  box-shadow: 0 1px 2px rgba(33, 31, 29, 0.045);
+}
+
+.support-panel,
+.presentation-path,
+.presentation-lede,
+.decision-panel,
+.stage-metric,
+.signal-list li,
+.impact-row {
+  background: var(--redwood-bg-raised);
+}
+
+.presentation-steps {
+  top: 14px;
+  gap: 7px;
+  background: rgba(255, 254, 250, 0.96);
+}
+
+.presentation-steps a {
+  border-color: var(--redwood-border);
+  background: var(--redwood-bg-raised);
+  color: var(--redwood-muted);
+}
+
+.presentation-steps a:hover,
+.presentation-steps a.is-active {
+  border-color: #d9a79d;
+  background: var(--redwood-red-soft);
+  color: var(--redwood-red-dark);
+}
+
+.presentation-steps a.is-active {
+  box-shadow: inset 3px 0 0 var(--redwood-red);
+}
+
+.presentation-steps strong,
+.technical-proof-strip span,
+.flow-card h2,
+.stage h2,
+.story-title,
+.presentation-path h3,
+.exec-portfolio-card h2,
+.exec-card h2,
+.section-head h2,
+.presentation-lede h2,
+.metric-value,
+.svg-title,
+.svg-node-title,
+.svg-support-title,
+.svg-stage-number {
+  color: var(--redwood-ink);
+}
+
+.section-head p,
+.small,
+.small-inline,
+.flow-card p,
+.flow-card ul,
+.support-panel p,
+.presentation-path ol,
+.exec-decision,
+.exec-context,
+.exec-health,
+.exec-meta,
+.metric-sub,
+.decision-panel p,
+.signal-list li,
+.svg-node-copy,
+.svg-support-copy,
+.svg-stage-copy,
+figcaption {
+  color: var(--redwood-muted);
+}
+
+.btn-primary,
+.flow-card a,
+.support-link,
+.presentation-path a,
+.exec-link,
+.action-btn:not(.alt),
+.journey-next {
+  background: linear-gradient(180deg, #cf5a49 0%, var(--redwood-red) 100%);
+  border-color: var(--redwood-red-dark);
+  color: #fffefa;
+  box-shadow: 0 8px 18px rgba(159, 51, 39, 0.14);
+}
+
+.btn-primary:hover,
+.flow-card a:hover,
+.support-link:hover,
+.presentation-path a:hover,
+.exec-link:hover,
+.action-btn:not(.alt):hover,
+.journey-next:hover {
+  background: linear-gradient(180deg, var(--redwood-red) 0%, var(--redwood-red-dark) 100%);
+}
+
+.btn-secondary,
+.action-btn.alt,
+.journey-back,
+.mode-btn,
+.support-link:nth-child(2) {
+  border-color: var(--redwood-border);
+  background: var(--redwood-surface-subtle);
+  color: var(--redwood-ink);
+}
+
+.mode-toggle {
+  border-color: var(--redwood-border);
+  background: var(--redwood-surface-subtle);
+}
+
+.mode-btn.is-active {
+  background: var(--redwood-red-soft);
+  color: var(--redwood-red-dark);
+}
+
+.flow-card-mode,
+.status.pass,
+.tag-good {
+  border-color: #bcd8c6;
+  background: var(--redwood-green-soft);
+  color: var(--redwood-green);
+}
+
+.flow-card-mode.is-pending,
+.status.warn,
+.tag-watch {
+  border-color: #e2c58d;
+  background: var(--redwood-amber-soft);
+  color: var(--redwood-amber);
+}
+
+.status.fail,
+.tag-risk {
+  border-color: #e0aaa2;
+  background: var(--redwood-danger-soft);
+  color: var(--redwood-danger);
+}
+
+.status.unknown {
+  border-color: var(--redwood-border);
+  background: var(--redwood-surface-subtle);
+  color: var(--redwood-muted);
+}
+
+.rank-1,
+.fill-revenue,
+.fill-retention,
+.fill-margin,
+.fill-risk {
+  background: linear-gradient(90deg, var(--redwood-red) 0%, #d18b5b 100%);
+}
+
+.rank-2 {
+  background: var(--redwood-blue);
+}
+
+.rank-3 {
+  background: var(--redwood-amber);
+}
+
+.recommendation-table th,
+.table th,
+.data-table th {
+  background: #ede8df;
+  color: var(--redwood-muted);
+  border-color: var(--redwood-border);
+}
+
+.recommendation-table td,
+.table td,
+.data-table td {
+  border-color: #ebe6dc;
+  color: var(--redwood-ink);
+}
+
+#use-case-select,
+#run-seed,
+#run-runtime-mode,
+#run-scenario-id,
+#run-history-limit,
+#run-history-status,
+#run-history-infra,
+#run-history-baseline,
+.history-filters select,
+.history-filters input[type="text"] {
+  border-color: var(--redwood-border);
+  background: var(--redwood-surface);
+  color: var(--redwood-ink);
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--redwood-red);
+  outline-offset: 2px;
+}
+
+@media (max-width: 720px) {
+  .flow-strip {
+    grid-template-columns: 1fr;
+  }
+
+  .flow-pill {
+    min-width: 0;
+    white-space: normal;
+  }
+}
+
+/* Renewal-copilot shell treatment: fixed left rail plus top context bar. */
+@media (min-width: 981px) {
+  body {
+    min-height: 100vh;
+  }
+
+  .shell,
+  .app-shell {
+    max-width: none;
+    margin: 0 0 0 260px;
+    padding: 88px 24px 34px;
+  }
+
+  .shell::before,
+  .app-shell::before {
+    content: "Customer Data AI Workbench";
+    position: fixed;
+    z-index: 9;
+    top: 0;
+    right: 0;
+    left: 260px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid var(--redwood-border);
+    background: rgba(255, 254, 250, 0.96);
+    color: var(--redwood-ink);
+    font-size: 15px;
+    font-weight: 800;
+    padding: 0 24px;
+    box-shadow: 0 1px 0 rgba(33, 31, 29, 0.03);
+  }
+
+  .top-nav,
+  .wb-theme-top-nav {
+    position: fixed;
+    z-index: 10;
+    inset: 0 auto 0 0;
+    width: 260px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    gap: 10px;
+    margin: 0;
+    padding: 24px 16px;
+    border-right: 1px solid var(--redwood-border);
+    background: rgba(255, 254, 250, 0.98);
+    box-shadow: 1px 0 0 rgba(33, 31, 29, 0.02);
+  }
+
+  .top-nav::before,
+  .wb-theme-top-nav::before {
+    content: "Customer Data AI Workbench";
+    order: 0;
+    display: block;
+    margin-bottom: 2px;
+    color: var(--redwood-ink);
+    font-size: 18px;
+    font-weight: 800;
+    line-height: 1.18;
+  }
+
+  .top-nav::after,
+  .wb-theme-top-nav::after {
+    content: "Portfolio, model evidence, and runtime architecture";
+    order: 1;
+    display: block;
+    margin: 0 0 14px;
+    color: var(--redwood-muted);
+    font-size: 12px;
+    line-height: 1.4;
+  }
+
+  .top-nav a,
+  .wb-theme-top-nav a {
+    order: 2;
+    display: grid;
+    gap: 4px;
+    min-height: 52px;
+    align-content: center;
+    border-radius: 10px;
+    padding: 10px 12px;
+    white-space: normal;
+  }
+
+  .top-nav a::before,
+  .wb-theme-top-nav a::before {
+    display: inline-flex;
+    width: fit-content;
+    border: 1px solid var(--redwood-border);
+    border-radius: 999px;
+    background: var(--redwood-bg-raised);
+    color: var(--redwood-muted);
+    font-size: 11px;
+    font-weight: 800;
+    line-height: 1;
+    padding: 4px 7px;
+  }
+
+  .top-nav a:nth-of-type(1)::before,
+  .wb-theme-top-nav a:nth-of-type(1)::before {
+    content: "Step 1";
+  }
+
+  .top-nav a:nth-of-type(2)::before,
+  .wb-theme-top-nav a:nth-of-type(2)::before {
+    content: "Step 2";
+  }
+
+  .top-nav a:nth-of-type(3)::before,
+  .wb-theme-top-nav a:nth-of-type(3)::before {
+    content: "Step 3";
+  }
+
+  .top-nav a:nth-of-type(4)::before,
+  .wb-theme-top-nav a:nth-of-type(4)::before {
+    content: "Step 4";
+  }
+
+  .top-nav a:nth-of-type(5)::before,
+  .wb-theme-top-nav a:nth-of-type(5)::before {
+    content: "Reference";
+  }
+
+  .top-nav a.is-active::before,
+  .wb-theme-top-nav a.is-active::before {
+    border-color: rgba(255, 254, 250, 0.32);
+    background: rgba(255, 254, 250, 0.16);
+    color: #fffefa;
+  }
+
+  .hero {
+    margin-bottom: 14px;
+  }
+
+  .presentation-shell {
+    grid-template-columns: 250px minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 980px) {
+  .top-nav,
+  .wb-theme-top-nav {
+    padding-top: 2px;
+  }
+}
+
+/* Strict Redwood correction pass: flatter Oracle-style enterprise UI. */
+:root {
+  --redwood-font: "Oracle Sans", "Helvetica Neue", Arial, sans-serif;
+  --redwood-bg: #f5f4f2;
+  --redwood-bg-raised: #faf9f7;
+  --redwood-surface: #ffffff;
+  --redwood-surface-subtle: #f3f2ef;
+  --redwood-border: #d7d2cb;
+  --redwood-border-strong: #bfb8ae;
+  --redwood-ink: #312d2a;
+  --redwood-muted: #6f6863;
+  --redwood-muted-2: #8a837c;
+  --redwood-red: #c74634;
+  --redwood-red-dark: #8f2f23;
+  --redwood-red-soft: #f7e6e2;
+  --redwood-blue: #315f72;
+  --redwood-blue-soft: #e8f0f2;
+  --redwood-green: #2f6f4e;
+  --redwood-green-soft: #e8f1eb;
+  --redwood-amber: #8b6220;
+  --redwood-amber-soft: #f8eedc;
+  --redwood-danger: #9e2f25;
+  --redwood-danger-soft: #f9e5e1;
+}
+
+html,
+body {
+  font-family: var(--redwood-font);
+  font-size: 14px;
+  line-height: 1.45;
+  background: var(--redwood-bg);
+  color: var(--redwood-ink);
+}
+
+body,
+button,
+input,
+select,
+textarea {
+  font-family: var(--redwood-font);
+}
+
+h1,
+h2,
+h3,
+.hero h1,
+.flow-card h2,
+.stage h2,
+.presentation-lede h2,
+.exec-portfolio-card h2,
+.exec-card h2,
+.section-head h2,
+.story-title,
+.presentation-path h3 {
+  font-family: var(--redwood-font);
+  letter-spacing: 0;
+  color: var(--redwood-ink);
+}
+
+.hero h1 {
+  max-width: 980px;
+  font-size: clamp(27px, 2.35vw, 36px);
+  font-weight: 650;
+  line-height: 1.14;
+}
+
+.flow-card h2,
+.stage h2,
+.presentation-lede h2,
+.exec-portfolio-card h2,
+.exec-card h2,
+.section-head h2 {
+  font-size: 18px;
+  font-weight: 650;
+  line-height: 1.25;
+}
+
+.hero,
+.card,
+.flow-card,
+.exec-portfolio-card,
+.exec-card,
+.support-panel,
+.presentation-path,
+.technical-proof-strip article,
+.presentation-steps,
+.backend-support-card,
+.architecture-stage-card,
+.architecture-stage-intro,
+.guided-step,
+.tile,
+.layer-card,
+.row-item,
+.history-card,
+.decision-panel,
+.stage,
+.stage-metric,
+.signal-list li,
+.impact-row,
+.table-wrap,
+.backend-diagram,
+.stage-component-diagram {
+  border-color: var(--redwood-border);
+  border-radius: 8px;
+  background: var(--redwood-surface);
+  box-shadow: none;
+}
+
+.hero {
+  padding: 18px 20px;
+  background:
+    linear-gradient(90deg, rgba(199, 70, 52, 0.11) 0 5px, transparent 5px),
+    var(--redwood-surface);
+}
+
+.hero p,
+.subtitle,
+.section-head p,
+.small,
+.small-inline,
+.flow-card p,
+.flow-card ul,
+.support-panel p,
+.presentation-path ol,
+.metric-sub,
+figcaption {
+  color: var(--redwood-muted);
+}
+
+.eyebrow,
+.label,
+.metric-label,
+.flow-card-mode,
+.history-run {
+  color: var(--redwood-muted-2);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+}
+
+.flow-pill,
+.story-nav a span,
+.presentation-steps a,
+.nav-step-label,
+.status,
+.flow-card-mode,
+.signal-tag,
+.wb-status-pill {
+  border-radius: 999px;
+}
+
+.btn,
+.btn-primary,
+.btn-secondary,
+.action-btn,
+.flow-card a,
+.support-link,
+.presentation-path a,
+.exec-link,
+.journey-nav a,
+.top-nav a,
+.wb-theme-top-nav a {
+  border-radius: 6px;
+  box-shadow: none;
+  font-weight: 600;
+}
+
+.top-nav a,
+.wb-theme-top-nav a {
+  border-color: var(--redwood-border);
+  background: var(--redwood-surface);
+  color: var(--redwood-ink);
+}
+
+.top-nav a.is-active,
+.wb-theme-top-nav a.is-active {
+  border-color: var(--redwood-border);
+  background: var(--redwood-red-soft);
+  color: var(--redwood-red-dark);
+  box-shadow: inset 3px 0 0 var(--redwood-red);
+}
+
+.top-nav a.is-active span,
+.wb-theme-top-nav a.is-active span {
+  color: var(--redwood-red-dark);
+}
+
+.btn-primary,
+.flow-card a,
+.support-link:first-child,
+.presentation-path a,
+.exec-link,
+.action-btn:not(.alt),
+.journey-next {
+  border-color: var(--redwood-red-dark);
+  background: var(--redwood-red);
+  color: #ffffff;
+}
+
+.btn-primary:hover,
+.flow-card a:hover,
+.support-link:first-child:hover,
+.presentation-path a:hover,
+.exec-link:hover,
+.action-btn:not(.alt):hover,
+.journey-next:hover {
+  border-color: #74261c;
+  background: var(--redwood-red-dark);
+}
+
+.btn-secondary,
+.support-link:nth-child(2),
+.action-btn.alt,
+.journey-back {
+  border: 1px solid var(--redwood-border);
+  background: var(--redwood-bg-raised);
+  color: var(--redwood-ink);
+}
+
+.btn-secondary:hover,
+.support-link:nth-child(2):hover,
+.action-btn.alt:hover,
+.journey-back:hover {
+  border-color: var(--redwood-border-strong);
+  background: var(--redwood-surface-subtle);
+}
+
+.flow-card-grid,
+.pipeline,
+.exec-grid {
+  gap: 12px;
+}
+
+.flow-card {
+  padding: 16px;
+}
+
+.support-panel {
+  background: var(--redwood-surface);
+}
+
+.presentation-steps {
+  background: var(--redwood-surface);
+}
+
+.presentation-steps a {
+  border-radius: 6px;
+  background: var(--redwood-surface);
+}
+
+.presentation-steps a.is-active {
+  border-color: var(--redwood-border);
+  background: var(--redwood-red-soft);
+  color: var(--redwood-red-dark);
+  box-shadow: inset 3px 0 0 var(--redwood-red);
+}
+
+.recommendation-table th,
+.table th,
+.data-table th {
+  background: #f0eeeb;
+  color: var(--redwood-muted);
+}
+
+.recommendation-table td,
+.table td,
+.data-table td {
+  color: var(--redwood-ink);
+}
+
+.backend-architecture-svg text,
+.stage-architecture-svg text {
+  font-family: var(--redwood-font);
+}
+
+@media (min-width: 981px) {
+  .shell,
+  .app-shell {
+    margin-left: 256px;
+    padding: 84px 24px 32px;
+  }
+
+  .shell::before,
+  .app-shell::before {
+    left: 256px;
+    height: 62px;
+    background: var(--redwood-surface);
+    color: var(--redwood-ink);
+    font-size: 15px;
+    font-weight: 650;
+  }
+
+  .top-nav,
+  .wb-theme-top-nav {
+    width: 256px;
+    gap: 8px;
+    padding: 22px 16px;
+    background: var(--redwood-surface);
+  }
+
+  .top-nav::before,
+  .wb-theme-top-nav::before {
+    font-size: 18px;
+    font-weight: 650;
+    line-height: 1.24;
+  }
+
+  .top-nav::after,
+  .wb-theme-top-nav::after {
+    color: var(--redwood-muted);
+    font-size: 12px;
+  }
+
+  .top-nav a,
+  .wb-theme-top-nav a {
+    min-height: 50px;
+    border-radius: 6px;
+    border-color: transparent;
+    background: transparent;
+    color: var(--redwood-ink);
+    font-size: 13px;
+    padding: 9px 10px;
+  }
+
+  .top-nav a:hover,
+  .wb-theme-top-nav a:hover {
+    border-color: var(--redwood-border);
+    background: var(--redwood-surface-subtle);
+  }
+
+  .top-nav a.is-active,
+  .wb-theme-top-nav a.is-active {
+    border-color: var(--redwood-border);
+    background: var(--redwood-red-soft);
+    color: var(--redwood-red-dark);
+    box-shadow: inset 3px 0 0 var(--redwood-red);
+  }
+
+  .top-nav a::before,
+  .wb-theme-top-nav a::before {
+    border: 0;
+    background: transparent;
+    color: var(--redwood-muted-2);
+    font-size: 11px;
+    font-weight: 650;
+    padding: 0;
+  }
+
+  .top-nav a.is-active::before,
+  .wb-theme-top-nav a.is-active::before {
+    background: transparent;
+    color: var(--redwood-red-dark);
+  }
+}
+
+/* Product-grade polish: lighter system typography, tighter density, and
+   constrained work surfaces so the app reads like enterprise software. */
+:root {
+  --redwood-font: "Segoe UI", -apple-system, BlinkMacSystemFont, "Roboto", "Helvetica Neue", Arial, sans-serif;
+}
+
+* {
+  font-family: var(--redwood-font) !important;
+  letter-spacing: 0;
+}
+
+html,
+body {
+  font-size: 13px;
+  font-weight: 400;
+  background: #f6f5f3;
+}
+
+strong,
+b {
+  font-weight: 600;
+}
+
+h1,
+h2,
+h3,
+.hero h1,
+.flow-card h2,
+.stage h2,
+.presentation-lede h2,
+.exec-portfolio-card h2,
+.exec-card h2,
+.section-head h2,
+.story-title,
+.presentation-path h3,
+.metric-value {
+  font-weight: 600;
+  color: #2f2b28;
+}
+
+.hero h1 {
+  font-size: clamp(24px, 2vw, 31px);
+  line-height: 1.18;
+}
+
+.flow-card h2,
+.stage h2,
+.presentation-lede h2,
+.exec-portfolio-card h2,
+.exec-card h2,
+.section-head h2,
+.story-title,
+.presentation-path h3 {
+  font-size: 16px;
+  line-height: 1.28;
+}
+
+.hero p,
+.subtitle,
+.flow-card p,
+.flow-card li,
+.support-panel p,
+.presentation-path li,
+.metric-sub,
+.small,
+.small-inline,
+figcaption {
+  font-size: 13px;
+  line-height: 1.42;
+}
+
+.eyebrow,
+.label,
+.metric-label,
+.flow-card-mode,
+.history-run,
+.presentation-steps strong {
+  font-size: 10.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.hero,
+.card,
+.flow-card,
+.exec-portfolio-card,
+.exec-card,
+.support-panel,
+.presentation-path,
+.technical-proof-strip article,
+.presentation-steps,
+.backend-support-card,
+.architecture-stage-card,
+.architecture-stage-intro,
+.guided-step,
+.tile,
+.layer-card,
+.row-item,
+.history-card,
+.decision-panel,
+.stage,
+.stage-metric,
+.signal-list li,
+.impact-row {
+  border-radius: 6px;
+}
+
+.hero {
+  padding: 18px 20px 17px;
+}
+
+.flow-card,
+.exec-card,
+.exec-portfolio-card,
+.presentation-path,
+.support-panel,
+.card {
+  padding: 14px;
+}
+
+.flow-card-grid,
+.pipeline,
+.exec-grid,
+.presentation-content {
+  gap: 10px;
+}
+
+.support-panel {
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+}
+
+.btn,
+.btn-primary,
+.btn-secondary,
+.action-btn,
+.flow-card a,
+.support-link,
+.presentation-path a,
+.exec-link,
+.journey-nav a {
+  min-height: 34px;
+  padding: 8px 12px;
+  font-size: 12.5px;
+  font-weight: 600;
+}
+
+.flow-card-mode,
+.status,
+.signal-tag {
+  padding: 3px 8px;
+}
+
+.flow-strip {
+  gap: 10px;
+}
+
+.flow-pill {
+  padding: 8px 10px;
+  min-height: 34px;
+  border-radius: 999px;
+  background: #fbfaf8;
+}
+
+.technical-proof-strip {
+  gap: 10px;
+}
+
+.technical-proof-strip article {
+  padding: 12px;
+}
+
+.recommendation-table,
+.table,
+.data-table {
+  font-size: 12.5px;
+}
+
+@media (min-width: 981px) {
+  .shell,
+  .app-shell {
+    max-width: 1320px;
+    margin-left: 256px;
+    margin-right: auto;
+    padding: 78px 24px 30px;
+  }
+
+  .shell::before,
+  .app-shell::before {
+    height: 56px;
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  .top-nav,
+  .wb-theme-top-nav {
+    padding: 20px 14px;
+  }
+
+  .top-nav::before,
+  .wb-theme-top-nav::before {
+    font-size: 17px;
+    font-weight: 600;
+  }
+
+  .top-nav::after,
+  .wb-theme-top-nav::after {
+    font-size: 12px;
+    margin-bottom: 18px;
+  }
+
+  .top-nav a,
+  .wb-theme-top-nav a {
+    min-height: 44px;
+    padding: 8px 10px;
+    font-size: 12.5px;
+    font-weight: 500;
+  }
+
+  .top-nav a::before,
+  .wb-theme-top-nav a::before {
+    font-size: 10.5px;
+    font-weight: 600;
+  }
+}
+
+@media (max-width: 980px) {
+  .shell,
+  .app-shell {
+    padding: 14px 12px 24px;
+  }
+
+  .top-nav a,
+  .wb-theme-top-nav a {
+    min-height: 34px;
+    padding: 7px 10px;
+    font-size: 12.5px;
+    font-weight: 600;
+  }
+}
+
+@media (max-width: 720px) {
+  .support-panel {
+    grid-template-columns: 1fr !important;
+  }
+
+  .support-actions {
+    justify-content: flex-start;
+  }
+}
+
+/* Final QA alignment layer: full-width desktop canvas and consistent controls. */
+.btn,
+.btn-primary,
+.btn-secondary,
+.action-btn,
+.flow-card a,
+.support-link,
+.presentation-path a,
+.exec-link,
+.journey-nav a,
+.top-nav a,
+.wb-theme-top-nav a {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  line-height: 1.2;
+}
+
+.btn,
+.btn-primary,
+.btn-secondary,
+.action-btn,
+.flow-card a,
+.support-link,
+.presentation-path a,
+.exec-link,
+.journey-nav a {
+  display: inline-flex;
+  width: fit-content;
+  max-width: 100%;
+  white-space: nowrap;
+}
+
+.support-actions,
+.actions,
+.run-buttons,
+.exec-toolbar,
+.journey-nav {
+  align-items: center;
+}
+
+.support-actions {
+  gap: 8px;
+}
+
+.top-nav a,
+.wb-theme-top-nav a {
+  text-align: left;
+}
+
+@media (min-width: 981px) {
+  .shell,
+  .app-shell {
+    width: auto;
+    max-width: none;
+    margin-left: 256px;
+    margin-right: 0;
+    padding-right: 24px;
+  }
+
+  .top-nav a,
+  .wb-theme-top-nav a {
+    justify-content: start;
+  }
+
+  .top-nav a::before,
+  .wb-theme-top-nav a::before {
+    text-align: left;
+  }
+
+  .hero,
+  .support-panel,
+  .flow-card-grid,
+  .presentation-path,
+  .presentation-shell,
+  .exec-portfolio,
+  .exec-grid,
+  .technical-proof-strip {
+    width: 100%;
+  }
+}
+
+@media (max-width: 980px) {
+  .top-nav a,
+  .wb-theme-top-nav a {
+    display: inline-flex;
+    justify-content: center;
+    text-align: center;
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 520px) {
+  .top-nav a,
+  .wb-theme-top-nav a {
+    white-space: normal;
+  }
+
+  .support-link,
+  .flow-card a,
+  .presentation-path a,
+  .exec-link,
+  .btn,
+  .btn-primary,
+  .btn-secondary,
+  .action-btn {
+    white-space: normal;
+  }
+}
+
+/* Renewal quote copilot alignment: mirror the referenced app/globals.css
+   palette, typography, and shell behavior for the shared experience pages. */
+:root {
+  --copilot-bg: #f8fafc;
+  --copilot-surface: #ffffff;
+  --copilot-surface-muted: #f1f5f9;
+  --copilot-border: #e2e8f0;
+  --copilot-text: #0f172a;
+  --copilot-text-muted: #475569;
+  --copilot-accent: #0f172a;
+  --copilot-success-bg: #ecfdf5;
+  --copilot-success-text: #166534;
+  --copilot-warn-bg: #fffbeb;
+  --copilot-warn-text: #92400e;
+  --copilot-danger-bg: #fef2f2;
+  --copilot-danger-text: #991b1b;
+  --copilot-info-bg: #eff6ff;
+  --copilot-info-text: #1d4ed8;
+  --copilot-font: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+  --redwood-font: var(--copilot-font);
+  --redwood-bg: var(--copilot-bg);
+  --redwood-bg-raised: var(--copilot-surface-muted);
+  --redwood-surface: var(--copilot-surface);
+  --redwood-surface-subtle: var(--copilot-surface-muted);
+  --redwood-border: var(--copilot-border);
+  --redwood-border-strong: #cbd5e1;
+  --redwood-ink: var(--copilot-text);
+  --redwood-muted: var(--copilot-text-muted);
+  --redwood-muted-2: #64748b;
+  --redwood-red: var(--copilot-accent);
+  --redwood-red-dark: var(--copilot-accent);
+  --redwood-red-soft: var(--copilot-surface-muted);
+  --redwood-blue: #1d4ed8;
+  --redwood-blue-soft: var(--copilot-info-bg);
+  --redwood-green: var(--copilot-success-text);
+  --redwood-green-soft: var(--copilot-success-bg);
+  --redwood-amber: var(--copilot-warn-text);
+  --redwood-amber-soft: var(--copilot-warn-bg);
+  --redwood-danger: var(--copilot-danger-text);
+  --redwood-danger-soft: var(--copilot-danger-bg);
+
+  --ink-900: var(--copilot-text);
+  --ink-700: var(--copilot-text-muted);
+  --ink-500: #64748b;
+  --mist-120: var(--copilot-border);
+  --mist-80: var(--copilot-surface-muted);
+  --mist-40: #f8fafc;
+  --surface: var(--copilot-surface);
+  --border-soft: var(--copilot-border);
+  --sky-600: #1d4ed8;
+  --sea-600: var(--copilot-accent);
+  --amber-600: var(--copilot-warn-text);
+  --rose-600: var(--copilot-danger-text);
+  --bg-deep: var(--copilot-bg);
+  --bg-mid: var(--copilot-bg);
+  --bg-soft: var(--copilot-bg);
+  --card: var(--copilot-surface);
+  --ink-strong: var(--copilot-text);
+  --ink-muted: var(--copilot-text-muted);
+  --accent: var(--copilot-accent);
+  --accent-2: #1d4ed8;
+  --pass: var(--copilot-success-text);
+  --fail: var(--copilot-danger-text);
+  --warn: var(--copilot-warn-text);
+  --unknown: #64748b;
+  --border: var(--copilot-border);
+  --shadow: none;
+  --shadow-soft: none;
+  --shadow-hero: none;
+}
+
+html,
+body {
+  background: var(--copilot-bg);
+  color: var(--copilot-text);
+  font-family: var(--copilot-font);
+  font-size: 14px;
+}
+
+body,
+button,
+input,
+select,
+textarea {
+  font-family: var(--copilot-font);
+}
+
+.shell,
+.app-shell {
+  background: var(--copilot-bg);
+}
+
+.top-nav,
+.wb-theme-top-nav {
+  background: var(--copilot-surface);
+  border-color: var(--copilot-border);
+}
+
+.top-nav::before,
+.wb-theme-top-nav::before {
+  color: var(--copilot-text);
+}
+
+.top-nav::after,
+.wb-theme-top-nav::after,
+.hero p,
+.subtitle,
+.section-head p,
+.small,
+.small-inline,
+.flow-card p,
+.flow-card li,
+.support-panel p,
+.presentation-path li,
+.metric-sub,
+.exec-decision,
+.exec-context,
+.exec-health,
+.exec-meta,
+figcaption {
+  color: var(--copilot-text-muted);
+}
+
+.top-nav a,
+.wb-theme-top-nav a,
+.presentation-steps a {
+  background: var(--copilot-surface);
+  border-color: var(--copilot-border);
+  color: var(--copilot-text-muted);
+  border-radius: 12px;
+}
+
+.top-nav a:hover,
+.wb-theme-top-nav a:hover,
+.presentation-steps a:hover {
+  background: var(--copilot-surface-muted);
+  color: var(--copilot-text);
+}
+
+.top-nav a.is-active,
+.wb-theme-top-nav a.is-active,
+.presentation-steps a.is-active {
+  background: var(--copilot-accent);
+  border-color: var(--copilot-accent);
+  color: #ffffff;
+  box-shadow: none;
+}
+
+.top-nav a.is-active::before,
+.wb-theme-top-nav a.is-active::before,
+.top-nav a.is-active span,
+.wb-theme-top-nav a.is-active span,
+.presentation-steps a.is-active strong {
+  color: #ffffff;
+}
+
+.top-nav a.is-active span,
+.wb-theme-top-nav a.is-active span {
+  background: rgba(255, 255, 255, 0.16);
+  border-color: rgba(255, 255, 255, 0.24);
+}
+
+.hero {
+  background: var(--copilot-surface);
+  border: 1px solid var(--copilot-border);
+  border-radius: 16px;
+  box-shadow: none;
+  color: var(--copilot-text);
+  padding: 22px 24px;
+}
+
+.hero h1 {
+  color: var(--copilot-text);
+  font-size: clamp(28px, 3vw, 42px);
+  font-weight: 750;
+  line-height: 1.15;
+}
+
+.eyebrow,
+.label,
+.metric-label,
+.flow-card-mode,
+.history-run,
+.svg-eyebrow {
+  color: #64748b;
+  letter-spacing: 0.06em;
+}
+
+.flow-pill,
+.story-nav a span,
+.nav-step-label,
+.status,
+.flow-card-mode,
+.signal-tag,
+.wb-status-pill {
+  background: var(--copilot-surface-muted);
+  border: 1px solid var(--copilot-border);
+  color: var(--copilot-text-muted);
+}
+
+.card,
+.flow-card,
+.exec-portfolio-card,
+.exec-card,
+.support-panel,
+.presentation-path,
+.technical-proof-strip article,
+.presentation-steps,
+.backend-support-card,
+.architecture-stage-card,
+.architecture-stage-intro,
+.guided-step,
+.tile,
+.layer-card,
+.row-item,
+.history-card,
+.decision-panel,
+.stage,
+.stage-metric,
+.signal-list li,
+.impact-row,
+.table-wrap,
+.backend-diagram,
+.stage-component-diagram,
+.exec-kpi-list {
+  background: var(--copilot-surface);
+  border-color: var(--copilot-border);
+  border-radius: 16px;
+  box-shadow: none;
+}
+
+.stage-metric,
+.signal-list li,
+.impact-row,
+.support-panel,
+.presentation-path,
+.exec-kpi-list {
+  background: var(--copilot-surface-muted);
+}
+
+.flow-card h2,
+.stage h2,
+.presentation-lede h2,
+.exec-portfolio-card h2,
+.exec-card h2,
+.exec-card h3,
+.section-head h2,
+.story-title,
+.presentation-path h3,
+.metric-value,
+.svg-title,
+.svg-node-title,
+.svg-support-title,
+.svg-stage-number {
+  color: var(--copilot-text);
+}
+
+.btn-primary,
+.flow-card a,
+.support-link:first-child,
+.presentation-path a,
+.exec-link,
+.action-btn:not(.alt),
+.journey-next {
+  background: var(--copilot-accent);
+  border-color: var(--copilot-accent);
+  border-radius: 10px;
+  color: #ffffff;
+  box-shadow: none;
+}
+
+.btn-primary:hover,
+.flow-card a:hover,
+.support-link:first-child:hover,
+.presentation-path a:hover,
+.exec-link:hover,
+.action-btn:not(.alt):hover,
+.journey-next:hover {
+  background: #1e293b;
+  border-color: #1e293b;
+}
+
+.btn-secondary,
+.support-link:nth-child(2),
+.action-btn.alt,
+.journey-back,
+.mode-btn {
+  background: var(--copilot-surface-muted);
+  border-color: var(--copilot-border);
+  border-radius: 10px;
+  color: var(--copilot-text);
+}
+
+.status.pass,
+.tag-good,
+.flow-card-mode {
+  background: var(--copilot-success-bg);
+  border-color: #bbf7d0;
+  color: var(--copilot-success-text);
+}
+
+.status.warn,
+.tag-watch,
+.flow-card-mode.is-pending {
+  background: var(--copilot-warn-bg);
+  border-color: #fde68a;
+  color: var(--copilot-warn-text);
+}
+
+.status.fail,
+.tag-risk,
+.exec-card-error {
+  background: var(--copilot-danger-bg);
+  border-color: #fecaca;
+  color: var(--copilot-danger-text);
+}
+
+.rank-1,
+.fill-revenue,
+.fill-retention,
+.fill-margin,
+.fill-risk {
+  background: var(--copilot-accent);
+}
+
+.rank-2 {
+  background: #1d4ed8;
+}
+
+.rank-3 {
+  background: var(--copilot-warn-text);
+}
+
+.recommendation-table th,
+.table th,
+.data-table th {
+  background: var(--copilot-surface-muted);
+  color: var(--copilot-text-muted);
+}
+
+.recommendation-table td,
+.table td,
+.data-table td {
+  border-color: var(--copilot-border);
+  color: var(--copilot-text);
+}
+
+@media (min-width: 981px) {
+  .shell,
+  .app-shell {
+    margin-left: 260px;
+    padding: 96px 24px 40px;
+  }
+
+  .shell::before,
+  .app-shell::before {
+    content: "Customer Data AI Workbench";
+    left: 260px;
+    height: 72px;
+    background: var(--copilot-surface);
+    border-bottom: 1px solid var(--copilot-border);
+    color: var(--copilot-text);
+    font-size: 16px;
+    font-weight: 700;
+    padding: 0 24px;
+  }
+
+  .top-nav,
+  .wb-theme-top-nav {
+    width: 260px;
+    padding: 24px 16px;
+  }
+
+  .top-nav a,
+  .wb-theme-top-nav a {
+    min-height: 48px;
+    padding: 10px 12px;
+  }
+}
+
+/* Final Redwood theme layer: make the Oracle Redwood treatment visible over the
+   copilot baseline while keeping the same app shell and responsive layout. */
+:root {
+  --rw-bg: #f5f4f2;
+  --rw-surface: #ffffff;
+  --rw-panel: #faf9f7;
+  --rw-panel-2: #f3f2ef;
+  --rw-border: #d7d2cb;
+  --rw-border-strong: #b8afa5;
+  --rw-text: #312d2a;
+  --rw-muted: #6f6863;
+  --rw-muted-2: #8a837c;
+  --rw-red: #c74634;
+  --rw-red-dark: #8f2f23;
+  --rw-red-soft: #f7e6e2;
+  --rw-blue: #315f72;
+  --rw-blue-soft: #e8f0f2;
+  --rw-green: #2f6f4e;
+  --rw-green-soft: #e8f1eb;
+  --rw-amber: #8b6220;
+  --rw-amber-soft: #f8eedc;
+  --rw-danger: #9e2f25;
+  --rw-danger-soft: #f9e5e1;
+
+  --copilot-bg: var(--rw-bg);
+  --copilot-surface: var(--rw-surface);
+  --copilot-surface-muted: var(--rw-panel-2);
+  --copilot-border: var(--rw-border);
+  --copilot-text: var(--rw-text);
+  --copilot-text-muted: var(--rw-muted);
+  --copilot-accent: var(--rw-red);
+  --copilot-success-bg: var(--rw-green-soft);
+  --copilot-success-text: var(--rw-green);
+  --copilot-warn-bg: var(--rw-amber-soft);
+  --copilot-warn-text: var(--rw-amber);
+  --copilot-danger-bg: var(--rw-danger-soft);
+  --copilot-danger-text: var(--rw-danger);
+
+  --redwood-bg: var(--rw-bg);
+  --redwood-bg-raised: var(--rw-panel);
+  --redwood-surface: var(--rw-surface);
+  --redwood-surface-subtle: var(--rw-panel-2);
+  --redwood-border: var(--rw-border);
+  --redwood-border-strong: var(--rw-border-strong);
+  --redwood-ink: var(--rw-text);
+  --redwood-muted: var(--rw-muted);
+  --redwood-muted-2: var(--rw-muted-2);
+  --redwood-red: var(--rw-red);
+  --redwood-red-dark: var(--rw-red-dark);
+  --redwood-red-soft: var(--rw-red-soft);
+
+  --ink-900: var(--rw-text);
+  --ink-700: var(--rw-muted);
+  --ink-500: var(--rw-muted-2);
+  --mist-120: var(--rw-border);
+  --mist-80: var(--rw-panel-2);
+  --mist-40: var(--rw-panel);
+  --surface: var(--rw-surface);
+  --border-soft: var(--rw-border);
+  --sky-600: var(--rw-blue);
+  --sea-600: var(--rw-red);
+  --amber-600: var(--rw-amber);
+  --rose-600: var(--rw-danger);
+  --bg-soft: var(--rw-bg);
+  --card: var(--rw-surface);
+  --ink-strong: var(--rw-text);
+  --ink-muted: var(--rw-muted);
+  --accent: var(--rw-red);
+  --accent-2: var(--rw-blue);
+  --pass: var(--rw-green);
+  --fail: var(--rw-danger);
+  --warn: var(--rw-amber);
+  --border: var(--rw-border);
+}
+
+html,
+body {
+  background:
+    linear-gradient(180deg, #fbfaf7 0%, var(--rw-bg) 42%, #eeeae4 100%);
+  color: var(--rw-text);
+}
+
+.shell,
+.app-shell {
+  background: transparent;
+}
+
+.top-nav,
+.wb-theme-top-nav,
+.shell::before,
+.app-shell::before {
+  background: var(--rw-surface);
+  border-color: var(--rw-border);
+  color: var(--rw-text);
+}
+
+.top-nav::before,
+.wb-theme-top-nav::before {
+  color: var(--rw-text);
+}
+
+.top-nav::after,
+.wb-theme-top-nav::after,
+.hero p,
+.subtitle,
+.section-head p,
+.small,
+.small-inline,
+.flow-card p,
+.flow-card li,
+.support-panel p,
+.presentation-path li,
+.metric-sub,
+.exec-decision,
+.exec-context,
+.exec-health,
+.exec-meta,
+figcaption {
+  color: var(--rw-muted);
+}
+
+.top-nav a,
+.wb-theme-top-nav a,
+.presentation-steps a {
+  background: transparent;
+  border-color: transparent;
+  border-radius: 6px;
+  color: var(--rw-text);
+}
+
+.top-nav a:hover,
+.wb-theme-top-nav a:hover,
+.presentation-steps a:hover {
+  background: var(--rw-panel-2);
+  border-color: var(--rw-border);
+  color: var(--rw-text);
+}
+
+.top-nav a.is-active,
+.wb-theme-top-nav a.is-active,
+.presentation-steps a.is-active {
+  background: var(--rw-red-soft);
+  border-color: var(--rw-border);
+  box-shadow: inset 3px 0 0 var(--rw-red);
+  color: var(--rw-red-dark);
+}
+
+.top-nav a.is-active::before,
+.wb-theme-top-nav a.is-active::before,
+.top-nav a.is-active span,
+.wb-theme-top-nav a.is-active span,
+.presentation-steps a.is-active strong {
+  color: var(--rw-red-dark);
+}
+
+.top-nav a.is-active span,
+.wb-theme-top-nav a.is-active span {
+  background: rgba(199, 70, 52, 0.1);
+  border-color: rgba(199, 70, 52, 0.22);
+}
+
+.hero {
+  background:
+    linear-gradient(90deg, rgba(199, 70, 52, 0.12) 0 6px, transparent 6px),
+    var(--rw-surface);
+  border-color: var(--rw-border);
+  border-radius: 8px;
+  color: var(--rw-text);
+}
+
+.hero h1,
+.flow-card h2,
+.stage h2,
+.presentation-lede h2,
+.exec-portfolio-card h2,
+.exec-card h2,
+.exec-card h3,
+.section-head h2,
+.story-title,
+.presentation-path h3,
+.metric-value,
+.svg-title,
+.svg-node-title,
+.svg-support-title,
+.svg-stage-number {
+  color: var(--rw-text);
+}
+
+.hero h1 {
+  font-size: clamp(24px, 2.1vw, 32px);
+  font-weight: 650;
+  line-height: 1.18;
+}
+
+.flow-card h2,
+.stage h2,
+.presentation-lede h2,
+.exec-portfolio-card h2,
+.exec-card h2,
+.exec-card h3,
+.section-head h2,
+.story-title,
+.presentation-path h3 {
+  font-size: clamp(16px, 1.35vw, 20px);
+  font-weight: 650;
+  line-height: 1.25;
+}
+
+.metric-value {
+  font-size: clamp(20px, 1.8vw, 26px);
+}
+
+.presentation-arrow-panel {
+  display: grid;
+  grid-template-columns: minmax(220px, 0.85fr) minmax(420px, 1.35fr) auto;
+  gap: 14px;
+  align-items: center;
+}
+
+.presentation-arrow-copy h3 {
+  margin-bottom: 6px;
+}
+
+.presentation-arrow-flow {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  min-width: 0;
+}
+
+.presentation-arrow-flow li {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-height: 38px;
+  padding: 8px 22px 8px 12px;
+  background: var(--rw-panel);
+  border: 1px solid var(--rw-border);
+  color: var(--rw-text);
+  font-size: 12px;
+  font-weight: 650;
+  line-height: 1.2;
+  white-space: normal;
+}
+
+.presentation-arrow-flow li:first-child {
+  border-radius: 8px 0 0 8px;
+}
+
+.presentation-arrow-flow li:last-child {
+  border-radius: 0 8px 8px 0;
+  padding-right: 12px;
+}
+
+.presentation-arrow-flow li + li {
+  margin-left: -1px;
+  padding-left: 24px;
+}
+
+.presentation-arrow-flow li::after,
+.presentation-arrow-flow li::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 100%;
+  width: 0;
+  height: 0;
+  border-top: 19px solid transparent;
+  border-bottom: 19px solid transparent;
+  transform: translateY(-50%);
+  z-index: 2;
+}
+
+.presentation-arrow-flow li::before {
+  border-left: 15px solid var(--rw-border);
+}
+
+.presentation-arrow-flow li::after {
+  border-left: 14px solid var(--rw-panel);
+  margin-left: -1px;
+}
+
+.presentation-arrow-flow li:last-child::before,
+.presentation-arrow-flow li:last-child::after {
+  display: none;
+}
+
+.presentation-arrow-flow li:first-child {
+  background: var(--rw-red-soft);
+  color: var(--rw-red-dark);
+}
+
+.presentation-arrow-flow li:first-child::after {
+  border-left-color: var(--rw-red-soft);
+}
+
+.presentation-arrow-flow span {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 999px;
+  background: var(--rw-surface);
+  border: 1px solid var(--rw-border);
+  color: var(--rw-muted);
+  font-size: 11px;
+  font-weight: 700;
+  flex: 0 0 auto;
+}
+
+.presentation-arrow-flow li:first-child span {
+  border-color: rgba(199, 70, 52, 0.24);
+  color: var(--rw-red-dark);
+}
+
+@media (max-width: 1180px) {
+  .presentation-arrow-panel {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .presentation-arrow-panel .support-actions {
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 720px) {
+  .presentation-arrow-flow {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .presentation-arrow-flow li,
+  .presentation-arrow-flow li + li,
+  .presentation-arrow-flow li:first-child,
+  .presentation-arrow-flow li:last-child {
+    border-radius: 8px;
+    margin-left: 0;
+    padding: 9px 12px;
+    white-space: normal;
+  }
+
+  .presentation-arrow-flow li::before,
+  .presentation-arrow-flow li::after {
+    display: none;
+  }
+}
+
+.eyebrow,
+.label,
+.metric-label,
+.flow-card-mode,
+.history-run,
+.svg-eyebrow {
+  color: var(--rw-muted-2);
+}
+
+.card,
+.flow-card,
+.exec-portfolio-card,
+.exec-card,
+.support-panel,
+.presentation-path,
+.technical-proof-strip article,
+.presentation-steps,
+.backend-support-card,
+.architecture-stage-card,
+.architecture-stage-intro,
+.guided-step,
+.tile,
+.layer-card,
+.row-item,
+.history-card,
+.decision-panel,
+.stage,
+.stage-metric,
+.signal-list li,
+.impact-row,
+.table-wrap,
+.backend-diagram,
+.stage-component-diagram,
+.exec-kpi-list {
+  background: var(--rw-surface);
+  border-color: var(--rw-border);
+  border-radius: 8px;
+}
+
+.stage-metric,
+.signal-list li,
+.impact-row,
+.support-panel,
+.presentation-path,
+.exec-kpi-list,
+.flow-pill {
+  background: var(--rw-panel);
+  border-color: var(--rw-border);
+}
+
+.btn-primary,
+.flow-card a,
+.support-link:first-child,
+.presentation-path a,
+.exec-link,
+.action-btn:not(.alt),
+.journey-next {
+  background: var(--rw-red);
+  border-color: var(--rw-red-dark);
+  color: #ffffff;
+}
+
+.btn-primary:hover,
+.flow-card a:hover,
+.support-link:first-child:hover,
+.presentation-path a:hover,
+.exec-link:hover,
+.action-btn:not(.alt):hover,
+.journey-next:hover {
+  background: var(--rw-red-dark);
+  border-color: var(--rw-red-dark);
+}
+
+.btn-secondary,
+.support-link:nth-child(2),
+.action-btn.alt,
+.journey-back,
+.mode-btn {
+  background: var(--rw-panel);
+  border-color: var(--rw-border);
+  color: var(--rw-text);
+}
+
+.status.pass,
+.tag-good,
+.flow-card-mode {
+  background: var(--rw-green-soft);
+  border-color: #c7dccf;
+  color: var(--rw-green);
+}
+
+.status.warn,
+.tag-watch,
+.flow-card-mode.is-pending {
+  background: var(--rw-amber-soft);
+  border-color: #e4cc9e;
+  color: var(--rw-amber);
+}
+
+.status.fail,
+.tag-risk,
+.exec-card-error {
+  background: var(--rw-danger-soft);
+  border-color: #e2aaa2;
+  color: var(--rw-danger);
+}
+
+.rank-1,
+.fill-revenue,
+.fill-retention,
+.fill-margin,
+.fill-risk {
+  background: var(--rw-red);
+}
+
+.rank-2 {
+  background: var(--rw-blue);
+}
+
+.rank-3 {
+  background: var(--rw-amber);
+}
+
+.recommendation-table th,
+.table th,
+.data-table th {
+  background: var(--rw-panel-2);
+  color: var(--rw-muted);
+}
+
+.recommendation-table td,
+.table td,
+.data-table td {
+  border-color: var(--rw-border);
+  color: var(--rw-text);
+}
+
+.simulation-quickstart {
+  display: grid;
+  grid-template-columns: minmax(280px, 0.9fr) minmax(520px, 1.4fr);
+  gap: 16px;
+  align-items: center;
+  margin: 14px 0;
+  padding: 14px;
+  border: 1px solid var(--rw-border);
+  border-radius: 8px;
+  background: var(--rw-surface);
+}
+
+.simulation-quickstart.presentation-panel {
+  display: none;
+}
+
+.simulation-quickstart.presentation-panel.is-active {
+  display: grid;
+}
+
+.simulation-quickstart-copy h2 {
+  margin: 4px 0 6px;
+  color: var(--rw-text);
+  font-size: clamp(17px, 1.35vw, 21px);
+  font-weight: 650;
+  line-height: 1.25;
+}
+
+.simulation-quickstart-copy p {
+  margin: 0;
+  color: var(--rw-muted);
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.simulation-quick-steps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.simulation-quick-steps li {
+  min-width: 0;
+  border: 1px solid var(--rw-border);
+  border-radius: 8px;
+  background: var(--rw-panel);
+  padding: 10px;
+}
+
+.simulation-quick-steps strong {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  margin-bottom: 8px;
+  border-radius: 999px;
+  background: var(--rw-red-soft);
+  color: var(--rw-red-dark);
+  font-size: 12px;
+}
+
+.simulation-quick-steps span {
+  display: block;
+  color: var(--rw-text);
+  font-size: 13px;
+  font-weight: 650;
+}
+
+.simulation-quick-steps a {
+  display: inline-flex;
+  margin-top: 8px;
+  color: var(--rw-red-dark);
+  font-size: 12.5px;
+  font-weight: 650;
+  text-decoration: none;
+}
+
+.simulation-quick-steps a:hover {
+  text-decoration: underline;
+}
+
+.simulation-quick-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  margin-top: 8px;
+}
+
+.simulation-quick-actions .action-btn {
+  min-height: 32px;
+  padding: 7px 10px;
+  font-size: 12px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (max-width: 1180px) {
+  .simulation-quickstart {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 760px) {
+  .simulation-quick-steps {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Keep setup selects visibly interactive after Redwood background overrides. */
+#use-case-select,
+#enterprise-profile-select,
+#run-runtime-mode,
+#run-scenario-id,
+#run-history-limit,
+#run-history-status,
+#run-history-infra,
+#run-history-baseline,
+.history-filters select {
+  appearance: none;
+  -webkit-appearance: none;
+  background-color: var(--rw-surface);
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23312d2a' stroke-width='2.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E"),
+    linear-gradient(90deg, transparent calc(100% - 42px), var(--rw-panel-2) calc(100% - 42px));
+  background-position:
+    calc(100% - 11px) 50%,
+    0 0;
+  background-size:
+    20px 20px,
+    100% 100%;
+  background-repeat: no-repeat;
+  padding-right: 50px;
+}
+
+#use-case-select {
+  border-color: var(--rw-border-strong);
+  box-shadow: inset 3px 0 0 var(--rw-red-soft);
+  font-weight: 650;
+}
+
+#use-case-select:hover,
+#enterprise-profile-select:hover,
+#run-runtime-mode:hover,
+#run-scenario-id:hover,
+#run-history-limit:hover,
+#run-history-status:hover,
+#run-history-infra:hover,
+#run-history-baseline:hover,
+.history-filters select:hover {
+  border-color: var(--rw-red);
+  background-color: #fffefa;
+}

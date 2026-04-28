@@ -528,6 +528,24 @@ class LiveUIHandler(SimpleHTTPRequestHandler):
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, directory=str(ROOT), **kwargs)
 
+    def end_headers(self) -> None:
+        """Prevent stale browser caches from hiding live UI edits."""
+        path = urlparse(self.path).path
+        if path.startswith("/ui/experience/") and path.endswith((".html", ".css", ".js")):
+            self.send_header("Cache-Control", "no-store, max-age=0")
+            self.send_header("Pragma", "no-cache")
+            self.send_header("Expires", "0")
+        super().end_headers()
+
+    def send_head(self):  # type: ignore[no-untyped-def]
+        """Serve live UI assets without 304 reuse from stale browser caches."""
+        path = urlparse(self.path).path
+        if path.startswith("/ui/experience/") and path.endswith((".html", ".css", ".js")):
+            for header in ("If-Modified-Since", "If-None-Match"):
+                if header in self.headers:
+                    del self.headers[header]
+        return super().send_head()
+
     def do_GET(self) -> None:  # noqa: N802
         parsed = urlparse(self.path)
         path = parsed.path

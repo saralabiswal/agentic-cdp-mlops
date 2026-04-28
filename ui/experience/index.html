@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AI/ML Platform Architecture</title>
+    <title>Simulation Flow & Architecture Reference</title>
     <link rel="stylesheet" href="styles.css" />
     <link rel="stylesheet" href="workbench-theme.css" />
   </head>
@@ -14,26 +14,54 @@
         <a href="business-home.html" title="Start with the AI model portfolio and recommended decision sequence.">AI Decision Portfolio</a>
         <a href="business-exec-summary.html" title="Review portfolio-level AI impact, model health, and readiness.">AI Impact Summary</a>
         <a href="workbench.html" title="Inspect model recommendations, impact forecasts, and evidence for each flow.">Model Decision Workbench</a>
-        <a href="index.html" class="is-active" title="Open the AI/ML runtime architecture, lineage, and model evidence presentation.">AI/ML Platform Architecture</a>
+        <a href="#simulate" class="is-active" data-presentation-step="simulate" data-nav-group="simulate" title="Change model setup, run stage-by-stage simulation, and inspect live evidence.">Simulation Flow</a>
+        <a href="#overview" data-presentation-step="overview" data-nav-group="reference" title="AI/ML Platform Architecture reference: runtime architecture, lineage, and evidence.">Architecture Reference</a>
       </nav>
 
       <header class="hero">
         <p class="eyebrow">Enterprise AI/ML Platform Architecture</p>
-        <h1>AI/ML Decision Intelligence Architecture</h1>
-        <p class="subtitle">
-          A guided, evidence-backed walkthrough of how governed data, ML models, causal science, and MLOps controls
-          become activation-ready enterprise decisions.
+        <h1 id="architecture-page-title">Simulation Flow</h1>
+        <span class="sr-only">AI/ML Decision Intelligence Architecture</span>
+        <p id="architecture-page-subtitle" class="subtitle">
+          Change the model setup, run the AI/ML pipeline one stage at a time, and watch runtime evidence update as the flow progresses.
         </p>
       </header>
 
+      <section id="simulate" class="simulation-quickstart presentation-panel is-active" data-presentation-panel="simulate" aria-label="Change and simulate flow">
+        <div class="simulation-quickstart-copy">
+          <span class="label">Change &amp; Simulate Flow</span>
+          <h2>Choose a model setup, run the pipeline one stage at a time, and watch the evidence update.</h2>
+          <p id="sim-quick-status">Use the setup step to change use case, seed, runtime, scenario, or failure injection.</p>
+        </div>
+        <ol class="simulation-quick-steps">
+          <li>
+            <strong>1</strong>
+            <span>Change setup</span>
+            <a href="#configure" data-presentation-step="simulate">Use case, runtime, scenario</a>
+          </li>
+          <li>
+            <strong>2</strong>
+            <span>Simulate</span>
+            <div class="simulation-quick-actions">
+              <button id="quick-sim-next" class="action-btn" type="button">Run Next Stage</button>
+              <button id="quick-sim-reset" class="action-btn alt" type="button">Reset</button>
+            </div>
+          </li>
+          <li>
+            <strong>3</strong>
+            <span>Watch evidence</span>
+            <a href="#architecture-story" data-presentation-step="architecture-story">Open stage walkthrough</a>
+          </li>
+        </ol>
+      </section>
+
       <div class="presentation-shell">
-        <aside class="presentation-steps" aria-label="Technical presentation steps">
+        <aside class="presentation-steps" aria-label="Simulation and reference sections">
           <span class="label">Presentation Steps</span>
-          <a href="#overview" data-presentation-step="overview"><strong>01</strong><span>AI/ML architecture thesis</span></a>
-          <a href="#configure" data-presentation-step="configure"><strong>02</strong><span>Select model runtime</span></a>
-          <a href="#architecture-story" data-presentation-step="architecture"><strong>03</strong><span>Walk the 8 ML stages</span></a>
-          <a href="#hardening" data-presentation-step="hardening"><strong>04</strong><span>Enterprise AI hardening</span></a>
-          <a href="#evidence" data-presentation-step="evidence"><strong>05</strong><span>Model evidence</span></a>
+          <a href="#simulate" data-presentation-step="simulate"><strong>01</strong><span>Simulation flow</span></a>
+          <a href="#architecture-story" data-presentation-step="architecture-story"><strong>02</strong><span>AI/ML Architecture Walkthrough</span></a>
+          <a href="#hardening" data-presentation-step="hardening"><strong>03</strong><span>Enterprise AI hardening</span></a>
+          <a href="#evidence" data-presentation-step="evidence"><strong>04</strong><span>Model evidence</span></a>
         </aside>
 
         <div class="presentation-content">
@@ -323,7 +351,7 @@
         </p>
       </section>
 
-      <section id="configure" class="controls card presentation-panel" data-presentation-panel="configure">
+      <section id="configure" class="controls card presentation-panel is-active" data-presentation-panel="simulate">
         <div class="control-block">
           <label class="label" for="use-case-select">AI/ML Use Case</label>
           <select id="use-case-select" aria-label="Select AI/ML use case"></select>
@@ -389,7 +417,7 @@
         </div>
       </section>
 
-      <section id="architecture-story" class="card architecture-story-shell presentation-panel" data-presentation-panel="architecture">
+      <section id="architecture-story" class="card architecture-story-shell presentation-panel" data-presentation-panel="architecture-story">
         <div class="section-head">
           <h2>AI/ML Architecture Walkthrough</h2>
           <p id="arch-story-subtitle">Follow one model run end-to-end: architecture intent, runtime inputs/outputs, components, and evidence.</p>

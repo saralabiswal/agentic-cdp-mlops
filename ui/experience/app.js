@@ -38,7 +38,7 @@ const state = {
     baseline: "latest",
   },
   storyStageIndexByUseCase: {},
-  presentationStep: "overview",
+  presentationStep: "simulate",
   evidenceView: "artifacts",
   runEvidenceView: "summary",
 };
@@ -61,6 +61,11 @@ const els = {
   simPauseBtn: document.getElementById("sim-pause-btn"),
   simResumeBtn: document.getElementById("sim-resume-btn"),
   simResetBtn: document.getElementById("sim-reset-btn"),
+  quickSimNext: document.getElementById("quick-sim-next"),
+  quickSimReset: document.getElementById("quick-sim-reset"),
+  simQuickStatus: document.getElementById("sim-quick-status"),
+  architecturePageTitle: document.getElementById("architecture-page-title"),
+  architecturePageSubtitle: document.getElementById("architecture-page-subtitle"),
   runStatus: document.getElementById("run-status"),
   runtimeBanner: document.getElementById("runtime-banner"),
   runHistoryLimit: document.getElementById("run-history-limit"),
@@ -283,6 +288,18 @@ function bindEvents() {
   if (els.simResetBtn) {
     els.simResetBtn.addEventListener("click", () => {
       void resetSimulation();
+    });
+  }
+  if (els.quickSimNext) {
+    els.quickSimNext.addEventListener("click", async () => {
+      await runSimulationNext();
+      setPresentationStep("architecture-story", "#architecture-story");
+    });
+  }
+  if (els.quickSimReset) {
+    els.quickSimReset.addEventListener("click", async () => {
+      await resetSimulation();
+      setPresentationStep("simulate", "#configure");
     });
   }
   if (els.runContent) {
@@ -515,6 +532,9 @@ function setSimulationPauseResumeState() {
   if (els.simNextBtn) {
     els.simNextBtn.disabled = controlsLocked || !simulationEnabled || paused;
   }
+  if (els.quickSimNext) {
+    els.quickSimNext.disabled = controlsLocked || !simulationEnabled || paused;
+  }
   if (els.simPauseBtn) {
     els.simPauseBtn.disabled = controlsLocked || !simulationEnabled || paused;
   }
@@ -523,6 +543,9 @@ function setSimulationPauseResumeState() {
   }
   if (els.simResetBtn) {
     els.simResetBtn.disabled = controlsLocked || !liveExecutionEnabled || !hasSession;
+  }
+  if (els.quickSimReset) {
+    els.quickSimReset.disabled = controlsLocked || !liveExecutionEnabled || !hasSession;
   }
 }
 
@@ -546,6 +569,17 @@ function renderRunStatus() {
   }
   els.runStatus.textContent = message;
   els.runStatus.style.color = isError ? "#a93b3b" : "#3c556e";
+  if (els.simQuickStatus) {
+    const simulation = getActiveSimulationState(getSelectedUseCase());
+    const setupText = getSelectedUseCase()
+      ? `${getSelectedUseCase().title || getSelectedUseCase().use_case_id}`
+      : "Select a use case";
+    const progressText = simulation
+      ? `Simulation stage ${simulation.stage_cursor}/${simulation.stage_total}${simulation.paused ? " (paused)" : ""}.`
+      : "Simulation has not started.";
+    els.simQuickStatus.textContent = `${setupText}. ${progressText} ${message}`;
+    els.simQuickStatus.style.color = isError ? "#a93b3b" : "#6f6863";
+  }
 }
 
 function setRunStatus(message, isError, options) {
@@ -1126,31 +1160,65 @@ function setPresentationStep(step, hash) {
     window.history.replaceState(null, "", hash);
   }
   renderPresentationPanels();
+  if (hash && String(hash).includes("#")) {
+    const targetId = String(hash).slice(String(hash).lastIndexOf("#") + 1);
+    const target = document.getElementById(targetId);
+    if (target) {
+      target.scrollIntoView({ block: "start", behavior: "smooth" });
+    }
+  }
 }
 
 function presentationStepFromLocation() {
   const hash = String(window.location.hash || "").replace(/^#/, "");
   const map = {
+    simulate: "simulate",
+    configure: "simulate",
+    "architecture-story": "architecture-story",
     overview: "overview",
-    configure: "configure",
-    "architecture-story": "architecture",
     hardening: "hardening",
     evidence: "evidence",
   };
-  return map[hash] || "overview";
+  return map[hash] || "simulate";
 }
 
 function renderPresentationPanels() {
-  const active = state.presentationStep || "overview";
+  const active = state.presentationStep || "simulate";
+  renderArchitecturePageHero(active);
   for (const link of els.presentationStepLinks) {
     const step = String(link.getAttribute("data-presentation-step") || "");
-    link.classList.toggle("is-active", step === active);
+    const group = String(link.getAttribute("data-nav-group") || "");
+    const groupActive =
+      (group === "simulate" && ["simulate", "architecture-story"].includes(active)) ||
+      (group === "reference" && ["overview", "hardening", "evidence"].includes(active));
+    link.classList.toggle("is-active", step === active || groupActive);
   }
   for (const panel of els.presentationPanels) {
     const panelStep = String(panel.getAttribute("data-presentation-panel") || "");
     panel.classList.toggle("is-active", panelStep === active);
   }
   renderEvidencePanels();
+}
+
+function renderArchitecturePageHero(active) {
+  if (!els.architecturePageTitle || !els.architecturePageSubtitle) {
+    return;
+  }
+  if (active === "simulate") {
+    els.architecturePageTitle.textContent = "Simulation Flow";
+    els.architecturePageSubtitle.textContent =
+      "Change the model setup, run the AI/ML pipeline one stage at a time, and watch runtime evidence update as the flow progresses.";
+    return;
+  }
+  if (active === "architecture-story") {
+    els.architecturePageTitle.textContent = "AI/ML Architecture Walkthrough";
+    els.architecturePageSubtitle.textContent =
+      "Walk through the active AI/ML run stage by stage, from source data through activation and governance evidence.";
+    return;
+  }
+  els.architecturePageTitle.textContent = "Architecture Reference";
+  els.architecturePageSubtitle.textContent =
+    "Reference diagrams, platform hardening notes, model evidence, lineage, and runtime architecture details for technical review.";
 }
 
 function renderEvidencePanels() {
