@@ -1,0 +1,95 @@
+<svg width="1180" height="620" viewBox="0 0 1180 620" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">Enterprise AI Decision Intelligence architecture</title>
+  <desc id="desc">A layered architecture diagram showing experience pages, live API, run orchestrator, contract-driven AI/ML pipeline stages, artifacts, and optional enterprise integrations.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="strokeWidth">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#5f5a54"/>
+    </marker>
+    <style>
+      .bg { fill: #f8f7f4; }
+      .panel { fill: #ffffff; stroke: #d7d2cb; stroke-width: 1.4; }
+      .soft { fill: #faf9f7; stroke: #d7d2cb; stroke-width: 1.2; }
+      .accent { fill: #f7e6e2; stroke: #c74634; stroke-width: 1.4; }
+      .title { fill: #312d2a; font: 700 24px Arial, sans-serif; }
+      .section { fill: #312d2a; font: 700 15px Arial, sans-serif; }
+      .text { fill: #5f5a54; font: 400 13px Arial, sans-serif; }
+      .small { fill: #6f6863; font: 600 11px Arial, sans-serif; letter-spacing: .04em; }
+      .node { fill: #312d2a; font: 700 13px Arial, sans-serif; }
+      .flow { stroke: #5f5a54; stroke-width: 2; marker-end: url(#arrow); }
+      .dash { stroke: #8a837c; stroke-width: 1.6; stroke-dasharray: 6 6; marker-end: url(#arrow); }
+    </style>
+  </defs>
+
+  <rect class="bg" x="0" y="0" width="1180" height="620" rx="18"/>
+  <text class="title" x="42" y="48">Enterprise AI Decision Intelligence Architecture</text>
+  <text class="text" x="42" y="74">One contract-driven runtime supports portfolio review, model decisioning, simulation, architecture reference, and enterprise evidence.</text>
+
+  <rect class="panel" x="42" y="105" width="1096" height="112" rx="12"/>
+  <text class="small" x="68" y="137">EXPERIENCE LAYER</text>
+  <rect class="soft" x="68" y="154" width="190" height="38" rx="8"/>
+  <text class="node" x="86" y="178">AI Decision Portfolio</text>
+  <rect class="soft" x="278" y="154" width="180" height="38" rx="8"/>
+  <text class="node" x="298" y="178">AI Impact Summary</text>
+  <rect class="soft" x="478" y="154" width="220" height="38" rx="8"/>
+  <text class="node" x="498" y="178">Model Decision Workbench</text>
+  <rect class="accent" x="718" y="154" width="170" height="38" rx="8"/>
+  <text class="node" x="740" y="178">Simulation Flow</text>
+  <rect class="soft" x="908" y="154" width="190" height="38" rx="8"/>
+  <text class="node" x="928" y="178">Architecture Reference</text>
+
+  <path class="flow" d="M 588 218 L 588 255"/>
+
+  <rect class="panel" x="42" y="255" width="1096" height="110" rx="12"/>
+  <text class="small" x="68" y="287">LIVE UI AND API CONTROL PLANE</text>
+  <rect class="soft" x="68" y="306" width="220" height="38" rx="8"/>
+  <text class="node" x="88" y="330">Live UI Server</text>
+  <rect class="soft" x="330" y="306" width="220" height="38" rx="8"/>
+  <text class="node" x="350" y="330">Run Orchestrator</text>
+  <rect class="soft" x="592" y="306" width="220" height="38" rx="8"/>
+  <text class="node" x="612" y="330">Scenario + Simulation API</text>
+  <rect class="soft" x="854" y="306" width="220" height="38" rx="8"/>
+  <text class="node" x="874" y="330">Evidence APIs</text>
+  <path class="flow" d="M 288 325 L 318 325"/>
+  <path class="flow" d="M 550 325 L 580 325"/>
+  <path class="flow" d="M 812 325 L 842 325"/>
+
+  <path class="flow" d="M 588 366 L 588 402"/>
+
+  <rect class="panel" x="42" y="402" width="1096" height="118" rx="12"/>
+  <text class="small" x="68" y="434">CONTRACT-DRIVEN AI/ML PIPELINE</text>
+  <rect class="soft" x="68" y="452" width="112" height="42" rx="8"/>
+  <text class="node" x="87" y="469">Data</text>
+  <text class="node" x="84" y="486">Sources</text>
+  <rect class="soft" x="199" y="452" width="112" height="42" rx="8"/>
+  <text class="node" x="216" y="477">Ingestion</text>
+  <rect class="soft" x="330" y="452" width="112" height="42" rx="8"/>
+  <text class="node" x="350" y="477">Storage</text>
+  <rect class="soft" x="461" y="452" width="112" height="42" rx="8"/>
+  <text class="node" x="481" y="477">Identity</text>
+  <rect class="soft" x="592" y="452" width="112" height="42" rx="8"/>
+  <text class="node" x="611" y="477">Features</text>
+  <rect class="soft" x="723" y="452" width="112" height="42" rx="8"/>
+  <text class="node" x="746" y="477">Model</text>
+  <rect class="soft" x="854" y="452" width="112" height="42" rx="8"/>
+  <text class="node" x="876" y="477">Activate</text>
+  <rect class="soft" x="985" y="452" width="112" height="42" rx="8"/>
+  <text class="node" x="1000" y="469">Govern</text>
+  <text class="node" x="1006" y="486">Monitor</text>
+  <path class="flow" d="M 180 473 L 190 473"/>
+  <path class="flow" d="M 311 473 L 321 473"/>
+  <path class="flow" d="M 442 473 L 452 473"/>
+  <path class="flow" d="M 573 473 L 583 473"/>
+  <path class="flow" d="M 704 473 L 714 473"/>
+  <path class="flow" d="M 835 473 L 845 473"/>
+  <path class="flow" d="M 966 473 L 976 473"/>
+
+  <rect class="panel" x="42" y="548" width="516" height="48" rx="12"/>
+  <text class="small" x="68" y="569">ARTIFACTS AND EVIDENCE</text>
+  <text class="text" x="68" y="588">Predictions, metrics, manifests, activation payloads, validation gates, run summaries.</text>
+  <path class="dash" d="M 588 520 L 330 546"/>
+
+  <rect class="panel" x="622" y="548" width="516" height="48" rx="12"/>
+  <text class="small" x="648" y="569">OPTIONAL ENTERPRISE INTEGRATIONS</text>
+  <text class="text" x="648" y="588">MLflow, Feast, Splink, Airflow, Keycloak, Prometheus, DQ-compatible artifacts.</text>
+  <path class="dash" d="M 840 520 L 860 546"/>
+</svg>

@@ -20,10 +20,11 @@ Each workflow moves from model inputs to recommendation, impact forecast, decisi
 Use this sequence for an end-to-end walkthrough:
 
 1. Start at AI Decision Portfolio.
-2. Open the Model Decision Workbench.
-3. Walk through model inputs, recommendation, impact forecast, and decision evidence.
-4. Open AI Impact Summary to show portfolio-level health.
-5. Open AI/ML Platform Architecture to explain the technical runtime and evidence path.
+2. Open AI Impact Summary to show portfolio-level health.
+3. Open the Model Decision Workbench.
+4. Walk through model inputs, recommendation, impact forecast, and decision evidence.
+5. Open Simulation Flow to change setup and run the AI/ML pipeline one stage at a time.
+6. Open Architecture Reference to explain the technical runtime and evidence path.
 
 ## 3. Visual Walkthrough
 
@@ -77,23 +78,23 @@ What to point out:
 2. Average pipeline pass rate.
 3. Model-level decisions, KPIs, and latest run status.
 
-### Flow Step 5: Explain The AI/ML Architecture
+### Flow Step 5: Run The Simulation Flow
 
-Open AI/ML Platform Architecture to show the technical thesis, backend model runtime, and component diagram.
+Open Simulation Flow to change the AI/ML use case, runtime profile, scenario preset, seed, or failure injection, then run the pipeline stage by stage.
 
-![AI/ML Architecture Thesis](assets/user-guide/05-architecture-thesis.png)
+![Simulation Flow](assets/user-guide/05-architecture-thesis.png)
 
 What to point out:
 
-1. One governed AI/ML runtime supports multiple decision models.
-2. The backend is contract-driven and evidence-backed.
-3. The architecture is designed for standalone runtime first, with optional enterprise integration.
+1. AI/ML Use Case is a dropdown so users can switch models.
+2. Model Execution controls expose runtime, scenario, seed, and failure simulation.
+3. Run Next Stage advances the walkthrough and updates runtime evidence.
 
-### Flow Step 6: Walk The Eight ML Stages
+### Flow Step 6: Walk The AI/ML Architecture
 
-Use the architecture walkthrough to explain the pipeline from Data Sources to Monitoring + Governance.
+Use AI/ML Architecture Walkthrough to explain the pipeline from Data Sources to Monitoring + Governance.
 
-![Eight ML Stages](assets/user-guide/06-eight-ml-stages.png)
+![AI/ML Architecture Walkthrough](assets/user-guide/06-eight-ml-stages.png)
 
 What to point out:
 
@@ -101,16 +102,16 @@ What to point out:
 2. Each stage produces artifacts or metrics.
 3. Technical users can inspect inputs, outputs, components, and evidence.
 
-### Flow Step 7: Inspect Model Evidence Center
+### Flow Step 7: Review Architecture Reference And Evidence
 
-Use Model Evidence Center to review model evidence, architecture flow, run history, and portfolio health.
+Use Architecture Reference and Model Evidence to review the reference diagrams, architecture flow, run history, and portfolio health.
 
-![Model Evidence Center](assets/user-guide/07-model-evidence-center.png)
+![Architecture Reference And Evidence](assets/user-guide/07-model-evidence-center.png)
 
 What to point out:
 
-1. Model Evidence is the first evidence tab.
-2. Architecture Flow explains the execution order.
+1. Architecture Reference separates static reference from action-oriented simulation.
+2. Model Evidence shows run artifacts and execution evidence.
 3. Model Run History compares recent runs.
 4. AI Portfolio Health summarizes latest run status across use cases.
 
@@ -159,7 +160,8 @@ make ui-live
 | AI Decision Portfolio | `/ui/experience/business-home.html` | Business and executive users |
 | AI Impact Summary | `/ui/experience/business-exec-summary.html` | Executives and business owners |
 | Model Decision Workbench | `/ui/experience/workbench.html` | Business users and technical reviewers |
-| AI/ML Platform Architecture | `/ui/experience/index.html` | Architects, ML engineers, and platform teams |
+| Simulation Flow | `/ui/experience/index.html#simulate` | Architects, ML engineers, and platform teams |
+| Architecture Reference | `/ui/experience/index.html#overview` | Architects, ML engineers, and platform teams |
 
 ## 6. Business User Guide
 
@@ -222,9 +224,9 @@ Use `Print / Save PDF` on the AI Impact Summary page when you need an executive-
 
 Technical users should focus on architecture, run evidence, artifacts, and governance.
 
-### Step 1: Open AI/ML Platform Architecture
+### Step 1: Open Simulation Flow
 
-Use the architecture page to explain the end-to-end platform.
+Use Simulation Flow to change the model setup and run the end-to-end platform one stage at a time.
 
 The core architecture is:
 
@@ -239,9 +241,9 @@ Data Sources
 -> Monitoring + Governance
 ```
 
-### Step 2: Walk The Eight ML Stages
+### Step 2: Walk The AI/ML Architecture
 
-Use the side navigation on the architecture page to walk stage by stage.
+Use AI/ML Architecture Walkthrough to walk stage by stage.
 
 For each stage, review:
 
@@ -265,20 +267,20 @@ Use this view to inspect:
 6. Validation gates
 7. Artifact paths
 
-### Step 4: Inspect Model Evidence Center
+### Step 4: Inspect Architecture Reference And Model Evidence
 
-On the architecture page, open Model Evidence Center.
+Open Architecture Reference for static diagrams, then open Model Evidence for run artifacts and history.
 
 Review:
 
-1. Model Evidence
-2. AI/ML Architecture Flow
+1. Architecture Reference
+2. Model Evidence
 3. Model Run History
 4. AI Portfolio Health
 
 ### Step 5: Run A New Model Workflow
 
-Use Model Execution controls on the architecture page.
+Use Model Execution controls on Simulation Flow.
 
 Common options:
 

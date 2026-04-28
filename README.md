@@ -26,6 +26,8 @@ This creates four common problems:
 
 The app presents a full AI/ML decision workflow from model input to business action.
 
+![Enterprise AI Decision Intelligence Architecture](docs/assets/readme-architecture.svg)
+
 It uses one contract-driven backend pipeline for all use cases:
 
 ```text
@@ -46,7 +48,8 @@ The UI turns those artifacts into a guided presentation:
 1. **AI Decision Portfolio** shows the model portfolio and recommended storytelling sequence.
 2. **AI Impact Summary** shows portfolio-level business impact, model health, and latest run status.
 3. **Model Decision Workbench** walks through model inputs, recommendations, forecasts, and decision evidence.
-4. **AI/ML Platform Architecture** explains the technical architecture, eight ML stages, runtime profiles, and enterprise integration path.
+4. **Simulation Flow** lets users change use case, runtime, scenario, and failure injection, then run the pipeline stage by stage.
+5. **Architecture Reference** explains the technical architecture, eight ML stages, runtime profiles, and enterprise integration path.
 
 ## User Benefits
 
@@ -136,7 +139,8 @@ Open the main pages:
 AI Decision Portfolio:      http://127.0.0.1:8080/ui/experience/business-home.html
 AI Impact Summary:         http://127.0.0.1:8080/ui/experience/business-exec-summary.html
 Model Decision Workbench:  http://127.0.0.1:8080/ui/experience/workbench.html
-AI/ML Architecture:        http://127.0.0.1:8080/ui/experience/index.html
+Simulation Flow:           http://127.0.0.1:8080/ui/experience/index.html#simulate
+Architecture Reference:    http://127.0.0.1:8080/ui/experience/index.html#overview
 ```
 
 Build static UI data from latest artifacts:
