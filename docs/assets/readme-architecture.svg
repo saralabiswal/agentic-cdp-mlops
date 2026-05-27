@@ -1,6 +1,6 @@
-<svg width="1180" height="620" viewBox="0 0 1180 620" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+<svg width="1180" height="640" viewBox="0 0 1180 640" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
   <title id="title">Enterprise AI Decision Intelligence architecture</title>
-  <desc id="desc">A layered architecture diagram showing experience pages, live API, run orchestrator, contract-driven AI/ML pipeline stages, artifacts, and optional enterprise integrations.</desc>
+  <desc id="desc">A layered architecture diagram showing experience pages, live API, run orchestrator, contract-driven AI/ML pipeline stages, run evidence, built-in metrics, optional OSS runtime, and optional enterprise adapters.</desc>
   <defs>
     <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="strokeWidth">
       <path d="M 0 0 L 10 5 L 0 10 z" fill="#5f5a54"/>
@@ -20,7 +20,7 @@
     </style>
   </defs>
 
-  <rect class="bg" x="0" y="0" width="1180" height="620" rx="18"/>
+  <rect class="bg" x="0" y="0" width="1180" height="640" rx="18"/>
   <text class="title" x="42" y="48">Enterprise AI Decision Intelligence Architecture</text>
   <text class="text" x="42" y="74">One contract-driven runtime supports portfolio review, model decisioning, simulation, architecture reference, and enterprise evidence.</text>
 
@@ -44,11 +44,11 @@
   <rect class="soft" x="68" y="306" width="220" height="38" rx="8"/>
   <text class="node" x="88" y="330">Live UI Server</text>
   <rect class="soft" x="330" y="306" width="220" height="38" rx="8"/>
-  <text class="node" x="350" y="330">Run Orchestrator</text>
+  <text class="node" x="350" y="330">Full-Stack Orchestrator</text>
   <rect class="soft" x="592" y="306" width="220" height="38" rx="8"/>
   <text class="node" x="612" y="330">Scenario + Simulation API</text>
   <rect class="soft" x="854" y="306" width="220" height="38" rx="8"/>
-  <text class="node" x="874" y="330">Evidence APIs</text>
+  <text class="node" x="874" y="330">Evidence + Inference APIs</text>
   <path class="flow" d="M 288 325 L 318 325"/>
   <path class="flow" d="M 550 325 L 580 325"/>
   <path class="flow" d="M 812 325 L 842 325"/>
@@ -83,13 +83,15 @@
   <path class="flow" d="M 835 473 L 845 473"/>
   <path class="flow" d="M 966 473 L 976 473"/>
 
-  <rect class="panel" x="42" y="548" width="516" height="48" rx="12"/>
+  <rect class="panel" x="42" y="548" width="516" height="66" rx="12"/>
   <text class="small" x="68" y="569">ARTIFACTS AND EVIDENCE</text>
-  <text class="text" x="68" y="588">Predictions, metrics, manifests, activation payloads, validation gates, run summaries.</text>
+  <text class="text" x="68" y="588">Source tables, topics, predictions, metrics, activation payloads, governance gates.</text>
+  <text class="text" x="68" y="604">Run summaries, stage telemetry, model registry, lineage-compatible exports.</text>
   <path class="dash" d="M 588 520 L 330 546"/>
 
-  <rect class="panel" x="622" y="548" width="516" height="48" rx="12"/>
-  <text class="small" x="648" y="569">OPTIONAL ENTERPRISE INTEGRATIONS</text>
-  <text class="text" x="648" y="588">MLflow, Feast, Splink, Airflow, Keycloak, Prometheus, DQ-compatible artifacts.</text>
+  <rect class="panel" x="622" y="548" width="516" height="66" rx="12"/>
+  <text class="small" x="648" y="569">OPTIONAL RUNTIME AND ENTERPRISE ADAPTERS</text>
+  <text class="text" x="648" y="588">OSS profile: Kafka, Postgres, MinIO. Product adapters: MLflow, Feast, Splink.</text>
+  <text class="text" x="648" y="604">Airflow, Keycloak, DQ/monitoring exports. Built in: Prometheus /metrics.</text>
   <path class="dash" d="M 840 520 L 860 546"/>
 </svg>

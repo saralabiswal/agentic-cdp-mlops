@@ -1,297 +1,409 @@
-# Enterprise AI Decision Intelligence Platform
+<!--
+  Author: Sarala Biswal
+  github.com/saralabiswal
+-->
 
-An enterprise-grade AI/ML application for turning governed customer, marketing, and experiment data into explainable model recommendations, impact forecasts, activation outputs, and operational evidence.
+# CDP AI/ML Platform — Reference Architecture for Production ML Governance
 
-The application is built around four decision models:
+**Author:** [Sarala Biswal](https://github.com/saralabiswal) · [LinkedIn](https://linkedin.com/in/saralabiswal) · [nlpml.ai](https://nlpml.ai)
 
-1. TensorFlow Next Best Action Model
-2. TensorFlow Churn Propensity Model
-3. Bayesian Media Mix Optimization
-4. Causal Incrementality Model
+[![Python](https://img.shields.io/badge/Python-3.11-3b82f6?style=flat-square&logo=python&logoColor=white)](https://python.org)
+[![TensorFlow](https://img.shields.io/badge/TensorFlow-ML-ff6f00?style=flat-square&logo=tensorflow&logoColor=white)](https://tensorflow.org)
+[![PyMC](https://img.shields.io/badge/PyMC--Marketing-Bayesian-a855f7?style=flat-square)](https://pymc-marketing.io)
+[![EconML](https://img.shields.io/badge/EconML-Causal-10b981?style=flat-square)](https://econml.azurewebsites.net)
+[![MLflow](https://img.shields.io/badge/MLflow-registry-0194e2?style=flat-square)](https://mlflow.org)
+[![Feast](https://img.shields.io/badge/Feast-feature--store-f59e0b?style=flat-square)](https://feast.dev)
+[![License](https://img.shields.io/badge/license-MIT-64748b?style=flat-square)](LICENSE)
+[![No Deploy](https://img.shields.io/badge/runs%20locally-no%20cloud%20required-22c55e?style=flat-square)](#quick-start)
 
-It can run as a standalone local app without external deployment dependencies, while also exposing optional enterprise integration paths for lineage, feature store, identity resolution, orchestration, access control, monitoring, and metrics.
+---
 
-## Business Problem
+> Reference architecture for governed enterprise ML — four production use cases,
+> eight pipeline stages, contract-driven workflows, tiered runtime profiles, and
+> evidence-first governance in one inspectable, standalone platform.
 
-Many organizations have customer data, campaign data, and model experiments spread across disconnected tools. Business teams often see model outputs without enough evidence to trust them, while technical teams must explain lineage, data quality, model health, and deployment readiness across separate systems.
+> *"The failure mode in enterprise ML is not building the model — it is everything
+> around the model. Feature drift, data quality gaps, registry without evidence,
+> governance without audit, and the inability to trace a decision back to its data
+> source are what break enterprise ML deployments at scale. This platform names and
+> solves each of those problems as a contract-backed, independently inspectable
+> pipeline layer."*
 
-This creates four common problems:
+Reference implementation of the Unity CDP AI/ML platform architecture that shipped
+six production models to thousands of customers.
 
-1. Decisions are delayed because business stakeholders cannot see why a model recommendation is trustworthy.
-2. AI/ML teams struggle to connect model outputs to activation-ready business actions.
-3. Governance, data-quality, and model-readiness evidence is hard to inspect in one place.
-4. Enterprise architecture conversations become abstract because the pipeline, artifacts, and controls are not visible end to end.
+---
 
-## How This App Solves It
+## Reference Architecture
 
-The app presents a full AI/ML decision workflow from model input to business action.
+This repo is a reference implementation of three architectural patterns that
+most enterprise ML platforms skip in favor of getting to model training faster.
 
-![Enterprise AI Decision Intelligence Architecture](docs/assets/readme-architecture.svg)
+**Pattern 1 — Contract-Driven ML Workflows**
+Every use case is defined by a contract (`UC-NBA-RET-001`, `UC-CHURN-RET-002`,
+`UC-MMM-PLN-003`, `UC-INCR-MKT-004`). The contract specifies inputs, outputs,
+runtime model selection, fallback behavior, and governance requirements. The
+pipeline implements the contract — not the other way around. This is how you
+build ML systems that survive model swaps, team changes, and production incidents.
 
-It uses one contract-driven backend pipeline for all use cases:
+**Pattern 2 — Tiered Runtime Architecture**
+The same codebase runs in three progressive tiers without code changes:
+- **Standalone** — local execution, file-backed artifacts, zero external dependencies
+- **OSS Integrated** — Kafka, PostgreSQL, MinIO for production-shaped data paths
+- **Enterprise** — MLflow, Feast, Splink, Airflow, Keycloak, Prometheus, monitoring
 
-```text
-Data Sources
--> Ingestion + Event Bus
--> Raw Storage + Curated Warehouse
--> Identity Resolution + Customer 360
--> Feature Layer
--> Model Layer
--> Serving + Activation
--> Monitoring + Governance
+Each tier produces the same artifacts, the same audit evidence, and the same
+governance outputs. Infrastructure is injected — not coupled.
+
+**Pattern 3 — Evidence-First Governance**
+Every pipeline run produces inspectable artifacts: source tables, event-bus topics,
+storage outputs, identity and feature snapshots, model predictions, activation
+payloads, validation gates, lineage outputs, model-registry entries, and stage
+telemetry. Governance is not a checkbox at the end — it is an output of every run.
+
+---
+
+## Four Production Use Cases
+
+| Contract ID | Use Case | ML Approach | Fallback |
+|---|---|---|---|
+| `UC-NBA-RET-001` | Next Best Action for retention | TensorFlow uplift + action ranking | Deterministic heuristic |
+| `UC-CHURN-RET-002` | Churn prediction + retention actioning | TensorFlow classifier | Deterministic heuristic |
+| `UC-MMM-PLN-003` | Media mix modeling + budget optimization | PyMC-Marketing Bayesian | Bayesian-surrogate fallback |
+| `UC-INCR-MKT-004` | Campaign incrementality measurement | EconML + DoWhy causal inference | Statistical fallback |
+
+Three distinct ML paradigms in one governed platform:
+- **Discriminative** (TensorFlow) — supervised classification and ranking
+- **Bayesian** (PyMC-Marketing) — probabilistic marketing mix attribution
+- **Causal** (EconML + DoWhy) — true lift measurement, not correlation
+
+---
+
+## Eight-Stage ML Pipeline
+
+```
+Stage 1 — Data Sources           CRM · campaign · experiment · usage data
+          ↓
+Stage 2 — Ingestion + Event Bus  Kafka (OSS) or file-backed (standalone)
+          ↓
+Stage 3 — Raw + Curated Storage  MinIO + PostgreSQL (OSS) or local artifacts
+          ↓
+Stage 4 — Identity Resolution    Splink probabilistic entity matching
+          + Customer 360          Unified customer profile per use case
+          ↓
+Stage 5 — Feature Layer          Feast feature store (OSS) or computed features
+                                  Versioned feature snapshots per run
+          ↓
+Stage 6 — Model Layer            TensorFlow · PyMC-Marketing · EconML · DoWhy
+                                  Model registry · champion/challenger · readiness
+          ↓
+Stage 7 — Serving + Activation   Online inference · batch scoring
+                                  Activation mapping to business actions
+          ↓
+Stage 8 — Monitoring + Governance MLflow · Prometheus · data quality
+                                  Artifact manifests · lineage · audit trail
 ```
 
-Each run produces inspectable artifacts under `artifacts/`, including model predictions, metrics, manifests, activation payloads, validation gates, lineage-compatible outputs, and run summaries.
+Every stage produces versioned artifacts under `artifacts/<use_case_id>/<run_id>/`.
+Every run is inspectable, replayable, and governance-approved before promotion.
 
-The UI turns those artifacts into a guided presentation:
+---
 
-1. **AI Decision Portfolio** shows the model portfolio and recommended storytelling sequence.
-2. **AI Impact Summary** shows portfolio-level business impact, model health, and latest run status.
-3. **Model Decision Workbench** walks through model inputs, recommendations, forecasts, and decision evidence.
-4. **Simulation Flow** lets users change use case, runtime, scenario, and failure injection, then run the pipeline stage by stage.
-5. **Architecture Reference** explains the technical architecture, eight ML stages, runtime profiles, and enterprise integration path.
+## MLOps Lifecycle — Model Governance
 
-## User Benefits
+Models move through a governed promotion lifecycle — not just trained and deployed:
 
-Business users get:
+```
+generate synthetic data
+  → train versioned artifacts
+  → evaluate baseline vs challenger
+  → model-readiness check
+  → register in model registry
+  → governance review (approve warnings)
+  → promote to approved
+  → deploy to serving layer
+```
 
-1. A clear view of what each AI/ML model recommends.
-2. Business-friendly impact metrics such as expected uplift, churn risk, forecast error, and true lift.
-3. A structured way to present AI decisions to stakeholders.
-4. Confidence that model outputs are backed by evidence, not static mockups.
+**Model registry commands:**
+```bash
+python3 -m pipelines.cli model-registry-list
+python3 -m pipelines.cli model-readiness --use-case UC-NBA-RET-001 --run-id <id>
+python3 -m pipelines.cli model-promote --use-case UC-NBA-RET-001 --run-id <id> --to approved
+```
 
-Technical users get:
+**What the registry tracks:** model version · training data snapshot · evaluation
+metrics · approval status · checksums · feature schema version · policy version
 
-1. A contract-driven architecture that is easy to inspect and extend.
-2. Stage-by-stage evidence for data, features, models, activation, and governance.
-3. Runtime controls for standalone execution, integrated runtime mode, scenario presets, and failure simulation.
-4. Optional enterprise integration paths for MLflow, Feast, Splink, Airflow, Keycloak, Prometheus, and data-quality artifacts.
+---
 
-Executives and platform leaders get:
+## Platform Modules
 
-1. A single presentation surface for AI/ML business value and architecture readiness.
-2. A standalone app that can be shared without requiring cloud deployment.
-3. A credible path from local proof to enterprise MLOps architecture.
+| Module | Architectural purpose |
+|---|---|
+| **AI Decision Portfolio** | Model portfolio view with recommended evaluation sequence |
+| **AI Impact Summary** | Portfolio-level business impact, model health, latest run status |
+| **Model Decision Workbench** | Model inputs, recommendations, forecasts, decision evidence |
+| **Simulation Flow** | Stage-by-stage pipeline execution with failure injection |
+| **Architecture Reference** | 8-stage diagram, runtime profiles, enterprise integration paths |
+
+---
+
+## Tiered Runtime Profiles
+
+| Profile | Command | Infrastructure |
+|---|---|---|
+| **Standalone** (default) | `make standalone` | Local Python, file-backed artifacts — no external services |
+| **Synthetic-only** | `--runtime-mode synthetic_only` | Generated source data, deterministic scenario presets |
+| **Real Dataset** | `--source-data-root data/production` | Production-style CSV fixtures |
+| **OSS Integrated** | `make infra-up && --infra-profile oss` | Kafka · PostgreSQL · MinIO |
+| **Advanced ML** | `make install-ml` | TensorFlow · PyMC-Marketing · EconML · DoWhy |
+| **Enterprise** | `enterprise_hardening.json` | MLflow · Feast · Splink · Airflow · Keycloak · Prometheus |
+
+**The invariant:** every profile produces the same contract outputs and governance
+artifacts. Infrastructure scales up — the decision interface does not change.
+
+---
+
+## Failure Injection + Scenario Presets
+
+Built-in failure injection for governance walkthroughs and resilience demos:
+
+```bash
+# Inject data quality failure
+python3 -m pipelines.cli run-stack --use-case UC-NBA-RET-001 \
+  --runtime-mode synthetic_only --failure-injection dq_fail
+
+# Run deterministic scenario preset
+python3 -m pipelines.cli run-stack --use-case UC-NBA-RET-001 \
+  --runtime-mode synthetic_only --scenario-id nba_high_risk_save
+```
+
+Every failure injection is observable in the governance artifacts — data quality
+blockers, stage telemetry, and run summaries show exactly what failed and why.
+
+---
+
+## Enterprise Integration Paths
+
+Optional paths that connect to enterprise infrastructure without coupling the core pipeline:
+
+| Integration | Purpose | Activation |
+|---|---|---|
+| **MLflow** | Model registry, experiment tracking | `--infra-profile oss` |
+| **Feast** | Feature store, feature versioning | `--infra-profile oss` |
+| **Splink** | Probabilistic identity resolution | `--infra-profile oss` |
+| **Airflow** | Workflow orchestration | `--infra-profile oss` |
+| **Keycloak** | Access control, identity | Enterprise profile |
+| **Prometheus** | Runtime metrics, model monitoring | `GET /metrics` |
+| **Kafka** | Event bus for ingestion layer | `make infra-up` |
+| **PostgreSQL + MinIO** | Curated storage and data lake | `make infra-up` |
+
+All integrations are profile-driven and produce fallback evidence when unavailable.
+The platform never fails silently — missing integrations are recorded in the artifact manifest.
+
+---
+
+## Live API Surface
+
+```
+GET  /api/health                                Server health
+GET  /api/view-model                            Current UI view model
+POST /api/run                                   Start full-stack pipeline run
+GET  /api/jobs, /api/jobs/<id>                  Job status
+POST /api/simulation/session                    Stage-by-stage simulation
+GET  /api/runs, /api/runs/<uc>/<run_id>         Run registry and summary
+GET  /api/runs/<uc>/<run_id>/stages             Stage telemetry
+GET  /api/runs/<uc>/<run_id>/data-quality       Data quality blockers
+GET  /api/portfolio/summary                     Cross-use-case KPI rollup
+POST /api/inference/online                      Single-record scoring
+POST /api/inference/batch                       Batch scoring
+GET  /api/contracts/inference                   Generated inference contracts
+GET  /api/openapi.json                          OpenAPI schema
+POST /api/governance/approve                    Approve governance warnings
+GET  /metrics                                   Prometheus-compatible metrics
+```
+
+---
+
+## Technology Stack
+
+| Layer | Technology | Design note |
+|---|---|---|
+| **Discriminative ML** | TensorFlow · scikit-learn | Supervised classification + uplift ranking |
+| **Bayesian ML** | PyMC-Marketing | Probabilistic MMM — not correlation-based attribution |
+| **Causal ML** | EconML · DoWhy | True incrementality — not lift proxy |
+| **Feature Store** | Feast | Versioned features, point-in-time correctness |
+| **Model Registry** | MLflow | Governed promotion lifecycle, experiment tracking |
+| **Identity Resolution** | Splink | Probabilistic entity matching for Customer 360 |
+| **Orchestration** | Airflow | Enterprise workflow scheduling |
+| **Event Bus** | Kafka | Ingestion layer for real-time data paths |
+| **Storage** | PostgreSQL · MinIO | Curated warehouse + object store |
+| **Access Control** | Keycloak | Enterprise identity and authorization |
+| **Metrics** | Prometheus | Runtime and model health monitoring |
+| **Testing** | pytest | Unit, integration, CLI, docs, runtime, and UI adapter coverage |
+
+---
+
+## Quick Start
+
+**Standalone — one command:**
+
+```bash
+python3 -m venv .venv && source .venv/bin/activate
+python3 -m pip install -r requirements.txt
+make standalone
+```
+
+Open `http://127.0.0.1:8080/ui/experience/`
+
+**With full ML backends:**
+
+```bash
+python3 -m pip install -r requirements-ml.txt
+make standalone
+```
+
+**OSS integrated runtime (Kafka + PostgreSQL + MinIO):**
+
+```bash
+make infra-up
+python3 -m pipelines.cli run-stack-all --infra-profile oss
+```
+
+**Run individual use cases:**
+
+```bash
+# List configured use cases
+python3 -m pipelines.cli list-configs
+
+# Run all
+python3 -m pipelines.cli run-stack-all
+
+# Run one use case
+python3 -m pipelines.cli run-stack --use-case UC-NBA-RET-001
+
+# Synthetic mode with scenario preset
+python3 -m pipelines.cli run-stack --use-case UC-NBA-RET-001 \
+  --runtime-mode synthetic_only --scenario-id nba_high_risk_save
+```
+
+**UI pages:**
+
+```
+AI Decision Portfolio:  http://127.0.0.1:8080/ui/experience/business-home.html
+AI Impact Summary:      http://127.0.0.1:8080/ui/experience/business-exec-summary.html
+Model Workbench:        http://127.0.0.1:8080/ui/experience/workbench.html
+Simulation Flow:        http://127.0.0.1:8080/ui/experience/index.html#simulate
+Architecture:           http://127.0.0.1:8080/ui/experience/index.html#overview
+```
+
+---
+
+## Run History + Governance
+
+```bash
+# Inspect runs
+python3 -m pipelines.cli list-runs
+python3 -m pipelines.cli show-run --use-case UC-NBA-RET-001 --run-id <id>
+python3 -m pipelines.cli show-stages --use-case UC-NBA-RET-001 --run-id <id>
+python3 -m pipelines.cli show-data-quality --use-case UC-NBA-RET-001 --run-id <id>
+
+# Portfolio and baseline
+python3 -m pipelines.cli portfolio-summary
+python3 -m pipelines.cli baseline-report
+
+# Model lifecycle
+python3 -m pipelines.cli model-registry-list
+python3 -m pipelines.cli model-promote --use-case UC-NBA-RET-001 --run-id <id> --to approved
+
+# Governance approval
+python3 -m pipelines.cli governance-approve --use-case UC-NBA-RET-001 \
+  --run-id <id> --accept-all-warnings
+```
+
+---
+
+## Key Commands
+
+```bash
+make install              # Install core dependencies
+make install-ml           # Install ML backends (TensorFlow, PyMC, EconML)
+make standalone           # Full standalone setup + launch
+make standalone-fast      # Launch only (artifacts already exist)
+make ui-live              # Live UI/API with backend interaction
+make run-stack-all        # Run all 4 use cases
+make run-stack-all-oss    # Run all use cases with OSS infrastructure
+make infra-up             # Start Kafka + PostgreSQL + MinIO
+make model-registry-list  # Inspect model registry
+make portfolio-summary    # Cross-use-case KPI summary
+make ci-quality           # Lint + type checks + tests
+make test                 # Full test suite
+make smoke-standalone     # Standalone smoke test
+```
+
+---
+
+## Repository Map
+
+```
+use_cases/configs/         AI/ML use-case contracts — source of truth
+stack/layers/              Eight-stage runtime implementation
+models/                    Model implementations and registry
+pipelines/                 CLI and contract helpers
+scripts/ui_live_server.py  Live UI/API server
+ui/experience/             Enterprise presentation UI
+ui/adapter/                View-model generation
+artifacts/                 Run outputs · metrics · manifests · evidence
+docs/                      User · technical · API documentation
+tests/                     Unit and integration tests
+```
+
+---
 
 ## Documentation
 
 | Document | Purpose |
-| --- | --- |
-| [User Guide PDF](docs/USER_GUIDE.pdf) | Business and technical user walkthrough. |
-| [User Guide Source](docs/USER_GUIDE.md) | Markdown source for the PDF. |
-| [Technical README](docs/TECHNICAL_README.md) | AI/ML architecture, runtime, data flow, and integration details. |
-| [GitHub Check-In Checklist](docs/GITHUB_CHECKIN_CHECKLIST.md) | First-push checklist, ignored files, and validation commands. |
-| [API Reference](docs/API_REFERENCE.md) | Live API endpoints, contracts, and error payloads. |
-| [Generated Technical Architecture](docs/TECHNICAL_ARCHITECTURE.md) | Auto-generated code architecture reference. |
-| [Enterprise Integration Plan](docs/ENTERPRISE_HARDENING_PRODUCT_MODE_PLAN.md) | Optional product-hardening and enterprise integration roadmap. |
-| [Scope Lock](docs/SCOPE_LOCK.md) | Canonical scope and status reference. |
+|---|---|
+| [User Guide](docs/USER_GUIDE.md) | Business and technical walkthrough |
+| [Technical README](docs/TECHNICAL_README.md) | Architecture, runtime, data flow |
+| [API Reference](docs/API_REFERENCE.md) | Endpoints, contracts, error payloads |
+| [Technical Architecture](docs/TECHNICAL_ARCHITECTURE.md) | Auto-generated code architecture |
+| [Enterprise Integration Plan](docs/ENTERPRISE_HARDENING_PRODUCT_MODE_PLAN.md) | Production hardening roadmap |
+---
 
-## Quick Start
-
-Prerequisites:
-
-1. Python 3.11+
-2. `pip`
-
-Create and activate a virtual environment:
+## Troubleshooting
 
 ```bash
-python3 -m venv .venv
-source .venv/bin/activate
-python3 -m pip install -r requirements.txt
-```
-
-Optional ML dependencies:
-
-```bash
-python3 -m pip install -r requirements-ml.txt
-```
-
-Start the standalone app:
-
-```bash
+# Stale artifacts after model change
 make standalone
-```
 
-Open:
+# Infrastructure not starting
+make infra-down && make infra-up
 
-```text
-http://127.0.0.1:8080/ui/experience/index.html
-```
-
-For a faster launch when the environment is already prepared:
-
-```bash
-make standalone-fast
-```
-
-## Running The UI
-
-Serve the live UI and API:
-
-```bash
-make ui-live
-```
-
-Open the main pages:
-
-```text
-AI Decision Portfolio:      http://127.0.0.1:8080/ui/experience/business-home.html
-AI Impact Summary:         http://127.0.0.1:8080/ui/experience/business-exec-summary.html
-Model Decision Workbench:  http://127.0.0.1:8080/ui/experience/workbench.html
-Simulation Flow:           http://127.0.0.1:8080/ui/experience/index.html#simulate
-Architecture Reference:    http://127.0.0.1:8080/ui/experience/index.html#overview
-```
-
-Build static UI data from latest artifacts:
-
-```bash
-make ui-build-data
-```
-
-Serve the static UI:
-
-```bash
-make ui-serve
-```
-
-## Running AI/ML Workflows
-
-List configured use cases:
-
-```bash
-python3 -m pipelines.cli list-configs
-```
-
-Run all full-stack model workflows:
-
-```bash
-python3 -m pipelines.cli run-stack-all
-```
-
-Run one model workflow:
-
-```bash
-python3 -m pipelines.cli run-stack --use-case UC-NBA-RET-001
-```
-
-Run in synthetic-only standalone mode:
-
-```bash
-python3 -m pipelines.cli run-stack --use-case UC-NBA-RET-001 --runtime-mode synthetic_only
-```
-
-Run with a deterministic scenario preset:
-
-```bash
-python3 -m pipelines.cli run-stack --use-case UC-NBA-RET-001 --runtime-mode synthetic_only --scenario-id nba_high_risk_save
-```
-
-Run with real datasets:
-
-```bash
-python3 -m pipelines.cli run-stack-all --source-data-root data/production --require-real-data
-```
-
-Run with integrated infrastructure profile:
-
-```bash
-python3 -m pipelines.cli run-stack-all --infra-profile oss
-```
-
-## Runtime Profiles
-
-| Profile | Purpose |
-| --- | --- |
-| Standalone AI Runtime | Dependency-light local execution using file-backed artifacts. |
-| Integrated AI Runtime | Optional Kafka/Postgres/MinIO mirroring through the OSS profile. |
-| Enterprise Integration Profile | Optional readiness paths for MLflow, Feast, Splink, Airflow, Keycloak, monitoring, and metrics. |
-
-The standalone app remains dependency-free from external deployment services. Optional integrations are profile-driven and only connect to external tools when enabled.
-
-## Useful Commands
-
-```bash
-make install
+# ML backends unavailable
 make install-ml
-make standalone
-make standalone-fast
-make smoke-standalone
-make ui-live
-make ui-build-data
-make run-stack-all
-make run-stack-all-oss
-make model-registry-list
-make portfolio-summary
-make baseline-report
-make docs-gen
-make docs-check
-make test
+
+# Reset run registry
+python3 -m pipelines.cli reindex-runs
+python3 -m pipelines.cli prune-runs --keep-per-use-case 20 --apply
 ```
 
-## Run History And Governance
+---
 
-Inspect recent runs:
+## Portfolio Context
 
-```bash
-python3 -m pipelines.cli list-runs
-python3 -m pipelines.cli show-run --use-case UC-NBA-RET-001 --run-id <run_id>
-python3 -m pipelines.cli show-stages --use-case UC-NBA-RET-001 --run-id <run_id>
-python3 -m pipelines.cli show-data-quality --use-case UC-NBA-RET-001 --run-id <run_id>
-```
+This repo demonstrates the ML platform layer of a production AI portfolio:
 
-Inspect model lifecycle:
+| Pattern | Repo |
+|---|---|
+| Cross-vendor MCP integration · live context assembly | [agentic-mcp-quote-to-cash](https://github.com/saralabiswal/agentic-mcp-quote-to-cash) |
+| 6-layer governed agentic pipeline · regulatory replay | [agentic-banking-llmops](https://github.com/saralabiswal/agentic-banking-llmops) |
+| LLM agent evaluation · judge/SUT separation | [agentops-eval-llmops](https://github.com/saralabiswal/agentops-eval-llmops) |
+| LLMOps control plane · token cost · quality · drift | [agentic-llm-observability](https://github.com/saralabiswal/agentic-llm-observability) |
+| Hybrid ML + Rules · validator-gated LLM renewal | [agentic-saas-renewal](https://github.com/saralabiswal/agentic-saas-renewal) |
+| **8-stage ML platform · governed model promotion** | **this repo** |
 
-```bash
-python3 -m pipelines.cli model-registry-list
-python3 -m pipelines.cli model-readiness --use-case UC-NBA-RET-001 --run-id <run_id>
-python3 -m pipelines.cli model-promote --use-case UC-NBA-RET-001 --run-id <run_id> --to approved
-```
+---
 
-Approve governance warnings:
-
-```bash
-python3 -m pipelines.cli governance-approve --use-case UC-NBA-RET-001 --run-id <run_id> --accept-all-warnings
-```
-
-## Testing
-
-Run the test suite:
-
-```bash
-pytest -q
-```
-
-Run the standalone smoke test:
-
-```bash
-make smoke-standalone
-```
-
-Run OSS integration tests:
-
-```bash
-make test-oss
-```
-
-## Repository Map
-
-```text
-use_cases/configs/        AI/ML use-case contracts
-stack/layers/             Eight-stage runtime implementation
-models/                   Model implementations and registry
-pipelines/                CLI and contract helpers
-scripts/ui_live_server.py Live UI/API server
-ui/experience/            Enterprise AI/ML presentation UI
-ui/adapter/               View-model generation
-artifacts/                Run outputs, metrics, manifests, evidence
-docs/                     User, technical, API, and generated documentation
-tests/                    Unit and integration tests
-```
-
-## Portability Notes
-
-1. The standalone path uses local Python execution and repo-relative artifacts.
-2. UI-facing artifact paths are normalized to `artifacts/...` so machine-specific absolute paths do not appear in the app.
-3. The application does not require cloud-managed services to run locally.
-4. Optional integrated runtime and enterprise profile features can be enabled when the target environment supports them.
+*Built by [Sarala Biswal](https://linkedin.com/in/saralabiswal) — Director of Engineering,
+AI/ML Platforms at Oracle. Production Agentic AI · MLOps · CPQ · Quote-to-Cash.*
