@@ -33,10 +33,15 @@ def test_generate_user_guide_pdf_with_screenshots(tmp_path: Path) -> None:
     subprocess.run(cmd, check=True, text=True, capture_output=True)
 
     guide = Path("docs/USER_GUIDE.md").read_text(encoding="utf-8")
-    assert "## 3. Visual Walkthrough" in guide
+    assert "## 2. Current App Navigation" in guide
+    assert "## 4. Visual Walkthrough" in guide
+    assert "assets/user-guide/00-about.png" in guide
     assert "assets/user-guide/01-ai-decision-portfolio.png" in guide
+    assert "assets/user-guide/05-simulation-flow.png" in guide
     assert "assets/user-guide/08-technical-model-evidence.png" in guide
+    assert Path("docs/assets/user-guide/00-about.png").exists()
     assert Path("docs/assets/user-guide/01-ai-decision-portfolio.png").exists()
+    assert Path("docs/assets/user-guide/05-simulation-flow.png").exists()
     assert Path("docs/assets/user-guide/08-technical-model-evidence.png").exists()
     assert output_path.exists()
     assert output_path.stat().st_size > 100_000

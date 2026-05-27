@@ -13,6 +13,92 @@ from ui.adapter.build_view_model import (
 )
 
 
+def _write_minimal_nba_run(artifacts_root: Path) -> Path:
+    """Create a compact latest-run fixture for adapter shape tests."""
+    run_dir = artifacts_root / "UC-NBA-RET-001" / "20270101T000000Z"
+    run_dir.mkdir(parents=True, exist_ok=True)
+
+    artifact_paths = {
+        "topic": run_dir / "ingestion" / "event_bus" / "topic.jsonl",
+        "raw_events": run_dir / "storage" / "raw" / "events.jsonl",
+        "curated_records": run_dir / "storage" / "curated" / "records.json",
+        "resolved_records": run_dir / "identity_360" / "resolved_records.json",
+        "feature_rows": run_dir / "features" / "feature_rows.json",
+        "model_predictions": run_dir / "models" / "predictions.json",
+        "activation_payloads": run_dir / "serving_activation" / "activation_payloads.json",
+        "monitoring_report": run_dir / "monitoring_governance" / "report.json",
+    }
+    for path in artifact_paths.values():
+        path.parent.mkdir(parents=True, exist_ok=True)
+
+    artifact_paths["topic"].write_text(
+        json.dumps({"payload": {"customer_id": "CUST-001"}}) + "\n",
+        encoding="utf-8",
+    )
+    artifact_paths["raw_events"].write_text(
+        json.dumps({"topic": "raw", "payload": {"customer_id": "CUST-001"}}) + "\n",
+        encoding="utf-8",
+    )
+    artifact_paths["curated_records"].write_text(
+        json.dumps([{"customer_id": "CUST-001"}]),
+        encoding="utf-8",
+    )
+    artifact_paths["resolved_records"].write_text(
+        json.dumps([{"unified_customer_id": "U-CUST-001"}]),
+        encoding="utf-8",
+    )
+    artifact_paths["feature_rows"].write_text(
+        json.dumps([{"customer_id": "U-CUST-001", "risk_score": 0.2}]),
+        encoding="utf-8",
+    )
+    artifact_paths["model_predictions"].write_text(
+        json.dumps(
+            {
+                "metrics": {"primary_kpi": "retention_lift"},
+                "rows": [{"customer_id": "U-CUST-001"}],
+            }
+        ),
+        encoding="utf-8",
+    )
+    artifact_paths["activation_payloads"].write_text(
+        json.dumps([{"destination": "campaign_orchestrator"}]),
+        encoding="utf-8",
+    )
+    artifact_paths["monitoring_report"].write_text(
+        json.dumps({"run_status": "pass", "validation_gates": {"contract_tests_pass": "pass"}}),
+        encoding="utf-8",
+    )
+
+    summary = {
+        "use_case_id": "UC-NBA-RET-001",
+        "name": "Next Best Action for Retention",
+        "run_id": run_dir.name,
+        "seed": 77,
+        "infra_profile": "local",
+        "records": {
+            "source_tables": {"crm_customers": 1},
+            "curated_rows": 1,
+            "feature_rows": 1,
+        },
+        "model_metrics": {"primary_kpi": "retention_lift"},
+        "run_status": "pass",
+        "artifacts": {
+            "ingestion_event_bus": {
+                "raw.uc_nba_ret_001.crm_customers.v1": artifact_paths["topic"].as_posix()
+            },
+            "raw_events": artifact_paths["raw_events"].as_posix(),
+            "curated_records": artifact_paths["curated_records"].as_posix(),
+            "resolved_records": artifact_paths["resolved_records"].as_posix(),
+            "feature_rows": artifact_paths["feature_rows"].as_posix(),
+            "model_predictions": artifact_paths["model_predictions"].as_posix(),
+            "activation_payloads": artifact_paths["activation_payloads"].as_posix(),
+            "monitoring_report": artifact_paths["monitoring_report"].as_posix(),
+        },
+    }
+    (run_dir / "summary.json").write_text(json.dumps(summary), encoding="utf-8")
+    return run_dir
+
+
 def test_ui_schema_file_is_valid_json() -> None:
     schema_path = Path("ui/contracts/view_model.schema.json")
     assert schema_path.exists()
@@ -64,12 +150,17 @@ def test_runtime_config_loader_and_overrides(tmp_path: Path) -> None:
 
 def test_ui_view_model_script_generates_expected_shape(tmp_path: Path) -> None:
     output_path = tmp_path / "view_model.json"
+    artifacts_root = tmp_path / "artifacts"
+    _write_minimal_nba_run(artifacts_root)
+
     subprocess.run(
         [
             sys.executable,
             "ui/adapter/build_view_model.py",
             "--output",
             str(output_path),
+            "--artifacts-root",
+            str(artifacts_root),
         ],
         check=True,
         text=True,
