@@ -57,50 +57,6 @@
 
         <div class="clean-workspace">
           <section class="clean-panel" id="models">
-            <div class="clean-panel-head">
-              <div>
-                <p class="clean-eyebrow">Primary flow</p>
-                <h2>How the app presents the AI/ML story</h2>
-                <p>Start with portfolio health, drill into model evidence, then validate architecture and governance.</p>
-              </div>
-              <a class="clean-button secondary" href="#architecture">View architecture</a>
-            </div>
-
-            <div class="clean-flow" id="presentation-flow" aria-label="Presentation flow">
-              <article class="clean-flow-step active">
-                <span>1</span>
-                <strong>Portfolio health</strong>
-                <p>Show model families, latest run state, and business purpose first.</p>
-              </article>
-              <article class="clean-flow-step">
-                <span>2</span>
-                <strong>Model decision</strong>
-                <p>Explain inputs, recommendations, forecast, and activation payloads.</p>
-              </article>
-              <article class="clean-flow-step">
-                <span>3</span>
-                <strong>Run evidence</strong>
-                <p>Expose artifacts, stage telemetry, data quality, and registry state.</p>
-              </article>
-              <article class="clean-flow-step">
-                <span>4</span>
-                <strong>Simulation</strong>
-                <p>Run scenario presets and failure injection with visible stage progression.</p>
-              </article>
-              <article class="clean-flow-step">
-                <span>5</span>
-                <strong>Architecture</strong>
-                <p>Connect every screen back to the eight-stage MLOps pipeline.</p>
-              </article>
-            </div>
-
-            <div id="model-grid" class="clean-model-grid" aria-live="polite">
-              <article class="clean-model-card skeleton"></article>
-              <article class="clean-model-card skeleton"></article>
-              <article class="clean-model-card skeleton"></article>
-              <article class="clean-model-card skeleton"></article>
-            </div>
-
             <section class="clean-simulation" id="simulation" aria-label="Simulation controls">
               <div class="clean-panel-head compact">
                 <div>
@@ -160,6 +116,50 @@
                 <li>Monitoring + Governance</li>
               </ol>
             </section>
+
+            <div class="clean-panel-head clean-static-overview" id="models">
+              <div>
+                <p class="clean-eyebrow">Primary flow</p>
+                <h2>How the app presents the AI/ML story</h2>
+                <p>Start with portfolio health, drill into model evidence, then validate architecture and governance.</p>
+              </div>
+              <a class="clean-button secondary" href="#architecture">View architecture</a>
+            </div>
+
+            <div class="clean-flow clean-static-overview" id="presentation-flow" aria-label="Presentation flow">
+              <article class="clean-flow-step active">
+                <span>1</span>
+                <strong>Portfolio health</strong>
+                <p>Show model families, latest run state, and business purpose first.</p>
+              </article>
+              <article class="clean-flow-step">
+                <span>2</span>
+                <strong>Model decision</strong>
+                <p>Explain inputs, recommendations, forecast, and activation payloads.</p>
+              </article>
+              <article class="clean-flow-step">
+                <span>3</span>
+                <strong>Run evidence</strong>
+                <p>Expose artifacts, stage telemetry, data quality, and registry state.</p>
+              </article>
+              <article class="clean-flow-step">
+                <span>4</span>
+                <strong>Simulation</strong>
+                <p>Run scenario presets and failure injection with visible stage progression.</p>
+              </article>
+              <article class="clean-flow-step">
+                <span>5</span>
+                <strong>Architecture</strong>
+                <p>Connect every screen back to the eight-stage MLOps pipeline.</p>
+              </article>
+            </div>
+
+            <div id="model-grid" class="clean-model-grid clean-static-overview" aria-live="polite">
+              <article class="clean-model-card skeleton"></article>
+              <article class="clean-model-card skeleton"></article>
+              <article class="clean-model-card skeleton"></article>
+              <article class="clean-model-card skeleton"></article>
+            </div>
           </section>
 
           <aside class="clean-side">

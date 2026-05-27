@@ -272,11 +272,12 @@ h1 {
 }
 
 .clean-simulation {
-  margin: 0 16px 16px;
+  margin: 16px;
   padding: 16px;
   border: 1px solid var(--border);
   border-radius: var(--radius);
   background: var(--surface-2);
+  scroll-margin-top: 16px;
 }
 
 .clean-sim-grid {
@@ -389,6 +390,10 @@ h1 {
   border-color: #b9ddca;
   background: #ffffff;
   color: var(--good);
+}
+
+body.simulation-mode .clean-static-overview {
+  display: none;
 }
 
 .clean-model-card {

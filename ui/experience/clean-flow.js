@@ -240,6 +240,7 @@
 
   function updateActiveNav() {
     const hash = window.location.hash || "#overview";
+    document.body.classList.toggle("simulation-mode", hash === "#simulation");
     document.querySelectorAll(".clean-nav a").forEach((item) => {
       const href = item.getAttribute("href") || "";
       item.classList.toggle("active", href === hash || (!hash && href === "#overview"));

@@ -35,7 +35,7 @@ def test_clean_experience_shell_is_wired() -> None:
     assert nav.index("Run Evidence") < nav.index("Simulation")
     assert nav.index("Simulation") < nav.index("Architecture")
 
-    flow = html[html.index('<div class="clean-flow"') : html.index('<div id="model-grid"')]
+    flow = html[html.index('id="presentation-flow"') : html.index('id="model-grid"')]
     assert flow.index("Portfolio health") < flow.index("Model decision")
     assert flow.index("Model decision") < flow.index("Run evidence")
     assert flow.index("Run evidence") < flow.index("Simulation")
@@ -49,6 +49,7 @@ def test_clean_experience_shell_is_wired() -> None:
     assert "overflow-x: hidden" in css
     assert "grid-template-columns: 272px minmax(0, 1fr)" in css
     assert "@media (max-width: 760px)" in css
+    assert "body.simulation-mode .clean-static-overview" in css
 
     assert "/api/view-model" in js
     assert "/api/runs?limit=20&status=all&infra=all" in js
@@ -57,6 +58,7 @@ def test_clean_experience_shell_is_wired() -> None:
     assert "/api/simulation/session" in js
     assert "run-next" in js
     assert "run-all" in js
+    assert "simulation-mode" in js
     assert "TensorFlow Next Best Action" in js
     assert "Bayesian Media Mix Optimization" in js
     assert "OSS" in js
