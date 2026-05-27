@@ -351,9 +351,15 @@ def assemble_pdf(page_streams: list[PageSpec]) -> bytes:
 
     catalog_id = add_object("<< /Type /Catalog /Pages 2 0 R >>")
     pages_id = add_object("")
-    font_regular_id = add_object("<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>")
-    font_bold_id = add_object("<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>")
-    font_mono_id = add_object("<< /Type /Font /Subtype /Type1 /BaseFont /Courier >>")
+    font_regular_id = add_object(
+        "<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>"
+    )
+    font_bold_id = add_object(
+        "<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>"
+    )
+    font_mono_id = add_object(
+        "<< /Type /Font /Subtype /Type1 /BaseFont /Courier /Encoding /WinAnsiEncoding >>"
+    )
 
     page_ids: list[int] = []
     for page in page_streams:
@@ -373,7 +379,7 @@ def assemble_pdf(page_streams: list[PageSpec]) -> bytes:
             image_object_id = add_object(image_stream)
             image_resource_parts.append(f"/{image.name} {image_object_id} 0 R")
 
-        stream_bytes = page.stream.encode("latin-1", errors="replace")
+        stream_bytes = page.stream.encode("cp1252", errors="replace")
         content_id = add_object(
             b"<< /Length " + str(len(stream_bytes)).encode("ascii") + b" >>\nstream\n" + stream_bytes + b"\nendstream"
         )

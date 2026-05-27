@@ -1,5 +1,5 @@
 <svg width="1180" height="640" viewBox="0 0 1180 640" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
-  <title id="title">Enterprise AI Decision Intelligence architecture</title>
+  <title id="title">CDP AI/ML Platform — Production ML Governance</title>
   <desc id="desc">A layered architecture diagram showing experience pages, live API, run orchestrator, contract-driven AI/ML pipeline stages, run evidence, built-in metrics, optional OSS runtime, and optional enterprise adapters.</desc>
   <defs>
     <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="strokeWidth">
@@ -21,8 +21,8 @@
   </defs>
 
   <rect class="bg" x="0" y="0" width="1180" height="640" rx="18"/>
-  <text class="title" x="42" y="48">Enterprise AI Decision Intelligence Architecture</text>
-  <text class="text" x="42" y="74">One contract-driven runtime supports portfolio review, model decisioning, simulation, architecture reference, and enterprise evidence.</text>
+  <text class="title" x="42" y="48">CDP AI/ML Platform — Production ML Governance</text>
+  <text class="text" x="42" y="74">One contract-driven runtime supports portfolio review, model decisioning, simulation, architecture review, and enterprise evidence.</text>
 
   <rect class="panel" x="42" y="105" width="1096" height="112" rx="12"/>
   <text class="small" x="68" y="137">EXPERIENCE LAYER</text>
@@ -35,7 +35,7 @@
   <rect class="accent" x="718" y="154" width="170" height="38" rx="8"/>
   <text class="node" x="740" y="178">Simulation Flow</text>
   <rect class="soft" x="908" y="154" width="190" height="38" rx="8"/>
-  <text class="node" x="928" y="178">Architecture Reference</text>
+  <text class="node" x="928" y="178">Architecture Review</text>
 
   <path class="flow" d="M 588 218 L 588 255"/>
 

@@ -1216,9 +1216,9 @@ function renderArchitecturePageHero(active) {
       "Walk through the active AI/ML run stage by stage, from source data through activation and governance evidence.";
     return;
   }
-  els.architecturePageTitle.textContent = "Architecture Reference";
+  els.architecturePageTitle.textContent = "Architecture Review";
   els.architecturePageSubtitle.textContent =
-    "Reference diagrams, platform hardening notes, model evidence, lineage, and runtime architecture details for technical review.";
+    "Platform diagrams, hardening notes, model evidence, lineage, and runtime architecture details for technical review.";
 }
 
 function renderEvidencePanels() {

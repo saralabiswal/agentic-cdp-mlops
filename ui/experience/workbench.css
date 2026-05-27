@@ -16,7 +16,7 @@
   --wb-radius-md: 12px;
   --wb-radius-sm: 10px;
   --wb-shadow: 0 18px 36px rgba(20, 49, 73, 0.12);
-  --wb-font: "Avenir Next", "Trebuchet MS", "Gill Sans", sans-serif;
+  --wb-font: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
 * {
@@ -962,7 +962,7 @@ select:focus-visible {
   }
 
   .wb-shell::before {
-    content: "Customer Data AI Workbench";
+    content: "CDP AI/ML Platform";
     position: fixed;
     z-index: 9;
     top: 0;
@@ -998,7 +998,7 @@ select:focus-visible {
   }
 
   .wb-top-nav::before {
-    content: "Customer Data AI Workbench";
+    content: "CDP AI/ML Platform";
     order: 0;
     display: block;
     margin-bottom: 2px;
@@ -1085,7 +1085,7 @@ select:focus-visible {
 
 /* Strict Redwood correction pass for standalone workbench. */
 :root {
-  --redwood-font: "Oracle Sans", "Helvetica Neue", Arial, sans-serif;
+  --redwood-font: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --redwood-bg: #f5f4f2;
   --redwood-bg-raised: #faf9f7;
   --redwood-surface: #ffffff;
@@ -1367,7 +1367,7 @@ textarea {
 /* Product-grade polish: lighter system typography, tighter density, and
    constrained work surfaces so the app reads like enterprise software. */
 :root {
-  --redwood-font: "Segoe UI", -apple-system, BlinkMacSystemFont, "Roboto", "Helvetica Neue", Arial, sans-serif;
+  --redwood-font: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
 * {
@@ -1637,7 +1637,7 @@ b {
   --copilot-danger-text: #991b1b;
   --copilot-info-bg: #eff6ff;
   --copilot-info-text: #1d4ed8;
-  --copilot-font: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --copilot-font: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 
   --redwood-font: var(--copilot-font);
   --redwood-bg: var(--copilot-bg);
@@ -1889,7 +1889,7 @@ textarea {
   }
 
   .wb-shell::before {
-    content: "Customer Data AI Workbench";
+    content: "CDP AI/ML Platform";
     left: 260px;
     height: 72px;
     background: var(--copilot-surface);
@@ -2186,4 +2186,462 @@ body {
 
 .wb-link {
   color: var(--rw-blue);
+}
+
+/* Enterprise-grade workbench theme. Mirrors the shared control-plane treatment
+   used by the portfolio, impact, and simulation pages. */
+:root {
+  --ent-font: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --ent-bg: #f5f6f8;
+  --ent-surface: #ffffff;
+  --ent-surface-alt: #f9fafb;
+  --ent-surface-strong: #eef2f6;
+  --ent-ink: #111827;
+  --ent-ink-2: #253041;
+  --ent-muted: #5b6472;
+  --ent-muted-2: #7a8492;
+  --ent-border: #d7dde5;
+  --ent-border-strong: #b8c2cf;
+  --ent-primary: #1f5f8f;
+  --ent-primary-dark: #17496f;
+  --ent-primary-soft: #e7f0f8;
+  --ent-success: #1f7a4d;
+  --ent-warning: #986a1b;
+  --ent-danger: #b42318;
+  --ent-radius: 8px;
+  --ent-radius-sm: 6px;
+  --ent-shadow: 0 1px 2px rgba(17, 24, 39, 0.06), 0 8px 24px rgba(17, 24, 39, 0.06);
+
+  --wb-bg-1: var(--ent-bg);
+  --wb-bg-2: var(--ent-surface);
+  --wb-ink-900: var(--ent-ink);
+  --wb-ink-700: var(--ent-muted);
+  --wb-ink-500: var(--ent-muted-2);
+  --wb-border: var(--ent-border);
+  --wb-surface: var(--ent-surface);
+  --wb-brand: var(--ent-primary);
+  --wb-brand-2: var(--ent-primary);
+  --wb-brand-soft: var(--ent-primary-soft);
+  --wb-good: var(--ent-success);
+  --wb-warn: var(--ent-warning);
+  --wb-bad: var(--ent-danger);
+  --wb-radius-lg: var(--ent-radius);
+  --wb-radius-md: var(--ent-radius);
+  --wb-radius-sm: var(--ent-radius-sm);
+  --wb-shadow: var(--ent-shadow);
+  --wb-font: var(--ent-font);
+}
+
+html,
+body {
+  background: var(--ent-bg);
+}
+
+body,
+button,
+input,
+select,
+textarea {
+  font-family: var(--ent-font);
+  color: var(--ent-ink);
+  letter-spacing: 0;
+}
+
+.wb-shell {
+  width: auto;
+  max-width: none;
+  margin: 0;
+  padding: 0 24px 28px 284px;
+}
+
+.wb-shell::before,
+.wb-shell::after {
+  display: none;
+}
+
+.wb-top-nav {
+  position: fixed;
+  z-index: 10;
+  inset: 0 auto 0 0;
+  width: 260px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin: 0;
+  padding: 22px 14px;
+  background: #20242b;
+  border-right: 1px solid #161a20;
+  box-shadow: none;
+}
+
+.wb-top-nav::before {
+  content: "CDP AI/ML Platform";
+  display: block;
+  margin: 0 8px 18px;
+  color: #f8fafc;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.wb-top-nav a {
+  min-height: 42px;
+  justify-content: flex-start;
+  border: 1px solid transparent;
+  border-radius: var(--ent-radius-sm);
+  background: transparent;
+  color: #c9d1dc;
+  box-shadow: none;
+  padding: 10px 12px;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.wb-top-nav a:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: transparent;
+  color: #ffffff;
+}
+
+.wb-top-nav a.is-active {
+  background: #ffffff;
+  border-color: #ffffff;
+  color: var(--ent-ink);
+  box-shadow: none;
+}
+
+.wb-top-nav a.is-active:hover {
+  background: #ffffff;
+  border-color: #ffffff;
+  color: var(--ent-ink);
+}
+
+.wb-top-nav a::before,
+.wb-top-nav a.is-active::before {
+  display: none;
+}
+
+.wb-hero {
+  margin: 0 -24px 18px;
+  padding: 22px 24px 18px;
+  border: 0;
+  border-bottom: 1px solid var(--ent-border);
+  border-radius: 0;
+  background: var(--ent-surface);
+  color: var(--ent-ink);
+  box-shadow: none;
+}
+
+.wb-layout,
+.wb-hero,
+.wb-left-rail,
+.wb-center-panel,
+.wb-right-panel {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.wb-hero h1 {
+  color: var(--ent-ink);
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.16;
+  letter-spacing: 0;
+}
+
+.wb-hero p {
+  max-width: 960px;
+  color: var(--ent-muted);
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.wb-eyebrow,
+.wb-rail-label,
+.wb-mode-kicker,
+.wb-section-label,
+.wb-label,
+.wb-meta-label,
+.wb-kpi-label,
+.wb-status-pill,
+.wb-tag {
+  color: var(--ent-muted-2);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.wb-layout {
+  gap: 16px;
+}
+
+.wb-left-rail,
+.wb-center-panel,
+.wb-right-panel,
+.wb-side-card,
+.wb-content-card,
+.wb-metric-card,
+.wb-tech-card,
+.wb-stage-card,
+.wb-output-card,
+.wb-evidence-card,
+.wb-main-card,
+.wb-kpi-card,
+.wb-data-card {
+  border-color: var(--ent-border);
+  border-radius: var(--ent-radius);
+  background: var(--ent-surface);
+  box-shadow: var(--ent-shadow);
+}
+
+.wb-left-rail,
+.wb-content-card,
+.wb-side-card {
+  background: var(--ent-surface-alt);
+}
+
+.wb-panel-header h2,
+.wb-step-header-row h3,
+.wb-side-card h3,
+.wb-tech-card h5,
+.wb-stage-card h4 {
+  color: var(--ent-ink);
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+.wb-step-subtitle,
+.wb-live-status,
+.wb-side-card p,
+.wb-tech-card p,
+.wb-stage-card p,
+.wb-output-card p {
+  color: var(--ent-muted);
+}
+
+.wb-chip,
+.wb-step-btn {
+  border-color: var(--ent-border);
+  border-radius: var(--ent-radius-sm);
+  background: var(--ent-surface);
+  color: var(--ent-ink-2);
+  font-weight: 600;
+  box-shadow: none;
+}
+
+.wb-chip:hover,
+.wb-step-btn:hover {
+  border-color: var(--ent-primary);
+  background: var(--ent-primary-soft);
+  color: var(--ent-primary-dark);
+}
+
+.wb-chip.is-active,
+.wb-step-btn.is-active {
+  border-color: var(--ent-primary);
+  background: var(--ent-primary-soft);
+  color: var(--ent-primary-dark);
+  box-shadow: inset 3px 0 0 var(--ent-primary);
+}
+
+.wb-progress-track {
+  background: var(--ent-surface-strong);
+}
+
+.wb-progress-fill {
+  background: var(--ent-primary);
+}
+
+.wb-btn,
+.wb-action-btn,
+.wb-output-filter button {
+  min-height: 36px;
+  border-radius: var(--ent-radius-sm);
+  border: 1px solid var(--ent-border-strong);
+  background: var(--ent-surface);
+  color: var(--ent-ink-2);
+  box-shadow: none;
+  font-weight: 700;
+}
+
+.wb-btn-primary,
+.wb-btn.primary,
+.wb-btn.is-primary,
+.wb-action-btn.primary {
+  border-color: var(--ent-primary-dark);
+  background: var(--ent-primary);
+  color: #ffffff;
+}
+
+.wb-btn-primary:hover,
+.wb-btn.primary:hover,
+.wb-btn.is-primary:hover,
+.wb-action-btn.primary:hover {
+  background: var(--ent-primary-dark);
+  border-color: var(--ent-primary-dark);
+}
+
+.wb-btn:hover,
+.wb-action-btn:hover {
+  background: var(--ent-surface-strong);
+  border-color: var(--ent-border-strong);
+}
+
+.wb-btn:disabled,
+button:disabled,
+input:disabled,
+select:disabled {
+  opacity: 0.72;
+  cursor: not-allowed;
+  filter: grayscale(0.15);
+}
+
+.wb-output-filter select,
+.wb-output-filter input,
+select,
+input {
+  min-height: 38px;
+  border: 1px solid var(--ent-border-strong);
+  border-radius: var(--ent-radius-sm);
+  background-color: var(--ent-surface);
+  color: var(--ent-ink);
+  box-shadow: none;
+}
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+a:focus-visible {
+  outline: 2px solid rgba(31, 95, 143, 0.32);
+  outline-offset: 2px;
+}
+
+.wb-status-pass,
+.wb-status.pass,
+.status.pass {
+  background: #e7f6ee;
+  border-color: #b9ddca;
+  color: var(--ent-success);
+}
+
+.wb-status-warn,
+.wb-status.warn,
+.status.warn {
+  background: #fff5df;
+  border-color: #e6c985;
+  color: var(--ent-warning);
+}
+
+.wb-status-fail,
+.wb-status.fail,
+.status.fail {
+  background: #fff0ee;
+  border-color: #f0b8b2;
+  color: var(--ent-danger);
+}
+
+.wb-status-neutral,
+.wb-tag,
+.wb-chip-inline {
+  background: var(--ent-surface-strong);
+  border-color: var(--ent-border);
+  color: var(--ent-muted);
+}
+
+.wb-data-table th,
+.wb-table th,
+.table th,
+.data-table th {
+  background: var(--ent-surface-strong);
+  color: var(--ent-ink-2);
+  font-weight: 700;
+}
+
+.wb-data-table td,
+.wb-table td,
+.table td,
+.data-table td {
+  border-color: var(--ent-border);
+  color: var(--ent-ink);
+}
+
+.wb-link {
+  color: var(--ent-primary);
+}
+
+@media (max-width: 980px) {
+  .wb-shell {
+    padding: 0 14px 20px;
+  }
+
+  .wb-top-nav {
+    position: sticky;
+    top: 0;
+    width: auto;
+    flex-direction: row;
+    overflow-x: auto;
+    padding: 10px;
+    margin: 0 -14px 14px;
+    border-right: 0;
+    border-bottom: 1px solid #161a20;
+  }
+
+  .wb-top-nav::before {
+    display: none;
+  }
+
+  .wb-top-nav a {
+    flex: 0 0 auto;
+  }
+
+  .wb-hero {
+    margin: 0 -14px 14px;
+    padding: 18px 14px;
+  }
+}
+
+/* Final app header pass: keep page headers quiet, consistent, and non-wrapping. */
+.wb-top-nav::before {
+  content: "CDP AI/ML Platform";
+}
+
+.wb-hero {
+  min-height: 126px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.wb-hero h1 {
+  margin: 4px 0 6px;
+}
+
+.wb-panel-header {
+  align-items: flex-start;
+  gap: 18px;
+}
+
+.wb-panel-header h2 {
+  max-width: 820px;
+}
+
+.wb-header-actions {
+  flex: 0 0 auto;
+}
+
+.wb-btn,
+.btn {
+  white-space: nowrap;
+}
+
+@media (max-width: 760px) {
+  .wb-panel-header {
+    flex-direction: column;
+  }
+
+  .wb-header-actions,
+  .wb-header-actions .wb-btn {
+    width: 100%;
+  }
 }

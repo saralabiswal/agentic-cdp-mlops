@@ -3,80 +3,63 @@ from __future__ import annotations
 from pathlib import Path
 
 
-def test_run_history_baseline_selector_exists() -> None:
+def test_clean_experience_shell_is_wired() -> None:
     html = Path("ui/experience/index.html").read_text(encoding="utf-8")
-    assert 'id="run-history-baseline"' in html
-    assert '<option value="3" selected>3</option>' in html
-    assert "Run Integrated AI Runtime" in html
-    assert "Run Standalone AI Runtime" in html
-    assert html.index('data-evidence-view="artifacts"') < html.index('data-evidence-view="flow"')
-    assert html.index('data-evidence-view="flow"') < html.index('data-evidence-view="history"')
-    assert 'data-evidence-view="history"' in html
-    assert 'data-evidence-panel="portfolio"' in html
-    assert "Run history baseline selector" in html
-    assert 'id="run-runtime-mode"' in html
-    assert 'id="run-scenario-id"' in html
-    assert 'id="enterprise-profile-select"' in html
-    assert "Enterprise Integration Profile" in html
-    assert 'id="sim-next-btn"' in html
-    assert 'id="sim-pause-btn"' in html
-    assert 'id="sim-resume-btn"' in html
-    assert 'id="sim-reset-btn"' in html
-    assert 'id="enterprise-hardening"' in html
-    assert 'id="architecture-story"' in html
-    assert 'id="arch-story-rail"' in html
-    assert 'id="arch-story-prev"' in html
-    assert 'id="arch-story-next"' in html
-    assert 'id="arch-stage-proof"' in html
-    assert 'id="arch-stage-inputs"' in html
-    assert 'id="arch-stage-outputs"' in html
-    assert "AI/ML Platform Architecture" in html
-    assert "AI/ML Decision Intelligence Architecture" in html
-    assert "business-home.html" in html
-    assert "business-exec-summary.html" in html
-    nav = html[html.index('<nav class="wb-theme-top-nav"') : html.index("</nav>")]
-    assert nav.index("AI Decision Portfolio") < nav.index("AI Impact Summary")
-    assert nav.index("AI Impact Summary") < nav.index("Model Decision Workbench")
-    assert nav.index("Model Decision Workbench") < nav.index("AI/ML Platform Architecture")
-    assert "What This Proves" in html
-    assert "Architecture &amp; Design" in html
-    assert "Backend Model Runtime" in html
-    assert '<svg' in html
-    assert 'class="backend-architecture-svg"' in html
-    assert "backend-svg-title" in html
-    assert 'class="stage-architecture-svg"' in html
-    assert "stage-svg-title" in html
-    assert "8-Stage Technical Component Diagram" in html
-    assert "Data Sources to Monitoring + Governance" in html
-    assert "Experience Layer" in html
-    assert "Run Orchestrator" in html
-    assert "Evidence Plane" in html
-    assert "Ingestion +" in html
-    assert "Event Bus" in html
-    assert "Raw + Curated" in html
-    assert "Storage" in html
-    assert "Identity + 360" in html
-    assert "Feature Layer" in html
-    assert "Model Layer" in html
-    assert "Serving + Activation" in html
-    assert "Monitoring +" in html
-    assert "Governance" in html
-    assert "Architecture Summary For Technical Reviewers" in html
-    assert "one reusable AI/ML backend pipeline" in html
-    assert "Enterprise Integration Path" in html
-    assert "Architecture Message" in html
-    assert "The platform keeps one model contract" in html
-    assert "Presentation Steps" in html
-    assert 'href="#architecture-story"' in html
-    assert "Business View" not in html
-    assert "Business audience?" not in html
-    css = Path("ui/experience/styles.css").read_text(encoding="utf-8")
-    assert "#use-case-select" in css
-    assert "data:image/svg+xml" in css
-    assert ".backend-diagram" in css
-    assert ".backend-architecture-svg" in css
-    assert ".stage-architecture-svg" in css
-    assert ".architecture-summary" in css
+    css = Path("ui/experience/clean-flow.css").read_text(encoding="utf-8")
+    js = Path("ui/experience/clean-flow.js").read_text(encoding="utf-8")
+
+    assert "clean-flow.css" in html
+    assert "clean-flow.js" in html
+    assert "Production ML Governance Platform" in html
+    assert "Production ML governance, model evidence, and activation readiness." in html
+    assert 'id="metric-model-count"' in html
+    assert 'id="metric-run-status"' in html
+    assert 'id="metric-stage-count"' in html
+    assert 'id="metric-runtime"' in html
+    assert 'id="model-grid"' in html
+    assert 'id="evidence-list"' in html
+    assert 'id="architecture"' in html
+    assert 'id="simulation"' in html
+    assert 'id="sim-use-case"' in html
+    assert 'id="sim-scenario"' in html
+    assert 'id="sim-runtime"' in html
+    assert 'id="sim-infra"' in html
+    assert 'id="sim-run-next"' in html
+    assert 'id="sim-run-all"' in html
+    assert 'id="sim-reset"' in html
+
+    nav = html[html.index('<nav class="clean-nav"') : html.index("</nav>")]
+    assert nav.index("About") < nav.index("Overview")
+    assert nav.index("Overview") < nav.index("Model Portfolio")
+    assert nav.index("Model Portfolio") < nav.index("Run Evidence")
+    assert nav.index("Run Evidence") < nav.index("Simulation")
+    assert nav.index("Simulation") < nav.index("Architecture")
+
+    flow = html[html.index('<div class="clean-flow"') : html.index('<div id="model-grid"')]
+    assert flow.index("Portfolio health") < flow.index("Model decision")
+    assert flow.index("Model decision") < flow.index("Run evidence")
+    assert flow.index("Run evidence") < flow.index("Simulation")
+    assert flow.index("Simulation") < flow.index("Architecture")
+    assert "Latest run snapshot" in html
+    assert "Evidence center" in html
+    assert "Architecture path" in html
+
+    assert "--nav: #20242b" in css
+    assert "--primary: #1f5f8f" in css
+    assert "overflow-x: hidden" in css
+    assert "grid-template-columns: 272px minmax(0, 1fr)" in css
+    assert "@media (max-width: 760px)" in css
+
+    assert "/api/view-model" in js
+    assert "/api/runs?limit=20&status=all&infra=all" in js
+    assert "/api/artifacts/download?path=" in js
+    assert "/api/scenarios" in js
+    assert "/api/simulation/session" in js
+    assert "run-next" in js
+    assert "run-all" in js
+    assert "TensorFlow Next Best Action" in js
+    assert "Bayesian Media Mix Optimization" in js
+    assert "OSS" in js
 
 
 def test_run_history_comparison_rendering_is_wired() -> None:
@@ -121,6 +104,9 @@ def test_ui_stage_detail_and_portfolio_api_wiring_exists() -> None:
 
 
 def test_business_experience_pages_exist_and_are_linked() -> None:
+    about = Path("ui/experience/about.html").read_text(encoding="utf-8")
+    about_css = Path("ui/experience/about.css").read_text(encoding="utf-8")
+    about_js = Path("ui/experience/about.js").read_text(encoding="utf-8")
     home = Path("ui/experience/business-home.html").read_text(encoding="utf-8")
     exec_summary = Path("ui/experience/business-exec-summary.html").read_text(encoding="utf-8")
     workbench = Path("ui/experience/workbench.html").read_text(encoding="utf-8")
@@ -129,7 +115,32 @@ def test_business_experience_pages_exist_and_are_linked() -> None:
     exec_live_js = Path("ui/experience/business-exec-live.js").read_text(encoding="utf-8")
     workbench_js = Path("ui/experience/workbench.js").read_text(encoding="utf-8")
 
-    assert "Enterprise AI Decision Portfolio" in home
+    assert "CDP AI/ML Platform | About" in about
+    assert "<h1>About the Platform</h1>" in about
+    assert "The Problem" in about
+    assert "How It Works" in about
+    assert "Use Cases" in about
+    assert "Governance" in about
+    assert "Production Context" in about
+    assert "Architecture" in about
+    assert "Enterprise ML Has a Governance Gap" in about
+    assert "UC-NBA-RET-001 - Next Best Action for Retention" in about
+    assert "Evidence-First Governance" in about
+    assert "Built From Production Experience at Oracle Scale" in about
+    assert "Three ML Paradigms" in about
+    about_nav = about[about.index('<nav class="top-nav story-nav"') : about.index("</nav>")]
+    assert about_nav.index("About") < about_nav.index("AI Decision Portfolio")
+    assert "about.css" in about
+    assert "about.js" in about
+    assert ".about-tab-list" in about_css
+    assert "data-about-tab" in about_js
+
+    for page_html in (home, exec_summary, workbench):
+        nav = page_html[page_html.index("<nav") : page_html.index("</nav>")]
+        assert nav.index("About") < nav.index("AI Decision Portfolio")
+        assert 'href="about.html"' in nav
+
+    assert "<h1>AI Decision Portfolio</h1>" in home
     assert "<span>01</span> Next Best Action" not in home
     assert "<span>02</span> Churn Prevention" not in home
     assert "<span>03</span> Media Mix" not in home

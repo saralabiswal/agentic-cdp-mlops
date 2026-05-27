@@ -29,8 +29,7 @@
 > solves each of those problems as a contract-backed, independently inspectable
 > pipeline layer."*
 
-Reference implementation of the Unity CDP AI/ML platform architecture that shipped
-six production models to thousands of customers.
+Reference architecture of the CDP AI/ML platform architecture that shipped six production models.
 
 ---
 
@@ -63,7 +62,64 @@ telemetry. Governance is not a checkbox at the end — it is an output of every 
 
 ---
 
-## Four Production Use Cases
+## The Business Problem
+
+Enterprise marketing, retention, and revenue teams operate in a gap between data availability and decision confidence. Customer data exists. Campaign data exists. Experiment results exist. Model outputs exist. What is missing is the governed, evidence-backed infrastructure that connects those signals to commercially accountable decisions.
+
+The result is four specific failures that repeat across almost every enterprise ML deployment:
+
+| Failure | What it looks like in practice | Business consequence |
+|---|---|---|
+| **Model outputs without context** | Data scientists present churn scores. Business teams ask: which customers? what actions? what confidence? No answer. | Decisions delayed or ignored — model adoption stalls |
+| **Attribution without causality** | Marketing measures channel performance using last-touch or even multi-touch attribution. True incrementality — what actually caused conversion — is never measured. | Budget allocated to channels that correlate with conversion but don't cause it. Millions misspent. |
+| **ML recommendations without activation** | The model produces a Next Best Action output. Nobody knows how to turn it into a campaign, a CRM update, or a customer communication. | ML lives in a dashboard. It never reaches the customer. |
+| **Governance as a final checkpoint** | Data quality, model readiness, and lineage are reviewed once — right before deployment. Problems surface late, fixes are expensive. | Slow release cycles, production incidents, compliance exposure |
+
+**What makes this hard at enterprise scale:**
+
+The data, models, features, experiments, and activation systems are owned by different teams, running on different platforms, with different quality standards and release cadences. A churn model trained by the data science team cannot easily reach the CRM system owned by the marketing operations team, governed by a compliance team with its own approval process.
+
+Most organizations solve this by building point-to-point pipelines — one script for churn, another for NBA, another for attribution. Each one breaks differently. None share a governance model. Audit trails exist per team, not per decision.
+
+---
+
+## How This Architecture Solves It
+
+**Problem 1 — Model outputs without context → Contract-driven evidence artifacts**
+
+Every pipeline run produces a complete artifact set: source data snapshot, feature vector, model input, prediction, confidence metrics, activation mapping, and governance validation. Business users do not see a score — they see a recommendation backed by traceable evidence. The `Model Decision Workbench` turns those artifacts into a stakeholder-ready presentation that answers: what is recommended, why, with what confidence, and what action does it map to.
+
+**Problem 2 — Attribution without causality → Causal ML as a first-class layer**
+
+The platform runs EconML + DoWhy for `UC-INCR-MKT-004` (Campaign Incrementality) and PyMC-Marketing for `UC-MMM-PLN-003` (Media Mix Modeling). These are not correlation-based attribution models. They measure true incremental lift — what would have happened without this campaign, this channel, this spend — using causal inference methodology. This is the difference between knowing what correlated with conversion and knowing what caused it.
+
+**Problem 3 — Recommendations without activation → Eight-stage pipeline ending in activation**
+
+Stage 7 of the pipeline is Serving + Activation. Every model output is mapped to a business action: a CRM update, a campaign segment, a retention offer, a budget reallocation. The pipeline does not stop at prediction. It continues through to the output that a marketing operations team, a CRM admin, or a finance team can act on without interpretation.
+
+**Problem 4 — Governance as a checkpoint → Evidence-first governance at every stage**
+
+Every stage produces governance artifacts. Data quality blockers are caught at Stage 2 before any model runs. Feature validation happens at Stage 5 before training. Model readiness is evaluated and registered before serving. Governance approval is required before promotion. By the time a model reaches production, there are eight stages of evidence behind it — not a single pre-release review.
+
+**The architectural outcome:**
+
+```
+Before this platform:
+  Churn score exists in a notebook
+  Attribution lives in a dashboard
+  NBA outputs require manual interpretation
+  Governance happens at the end
+  Point-to-point pipelines, different standards, no shared audit
+
+After this platform:
+  Churn score → evidence artifact → CRM activation payload
+  Attribution → causal lift measurement → budget reallocation
+  NBA → ranked action list → campaign segment → customer communication
+  Governance runs at every stage → artifacts prove every decision
+  One contract-driven pipeline → four use cases → one audit trail
+```
+
+
 
 | Contract ID | Use Case | ML Approach | Fallback |
 |---|---|---|---|
@@ -240,7 +296,7 @@ GET  /metrics                                   Prometheus-compatible metrics
 | **Storage** | PostgreSQL · MinIO | Curated warehouse + object store |
 | **Access Control** | Keycloak | Enterprise identity and authorization |
 | **Metrics** | Prometheus | Runtime and model health monitoring |
-| **Testing** | pytest | Unit, integration, CLI, docs, runtime, and UI adapter coverage |
+| **E2E Testing** | Playwright | UI workflow coverage |
 
 ---
 
@@ -369,6 +425,8 @@ tests/                     Unit and integration tests
 | [API Reference](docs/API_REFERENCE.md) | Endpoints, contracts, error payloads |
 | [Technical Architecture](docs/TECHNICAL_ARCHITECTURE.md) | Auto-generated code architecture |
 | [Enterprise Integration Plan](docs/ENTERPRISE_HARDENING_PRODUCT_MODE_PLAN.md) | Production hardening roadmap |
+| [ML Model Card](docs/ML_CARD.md) | Model intent, limitations, promotion requirements |
+
 ---
 
 ## Troubleshooting
@@ -405,5 +463,5 @@ This repo demonstrates the ML platform layer of a production AI portfolio:
 
 ---
 
-*Built by [Sarala Biswal](https://linkedin.com/in/saralabiswal) — Director of Engineering,
+*Built by [Sarala Biswal](https://linkedin.com/in/saralabiswal) — Director of AI Engineering,
 AI/ML Platforms at Oracle. Production Agentic AI · MLOps · CPQ · Quote-to-Cash.*

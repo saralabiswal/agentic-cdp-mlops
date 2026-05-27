@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CDP AI/ML Platform | About</title>
+    <link rel="stylesheet" href="business-storyboard.css" />
+    <link rel="stylesheet" href="workbench-theme.css" />
+    <link rel="stylesheet" href="about.css" />
+  </head>
+  <body>
+    <main class="shell about-shell">
+      <nav class="top-nav story-nav" aria-label="Application navigation">
+        <a href="about.html" class="is-active">About</a>
+        <a href="business-home.html">AI Decision Portfolio</a>
+        <a href="business-exec-summary.html">AI Impact Summary</a>
+        <a href="workbench.html">Model Decision Workbench</a>
+        <a href="index.html#simulation">Simulation Flow</a>
+        <a href="index.html#architecture">Architecture Review</a>
+      </nav>
+
+      <section class="hero about-hero">
+        <p class="eyebrow">CDP AI/ML Platform</p>
+        <h1>About the Platform</h1>
+        <p>
+          A contract-driven AI/ML governance platform for turning enterprise customer data,
+          model evidence, and causal measurement into commercially accountable decisions.
+        </p>
+        <div class="about-meta">
+          <span>Author: Sarala Biswal</span>
+          <span>Production ML governance</span>
+          <span>Evidence-first architecture</span>
+        </div>
+      </section>
+
+      <section class="about-tabs" aria-label="About sections">
+        <div class="about-tab-list" role="tablist" aria-label="About page sections">
+          <button id="tab-problem" class="about-tab is-active" type="button" role="tab" aria-selected="true" aria-controls="panel-problem" data-about-tab="problem">The Problem</button>
+          <button id="tab-solution" class="about-tab" type="button" role="tab" aria-selected="false" aria-controls="panel-solution" data-about-tab="solution">How It Works</button>
+          <button id="tab-use-cases" class="about-tab" type="button" role="tab" aria-selected="false" aria-controls="panel-use-cases" data-about-tab="use-cases">Use Cases</button>
+          <button id="tab-governance" class="about-tab" type="button" role="tab" aria-selected="false" aria-controls="panel-governance" data-about-tab="governance">Governance</button>
+          <button id="tab-production" class="about-tab" type="button" role="tab" aria-selected="false" aria-controls="panel-production" data-about-tab="production">Production Context</button>
+          <button id="tab-architecture" class="about-tab" type="button" role="tab" aria-selected="false" aria-controls="panel-architecture" data-about-tab="architecture">Architecture</button>
+        </div>
+
+        <article id="panel-problem" class="about-panel is-active" role="tabpanel" aria-labelledby="tab-problem" data-about-panel="problem">
+          <header class="about-section-head">
+            <p class="eyebrow">The Problem</p>
+            <h2>Enterprise ML Has a Governance Gap - Not a Model Gap</h2>
+            <p>
+              Most organizations have data, models, and experiments. What they are missing is
+              the governed infrastructure that connects those signals to commercially accountable decisions.
+            </p>
+          </header>
+
+          <p>
+            Enterprise marketing, retention, and revenue teams share a common frustration.
+            The data exists. The models run. The experiments happen. But the decisions that
+            should follow - the campaign to launch, the customer to retain, the budget to
+            reallocate, the channel to cut - are delayed, inconsistent, or never happen at all.
+          </p>
+          <p><strong>The problem is not the model. The problem is everything around the model.</strong></p>
+
+          <div class="about-card-grid">
+            <section class="about-card">
+              <h3>Model Outputs Without Context</h3>
+              <p>Data scientists present churn scores at a business review. The audience asks: which customers, what actions, what confidence, by when? Nobody has the answer. The model never reaches production.</p>
+            </section>
+            <section class="about-card">
+              <h3>Attribution Without Causality</h3>
+              <p>Marketing reports channel performance using last-touch or multi-touch attribution. The real question - what actually caused this conversion - is never answered. Budget flows to channels that correlate with revenue but do not cause it.</p>
+            </section>
+            <section class="about-card">
+              <h3>Recommendations Without Activation</h3>
+              <p>The Next Best Action model runs and produces a ranked list. Nobody knows how to translate that list into a CRM update, campaign segment, or customer communication. The model lives in a dashboard.</p>
+            </section>
+            <section class="about-card">
+              <h3>Governance as a Final Checkpoint</h3>
+              <p>Data quality, model readiness, and lineage are reviewed once, right before deployment. Problems surface at the worst possible moment, fixes are expensive, and release cycles slow.</p>
+            </section>
+          </div>
+
+          <aside class="about-callout">
+            These are not edge cases. They repeat in almost every enterprise ML deployment across every industry.
+            They share a root cause: ML platforms are built to produce model outputs, not to govern the path from data to decision.
+          </aside>
+        </article>
+
+        <article id="panel-solution" class="about-panel" role="tabpanel" aria-labelledby="tab-solution" data-about-panel="solution" hidden>
+          <header class="about-section-head">
+            <p class="eyebrow">How It Works</p>
+            <h2>A Contract-Driven Platform That Connects Data to Governed Decisions</h2>
+            <p>Four use cases. Eight pipeline stages. One evidence-first architecture. Every run is auditable from source data to business action.</p>
+          </header>
+
+          <p>
+            This platform is built around a single principle: governance is not a checkpoint
+            at the end of a pipeline. It is an output of every stage. Every use case is defined
+            by a contract that specifies inputs, outputs, runtime model selection, fallback behavior,
+            and governance requirements.
+          </p>
+
+          <ol class="about-flow" aria-label="Eight stage AI/ML pipeline">
+            <li>Data Sources</li>
+            <li>Ingestion + Event Bus</li>
+            <li>Raw Storage + Curated Warehouse</li>
+            <li>Identity Resolution + Customer 360</li>
+            <li>Feature Layer</li>
+            <li>Model Layer</li>
+            <li>Serving + Activation</li>
+            <li>Monitoring + Governance</li>
+          </ol>
+
+          <div class="about-card-grid">
+            <section class="about-card">
+              <h3>Context for Model Outputs</h3>
+              <p>Every run produces source data, feature vectors, model inputs, predictions, confidence metrics, and activation mapping. Business users see recommendations with traceable evidence.</p>
+            </section>
+            <section class="about-card">
+              <h3>Causality Instead of Attribution</h3>
+              <p>Campaign Incrementality uses EconML and DoWhy to measure true causal lift. Media Mix Modeling uses PyMC-Marketing Bayesian inference to separate channel contribution from correlation.</p>
+            </section>
+            <section class="about-card">
+              <h3>Activation-Ready Recommendations</h3>
+              <p>Stage 7 maps every model output to a concrete business action: CRM update, campaign segment, retention offer, or budget reallocation.</p>
+            </section>
+            <section class="about-card">
+              <h3>Continuous Governance</h3>
+              <p>Data quality blockers are caught at Stage 2, feature validation at Stage 5, model readiness at Stage 6, and governance approval before promotion.</p>
+            </section>
+          </div>
+        </article>
+
+        <article id="panel-use-cases" class="about-panel" role="tabpanel" aria-labelledby="tab-use-cases" data-about-panel="use-cases" hidden>
+          <header class="about-section-head">
+            <p class="eyebrow">Use Cases</p>
+            <h2>Four Production Use Cases. Three Distinct ML Paradigms.</h2>
+            <p>Different business problems require different kinds of answers. This platform covers discriminative, Bayesian, and causal ML.</p>
+          </header>
+
+          <div class="about-usecase-list">
+            <section class="about-usecase">
+              <h3>UC-NBA-RET-001 - Next Best Action for Retention</h3>
+              <p><strong>Business question:</strong> Which action should we take with this customer right now to maximize retention?</p>
+              <p><strong>ML approach:</strong> TensorFlow uplift modeling and action ranking.</p>
+              <p><strong>Output:</strong> Ranked action list with expected impact, confidence interval, customer segment context, and CRM-ready activation payload.</p>
+              <p><strong>Why:</strong> Churn tells you who is at risk. Uplift tells you what intervention can change the outcome for each customer.</p>
+            </section>
+            <section class="about-usecase">
+              <h3>UC-CHURN-RET-002 - Churn Prediction and Retention Actioning</h3>
+              <p><strong>Business question:</strong> Which customers are at risk, at what probability, and with what urgency?</p>
+              <p><strong>ML approach:</strong> TensorFlow classifier trained on behavioral, usage, support, and commercial signals.</p>
+              <p><strong>Output:</strong> Churn probability, confidence bands, signal breakdown, urgency tier, and recommended retention motion.</p>
+              <p><strong>Why:</strong> The probability distribution matters more than a binary flag; 78% risk and 52% risk require different treatment.</p>
+            </section>
+            <section class="about-usecase">
+              <h3>UC-MMM-PLN-003 - Media Mix Modeling and Budget Optimization</h3>
+              <p><strong>Business question:</strong> What is the true contribution of each channel, and how should budget move?</p>
+              <p><strong>ML approach:</strong> PyMC-Marketing Bayesian hierarchical model.</p>
+              <p><strong>Output:</strong> Channel contribution distributions, budget recommendations, uncertainty bounds, saturation curves, and diminishing return estimates.</p>
+              <p><strong>Why:</strong> Bayesian MMM shows both what the model estimates and how confident it is, which matters for budget decisions.</p>
+            </section>
+            <section class="about-usecase">
+              <h3>UC-INCR-MKT-004 - Campaign Incrementality Measurement</h3>
+              <p><strong>Business question:</strong> Did this campaign actually cause the outcome, or would those customers have converted anyway?</p>
+              <p><strong>ML approach:</strong> EconML and DoWhy causal inference.</p>
+              <p><strong>Output:</strong> Incremental lift, average treatment effect, confidence intervals, counterfactual baseline, and channel-level incrementality.</p>
+              <p><strong>Why:</strong> Causal inference estimates whether the campaign changed behavior, which is the budget question that matters.</p>
+            </section>
+          </div>
+
+          <div class="about-paradigms">
+            <div><strong>Discriminative</strong><span>TensorFlow for classification, ranking, propensity, and uplift.</span></div>
+            <div><strong>Bayesian</strong><span>PyMC-Marketing for attribution, budget optimization, and uncertainty.</span></div>
+            <div><strong>Causal</strong><span>EconML + DoWhy for incrementality, counterfactuals, and policy decisions.</span></div>
+          </div>
+        </article>
+
+        <article id="panel-governance" class="about-panel" role="tabpanel" aria-labelledby="tab-governance" data-about-panel="governance" hidden>
+          <header class="about-section-head">
+            <p class="eyebrow">Governance</p>
+            <h2>Evidence-First Governance - Not Compliance Theater</h2>
+            <p>Every pipeline run produces inspectable evidence at every stage. Governance is an artifact, not an approval email.</p>
+          </header>
+
+          <div class="about-stage-grid">
+            <section><strong>Stage 2 - Ingestion</strong><span>Data quality validation runs before any model sees the data. Blockers and warnings are recorded in the artifact manifest.</span></section>
+            <section><strong>Stage 4 - Identity Resolution</strong><span>Splink probabilistic matching records match rates, confidence thresholds, and resolution decisions.</span></section>
+            <section><strong>Stage 5 - Feature Layer</strong><span>Feature snapshots are versioned per run, point-in-time correctness is enforced, and schema versions are tracked.</span></section>
+            <section><strong>Stage 6 - Model Layer</strong><span>Readiness checks, evaluation metrics, champion/challenger comparison, and registry metadata are recorded before promotion.</span></section>
+            <section><strong>Stage 7 - Serving + Activation</strong><span>Inference produces activation payloads traceable to model version, feature snapshot, and training run.</span></section>
+            <section><strong>Stage 8 - Monitoring + Governance</strong><span>Prometheus metrics, MLflow lineage, and governance approvals track runtime health and promotion readiness.</span></section>
+          </div>
+
+          <section class="about-callout">
+            <strong>Promotion lifecycle:</strong> generate synthetic data, train versioned artifacts, evaluate baseline versus challenger,
+            run model-readiness checks, register metadata, approve warnings, promote to approved status, and deploy to serving.
+          </section>
+
+          <section class="about-card">
+            <h3>Audit Trail</h3>
+            <p>One run ID connects every artifact from source data to business action: source snapshot hash, feature vector snapshot, model version, prediction confidence, activation mapping, telemetry, governance approval, and run summary manifest.</p>
+          </section>
+        </article>
+
+        <article id="panel-production" class="about-panel" role="tabpanel" aria-labelledby="tab-production" data-about-panel="production" hidden>
+          <header class="about-section-head">
+            <p class="eyebrow">Production Context</p>
+            <h2>Built From Production Experience at Oracle Scale</h2>
+            <p>This platform demonstrates architectural patterns validated in production at Oracle's Unity Customer Data Platform.</p>
+          </header>
+
+          <div class="about-card-grid">
+            <section class="about-card">
+              <h3>Six Production Model Families</h3>
+              <p>Next Best Action / Offer, Churn and Engagement Propensity, Customer Lifetime Value, RFM Segmentation, Multi-Touch Attribution, and Media Mix Modeling.</p>
+            </section>
+            <section class="about-card">
+              <h3>Production MLOps Stack</h3>
+              <p>Feature stores, training pipelines, real-time and batch inference, embedding pipelines, vector database integrations, drift detection, and responsible AI governance.</p>
+            </section>
+            <section class="about-card">
+              <h3>What This App Demonstrates</h3>
+              <p>The four use cases map to production model types, the eight-stage pipeline reflects the data flow, and the governance model reflects responsible AI and MLOps maturity patterns.</p>
+            </section>
+            <section class="about-card">
+              <h3>Scale Context</h3>
+              <p>9,000+ customers at day-one GA, six production ML models shipped simultaneously, real-time plus batch inference, and MLOps governance from day one.</p>
+            </section>
+          </div>
+        </article>
+
+        <article id="panel-architecture" class="about-panel" role="tabpanel" aria-labelledby="tab-architecture" data-about-panel="architecture" hidden>
+          <header class="about-section-head">
+            <p class="eyebrow">Architecture</p>
+            <h2>Three ML Paradigms. Eight Pipeline Stages. One Contract-Driven Platform.</h2>
+            <p>The technology choices are deliberate. Each framework solves the problem type it is best suited for.</p>
+          </header>
+
+          <div class="about-card-grid">
+            <section class="about-card">
+              <h3>TensorFlow</h3>
+              <p>Used for NBA and Churn because these are supervised learning problems: uplift modeling, multi-class classification, action ranking, and propensity scoring.</p>
+            </section>
+            <section class="about-card">
+              <h3>PyMC-Marketing</h3>
+              <p>Used for Media Mix Modeling because MMM is fundamentally about uncertainty quantification, channel contribution distributions, and budget decisions under uncertainty.</p>
+            </section>
+            <section class="about-card">
+              <h3>EconML + DoWhy</h3>
+              <p>Used for Campaign Incrementality because the platform must answer whether an intervention changed outcomes, for which customers, and by how much.</p>
+            </section>
+            <section class="about-card">
+              <h3>Runtime Profiles</h3>
+              <p>Standalone, Advanced ML, OSS Integrated, and Enterprise profiles scale infrastructure while preserving the same contract outputs, governance artifacts, and audit trail.</p>
+            </section>
+          </div>
+
+          <div class="about-stack">
+            <span>Feast feature management</span>
+            <span>MLflow registry</span>
+            <span>Splink identity resolution</span>
+            <span>Kafka event bus</span>
+            <span>PostgreSQL + MinIO storage</span>
+            <span>Airflow orchestration</span>
+            <span>Keycloak access control</span>
+            <span>Prometheus monitoring</span>
+          </div>
+
+          <section class="about-callout">
+            Design principles: contract before code, evidence before promotion, fallback without silence, and infrastructure by injection.
+          </section>
+        </article>
+      </section>
+    </main>
+
+    <script src="about.js"></script>
+  </body>
+</html>

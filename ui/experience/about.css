@@ -1,0 +1,214 @@
+.about-shell {
+  min-height: 100vh;
+}
+
+.about-hero {
+  gap: 4px;
+}
+
+.about-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.about-meta span,
+.about-stack span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 5px 10px;
+  border: 1px solid var(--ent-border, #d7dde5);
+  border-radius: 999px;
+  background: var(--ent-surface-alt, #f9fafb);
+  color: var(--ent-ink-2, #253041);
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.about-tabs {
+  display: grid;
+  gap: 14px;
+}
+
+.about-tab-list {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 8px;
+  padding: 10px;
+  border: 1px solid var(--ent-border, #d7dde5);
+  border-radius: var(--ent-radius, 8px);
+  background: var(--ent-surface, #ffffff);
+  box-shadow: var(--ent-shadow, 0 1px 2px rgba(17, 24, 39, 0.06));
+}
+
+.about-tab {
+  min-height: 42px;
+  border: 1px solid var(--ent-border, #d7dde5);
+  border-radius: var(--ent-radius-sm, 6px);
+  background: var(--ent-surface-alt, #f9fafb);
+  color: var(--ent-ink-2, #253041);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 750;
+  cursor: pointer;
+}
+
+.about-tab:hover,
+.about-tab.is-active {
+  border-color: var(--ent-primary, #1f5f8f);
+  background: var(--ent-primary-soft, #e7f0f8);
+  color: var(--ent-primary-dark, #17496f);
+}
+
+.about-panel {
+  border: 1px solid var(--ent-border, #d7dde5);
+  border-radius: var(--ent-radius, 8px);
+  background: var(--ent-surface, #ffffff);
+  box-shadow: var(--ent-shadow, 0 1px 2px rgba(17, 24, 39, 0.06));
+  padding: 20px;
+}
+
+.about-panel p {
+  max-width: 1040px;
+  color: var(--ent-muted, #5b6472);
+  line-height: 1.55;
+}
+
+.about-section-head {
+  margin-bottom: 16px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--ent-border, #d7dde5);
+}
+
+.about-section-head h2 {
+  margin: 0 0 8px;
+  color: var(--ent-ink, #111827);
+  font-size: 28px;
+  line-height: 1.16;
+}
+
+.about-card-grid,
+.about-stage-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.about-card,
+.about-usecase,
+.about-stage-grid section {
+  border: 1px solid var(--ent-border, #d7dde5);
+  border-radius: var(--ent-radius, 8px);
+  background: var(--ent-surface-alt, #f9fafb);
+  padding: 14px;
+}
+
+.about-card h3,
+.about-usecase h3 {
+  margin: 0 0 8px;
+  color: var(--ent-ink, #111827);
+  font-size: 18px;
+}
+
+.about-card p,
+.about-usecase p {
+  margin: 7px 0 0;
+}
+
+.about-callout {
+  margin-top: 16px;
+  padding: 14px 16px;
+  border-left: 4px solid var(--ent-primary, #1f5f8f);
+  border-radius: var(--ent-radius-sm, 6px);
+  background: var(--ent-primary-soft, #e7f0f8);
+  color: var(--ent-ink-2, #253041);
+  line-height: 1.55;
+}
+
+.about-flow {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  margin: 18px 0;
+  padding: 0;
+  list-style: none;
+}
+
+.about-flow li {
+  min-height: 58px;
+  padding: 12px;
+  border: 1px solid var(--ent-border, #d7dde5);
+  border-radius: var(--ent-radius-sm, 6px);
+  background: var(--ent-surface-alt, #f9fafb);
+  color: var(--ent-ink-2, #253041);
+  font-size: 13px;
+  font-weight: 750;
+}
+
+.about-usecase-list {
+  display: grid;
+  gap: 12px;
+}
+
+.about-paradigms,
+.about-stack {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.about-paradigms div {
+  border: 1px solid var(--ent-border, #d7dde5);
+  border-radius: var(--ent-radius, 8px);
+  background: var(--ent-surface, #ffffff);
+  padding: 14px;
+}
+
+.about-paradigms strong,
+.about-stage-grid strong {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--ent-ink, #111827);
+}
+
+.about-paradigms span,
+.about-stage-grid span {
+  color: var(--ent-muted, #5b6472);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.about-stack {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+@media (max-width: 1100px) {
+  .about-tab-list,
+  .about-flow,
+  .about-stack {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 760px) {
+  .about-tab-list,
+  .about-card-grid,
+  .about-stage-grid,
+  .about-flow,
+  .about-paradigms,
+  .about-stack {
+    grid-template-columns: 1fr;
+  }
+
+  .about-panel {
+    padding: 14px;
+  }
+
+  .about-section-head h2 {
+    font-size: 24px;
+  }
+}

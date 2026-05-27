@@ -5,23 +5,19 @@
     "artifacts_root": "artifacts",
     "adapter": "ui/adapter/build_view_model.py",
     "runtime": {
-      "mode": "execute_backend",
-      "backend_executed": true,
-      "execution_scope": "single_use_case",
-      "executed_use_cases": [
-        "UC-NBA-RET-001"
-      ],
-      "run_ids": {
-        "UC-NBA-RET-001": "20260425T193444Z"
-      },
-      "infra_profile": "oss",
+      "mode": "latest_artifacts",
+      "backend_executed": false,
+      "execution_scope": "none",
+      "executed_use_cases": [],
+      "run_ids": {},
+      "infra_profile": "local",
       "seed": 101,
       "runtime_mode": "default",
       "scenario_id": null,
       "failure_injection": [],
       "output_dir": "artifacts",
       "strict_model_backends": false,
-      "executed_at_utc": "2026-04-25T19:34:51.495028+00:00"
+      "executed_at_utc": null
     },
     "warnings": [],
     "scenario_library": [
@@ -378,11 +374,11 @@
         }
       },
       "latest_run": {
-        "run_id": "20260423T032819Z",
-        "summary_path": "artifacts/UC-CHURN-RET-002/20260423T032819Z/summary.json",
+        "run_id": "20260527T000916Z",
+        "summary_path": "artifacts/UC-CHURN-RET-002/20260527T000916Z/summary.json",
         "run_status": "pass",
         "infra_profile": "local",
-        "seed": 101,
+        "seed": 7,
         "records": {
           "source_tables": {
             "crm_customers": 140,
@@ -396,106 +392,152 @@
         },
         "model_metrics": {
           "primary_kpi": "60_day_incremental_churn_reduction",
-          "avg_churn_risk_score": 0.3367,
-          "avg_expected_uplift": 0.0791,
-          "model_backend": "tensorflow",
-          "train_rows": 112,
-          "holdout_rows": 28,
-          "tf_train_loss": 0.06479080766439438,
-          "tf_holdout_loss": 0.1432807892560959,
-          "tf_holdout_auc": 1.0,
-          "auc_overall": 1.0,
-          "supervision_mode": "observed_labels",
-          "observed_churn_labels": 140,
-          "model_version": "churn_retention_tf_v1",
-          "model_versions": [
-            "churn_retention_tf_v1"
+          "avg_churn_risk_score": 0.5742,
+          "avg_expected_uplift": 0.1308,
+          "model_backend": "heuristic_fallback",
+          "backend_warnings": [
+            "TensorFlow unavailable: tensorflow: No module named 'tensorflow'"
           ],
-          "train_row_count": 112,
-          "holdout_row_count": 28,
-          "holdout_ratio": 0.2,
-          "train_signal_mean": 0.226417,
-          "holdout_signal_mean": 0.133766,
-          "signal_drift_abs": 0.092651
+          "model_version": "churn_retention_heuristic_v1",
+          "model_versions": [
+            "churn_retention_heuristic_v1"
+          ],
+          "train_row_count": 117,
+          "holdout_row_count": 23,
+          "holdout_ratio": 0.1643,
+          "train_signal_mean": 0.358047,
+          "holdout_signal_mean": 0.324126,
+          "signal_drift_abs": 0.033921,
+          "split_validation": {
+            "status": "pass",
+            "rules": {
+              "min_train_rows": 80,
+              "min_holdout_rows": 10,
+              "min_holdout_ratio": 0.05,
+              "max_holdout_ratio": 0.35
+            },
+            "checks": [
+              {
+                "name": "train_rows_min",
+                "status": "pass",
+                "actual": 117,
+                "expectation": "train_row_count >= 80",
+                "reason": "within expected constraints"
+              },
+              {
+                "name": "holdout_rows_min",
+                "status": "pass",
+                "actual": 23,
+                "expectation": "holdout_row_count >= 10",
+                "reason": "within expected constraints"
+              },
+              {
+                "name": "holdout_ratio_range",
+                "status": "pass",
+                "actual": 0.1643,
+                "expectation": "holdout_ratio in [0.05, 0.35]",
+                "reason": "within expected constraints"
+              }
+            ],
+            "summary": {
+              "total_checks": 3,
+              "passed_checks": 3,
+              "failed_checks": 0
+            }
+          }
         },
         "metric_highlights": [
           {
-            "name": "auc_overall",
-            "value": 1.0
-          },
-          {
             "name": "avg_churn_risk_score",
-            "value": 0.3367
+            "value": 0.5742
           },
           {
             "name": "avg_expected_uplift",
-            "value": 0.0791
+            "value": 0.1308
+          },
+          {
+            "name": "backend_warnings",
+            "value": [
+              "TensorFlow unavailable: tensorflow: No module named 'tensorflow'"
+            ]
           },
           {
             "name": "holdout_ratio",
-            "value": 0.2
+            "value": 0.1643
           },
           {
             "name": "holdout_row_count",
-            "value": 28
-          },
-          {
-            "name": "holdout_rows",
-            "value": 28
+            "value": 23
           },
           {
             "name": "holdout_signal_mean",
-            "value": 0.133766
+            "value": 0.324126
           },
           {
             "name": "model_backend",
-            "value": "tensorflow"
+            "value": "heuristic_fallback"
           },
           {
             "name": "model_version",
-            "value": "churn_retention_tf_v1"
+            "value": "churn_retention_heuristic_v1"
           },
           {
             "name": "model_versions",
             "value": [
-              "churn_retention_tf_v1"
+              "churn_retention_heuristic_v1"
             ]
           },
           {
-            "name": "observed_churn_labels",
-            "value": 140
-          },
-          {
             "name": "signal_drift_abs",
-            "value": 0.092651
+            "value": 0.033921
           },
           {
-            "name": "supervision_mode",
-            "value": "observed_labels"
-          },
-          {
-            "name": "tf_holdout_auc",
-            "value": 1.0
-          },
-          {
-            "name": "tf_holdout_loss",
-            "value": 0.1432807892560959
-          },
-          {
-            "name": "tf_train_loss",
-            "value": 0.06479080766439438
+            "name": "split_validation",
+            "value": {
+              "status": "pass",
+              "rules": {
+                "min_train_rows": 80,
+                "min_holdout_rows": 10,
+                "min_holdout_ratio": 0.05,
+                "max_holdout_ratio": 0.35
+              },
+              "checks": [
+                {
+                  "name": "train_rows_min",
+                  "status": "pass",
+                  "actual": 117,
+                  "expectation": "train_row_count >= 80",
+                  "reason": "within expected constraints"
+                },
+                {
+                  "name": "holdout_rows_min",
+                  "status": "pass",
+                  "actual": 23,
+                  "expectation": "holdout_row_count >= 10",
+                  "reason": "within expected constraints"
+                },
+                {
+                  "name": "holdout_ratio_range",
+                  "status": "pass",
+                  "actual": 0.1643,
+                  "expectation": "holdout_ratio in [0.05, 0.35]",
+                  "reason": "within expected constraints"
+                }
+              ],
+              "summary": {
+                "total_checks": 3,
+                "passed_checks": 3,
+                "failed_checks": 0
+              }
+            }
           },
           {
             "name": "train_row_count",
-            "value": 112
-          },
-          {
-            "name": "train_rows",
-            "value": 112
+            "value": 117
           },
           {
             "name": "train_signal_mean",
-            "value": 0.226417
+            "value": 0.358047
           }
         ],
         "monitoring_report": {
@@ -505,27 +547,59 @@
           "primary_kpi": "60_day_incremental_churn_reduction",
           "model_metrics": {
             "primary_kpi": "60_day_incremental_churn_reduction",
-            "avg_churn_risk_score": 0.3367,
-            "avg_expected_uplift": 0.0791,
-            "model_backend": "tensorflow",
-            "train_rows": 112,
-            "holdout_rows": 28,
-            "tf_train_loss": 0.06479080766439438,
-            "tf_holdout_loss": 0.1432807892560959,
-            "tf_holdout_auc": 1.0,
-            "auc_overall": 1.0,
-            "supervision_mode": "observed_labels",
-            "observed_churn_labels": 140,
-            "model_version": "churn_retention_tf_v1",
-            "model_versions": [
-              "churn_retention_tf_v1"
+            "avg_churn_risk_score": 0.5742,
+            "avg_expected_uplift": 0.1308,
+            "model_backend": "heuristic_fallback",
+            "backend_warnings": [
+              "TensorFlow unavailable: tensorflow: No module named 'tensorflow'"
             ],
-            "train_row_count": 112,
-            "holdout_row_count": 28,
-            "holdout_ratio": 0.2,
-            "train_signal_mean": 0.226417,
-            "holdout_signal_mean": 0.133766,
-            "signal_drift_abs": 0.092651
+            "model_version": "churn_retention_heuristic_v1",
+            "model_versions": [
+              "churn_retention_heuristic_v1"
+            ],
+            "train_row_count": 117,
+            "holdout_row_count": 23,
+            "holdout_ratio": 0.1643,
+            "train_signal_mean": 0.358047,
+            "holdout_signal_mean": 0.324126,
+            "signal_drift_abs": 0.033921,
+            "split_validation": {
+              "status": "pass",
+              "rules": {
+                "min_train_rows": 80,
+                "min_holdout_rows": 10,
+                "min_holdout_ratio": 0.05,
+                "max_holdout_ratio": 0.35
+              },
+              "checks": [
+                {
+                  "name": "train_rows_min",
+                  "status": "pass",
+                  "actual": 117,
+                  "expectation": "train_row_count >= 80",
+                  "reason": "within expected constraints"
+                },
+                {
+                  "name": "holdout_rows_min",
+                  "status": "pass",
+                  "actual": 23,
+                  "expectation": "holdout_row_count >= 10",
+                  "reason": "within expected constraints"
+                },
+                {
+                  "name": "holdout_ratio_range",
+                  "status": "pass",
+                  "actual": 0.1643,
+                  "expectation": "holdout_ratio in [0.05, 0.35]",
+                  "reason": "within expected constraints"
+                }
+              ],
+              "summary": {
+                "total_checks": 3,
+                "passed_checks": 3,
+                "failed_checks": 0
+              }
+            }
           },
           "validation_gates": {
             "auc_threshold_pass": "pass",
@@ -559,14 +633,14 @@
               {
                 "name": "avg_churn_risk_score_range",
                 "status": "pass",
-                "actual": 0.3367,
+                "actual": 0.5742,
                 "expectation": "avg_churn_risk_score in [0.0, 1.0]",
                 "reason": "within expected bounds"
               },
               {
                 "name": "avg_expected_uplift_range",
                 "status": "pass",
-                "actual": 0.0791,
+                "actual": 0.1308,
                 "expectation": "avg_expected_uplift in [0.0, 0.5]",
                 "reason": "within expected bounds"
               }
@@ -871,30 +945,23 @@
             "reason": null
           },
           "deployment_readiness": {
-            "status": "ready",
+            "status": "pending_approval",
             "score": 1.0,
             "approval_required": true,
             "blockers": [],
             "failed_gates": [],
             "failed_model_checks": [],
             "failed_data_quality_checks": [],
-            "warning_data_quality_checks": [],
-            "approval": {
-              "status": "approved",
-              "approved_at_utc": "2026-04-23T06:04:31Z",
-              "approved_by": "platform-admin",
-              "method": "manual_signoff",
-              "notes": "Governance sign-off completed after strict-run review."
-            }
+            "warning_data_quality_checks": []
           },
           "scientific_governance": {
             "standard_version": "v1",
-            "generated_at_utc": "2026-04-23T03:28:26.168092+00:00",
-            "run_id": "20260423T032819Z",
-            "seed": 101,
+            "generated_at_utc": "2026-05-27T00:09:16.134944+00:00",
+            "run_id": "20260527T000916Z",
+            "seed": 7,
             "contract_fingerprint_sha256": "40a67b918aa1fe800244ca1f5505a854ee602a58bcdcd15e87577274beef9976",
             "model_versions": [
-              "churn_retention_tf_v1"
+              "churn_retention_heuristic_v1"
             ],
             "reproducibility": {
               "row_count": 140,
@@ -905,103 +972,169 @@
         },
         "artifacts": {
           "ingestion_event_bus": {
-            "raw.uc_churn_ret_002.crm_customers.v1": "artifacts/UC-CHURN-RET-002/20260423T032819Z/ingestion/event_bus/raw_uc_churn_ret_002_crm_customers_v1.jsonl",
-            "raw.uc_churn_ret_002.usage_signals.v1": "artifacts/UC-CHURN-RET-002/20260423T032819Z/ingestion/event_bus/raw_uc_churn_ret_002_usage_signals_v1.jsonl",
-            "raw.uc_churn_ret_002.support_events.v1": "artifacts/UC-CHURN-RET-002/20260423T032819Z/ingestion/event_bus/raw_uc_churn_ret_002_support_events_v1.jsonl"
+            "raw.uc_churn_ret_002.crm_customers.v1": "artifacts/UC-CHURN-RET-002/20260527T000916Z/ingestion/event_bus/raw_uc_churn_ret_002_crm_customers_v1.jsonl",
+            "raw.uc_churn_ret_002.usage_signals.v1": "artifacts/UC-CHURN-RET-002/20260527T000916Z/ingestion/event_bus/raw_uc_churn_ret_002_usage_signals_v1.jsonl",
+            "raw.uc_churn_ret_002.support_events.v1": "artifacts/UC-CHURN-RET-002/20260527T000916Z/ingestion/event_bus/raw_uc_churn_ret_002_support_events_v1.jsonl"
           },
-          "raw_events": "artifacts/UC-CHURN-RET-002/20260423T032819Z/storage/raw/events.jsonl",
-          "curated_records": "artifacts/UC-CHURN-RET-002/20260423T032819Z/storage/curated/records.json",
-          "curated_records_jsonl": "artifacts/UC-CHURN-RET-002/20260423T032819Z/storage/curated/records.jsonl",
-          "identity_map": "artifacts/UC-CHURN-RET-002/20260423T032819Z/identity_360/identity_map.json",
-          "resolved_records": "artifacts/UC-CHURN-RET-002/20260423T032819Z/identity_360/resolved_records.json",
-          "feature_rows": "artifacts/UC-CHURN-RET-002/20260423T032819Z/features/feature_rows.json",
-          "model_predictions": "artifacts/UC-CHURN-RET-002/20260423T032819Z/models/predictions.json",
-          "model_metrics": "artifacts/UC-CHURN-RET-002/20260423T032819Z/models/metrics.json",
-          "model_manifest": "artifacts/UC-CHURN-RET-002/20260423T032819Z/models/manifest.json",
-          "model_binary": "artifacts/UC-CHURN-RET-002/20260423T032819Z/models/churn_tf_saved_model",
-          "model_training_report": "artifacts/UC-CHURN-RET-002/20260423T032819Z/models/churn_training_report.json",
-          "activation_payloads": "artifacts/UC-CHURN-RET-002/20260423T032819Z/serving_activation/activation_payloads.json",
-          "monitoring_report": "artifacts/UC-CHURN-RET-002/20260423T032819Z/monitoring_governance/report.json"
+          "raw_events": "artifacts/UC-CHURN-RET-002/20260527T000916Z/storage/raw/events.jsonl",
+          "curated_records": "artifacts/UC-CHURN-RET-002/20260527T000916Z/storage/curated/records.json",
+          "curated_records_jsonl": "artifacts/UC-CHURN-RET-002/20260527T000916Z/storage/curated/records.jsonl",
+          "identity_map": "artifacts/UC-CHURN-RET-002/20260527T000916Z/identity_360/identity_map.json",
+          "resolved_records": "artifacts/UC-CHURN-RET-002/20260527T000916Z/identity_360/resolved_records.json",
+          "splink_identity_resolution": "artifacts/UC-CHURN-RET-002/20260527T000916Z/enterprise_hardening/splink_identity_resolution.json",
+          "feature_rows": "artifacts/UC-CHURN-RET-002/20260527T000916Z/features/feature_rows.json",
+          "feast_registry": "artifacts/UC-CHURN-RET-002/20260527T000916Z/feature_store/feast_registry.json",
+          "feast_feature_view": "artifacts/UC-CHURN-RET-002/20260527T000916Z/feature_store/feature_view.json",
+          "feast_offline_features": "artifacts/UC-CHURN-RET-002/20260527T000916Z/feature_store/offline_features.json",
+          "feast_repo_config": "artifacts/UC-CHURN-RET-002/20260527T000916Z/feature_store/feature_store.yaml",
+          "model_predictions": "artifacts/UC-CHURN-RET-002/20260527T000916Z/models/predictions.json",
+          "model_metrics": "artifacts/UC-CHURN-RET-002/20260527T000916Z/models/metrics.json",
+          "model_manifest": "artifacts/UC-CHURN-RET-002/20260527T000916Z/models/manifest.json",
+          "model_training_report": "artifacts/UC-CHURN-RET-002/20260527T000916Z/models/churn_training_report.json",
+          "mlflow_lineage": "artifacts/UC-CHURN-RET-002/20260527T000916Z/enterprise_hardening/mlflow_lineage.json",
+          "activation_payloads": "artifacts/UC-CHURN-RET-002/20260527T000916Z/serving_activation/activation_payloads.json",
+          "monitoring_report": "artifacts/UC-CHURN-RET-002/20260527T000916Z/monitoring_governance/report.json",
+          "data_quality_expectations": "artifacts/UC-CHURN-RET-002/20260527T000916Z/enterprise_hardening/data_quality_expectations.json",
+          "monitoring_summary": "artifacts/UC-CHURN-RET-002/20260527T000916Z/enterprise_hardening/monitoring_summary.json",
+          "airflow_dag_metadata": "artifacts/UC-CHURN-RET-002/20260527T000916Z/orchestration/airflow_dag_metadata.json",
+          "keycloak_oidc_readiness": "artifacts/UC-CHURN-RET-002/20260527T000916Z/security/keycloak_oidc_readiness.json",
+          "product_like_integrations": "artifacts/UC-CHURN-RET-002/20260527T000916Z/enterprise_hardening/product_like_integrations.json",
+          "stage_telemetry": "artifacts/UC-CHURN-RET-002/20260527T000916Z/telemetry/stage_events.jsonl"
         },
         "artifact_file_checks": [
           {
             "label": "topic::raw.uc_churn_ret_002.crm_customers.v1",
-            "path": "artifacts/UC-CHURN-RET-002/20260423T032819Z/ingestion/event_bus/raw_uc_churn_ret_002_crm_customers_v1.jsonl",
+            "path": "artifacts/UC-CHURN-RET-002/20260527T000916Z/ingestion/event_bus/raw_uc_churn_ret_002_crm_customers_v1.jsonl",
             "exists": true
           },
           {
             "label": "topic::raw.uc_churn_ret_002.support_events.v1",
-            "path": "artifacts/UC-CHURN-RET-002/20260423T032819Z/ingestion/event_bus/raw_uc_churn_ret_002_support_events_v1.jsonl",
+            "path": "artifacts/UC-CHURN-RET-002/20260527T000916Z/ingestion/event_bus/raw_uc_churn_ret_002_support_events_v1.jsonl",
             "exists": true
           },
           {
             "label": "topic::raw.uc_churn_ret_002.usage_signals.v1",
-            "path": "artifacts/UC-CHURN-RET-002/20260423T032819Z/ingestion/event_bus/raw_uc_churn_ret_002_usage_signals_v1.jsonl",
+            "path": "artifacts/UC-CHURN-RET-002/20260527T000916Z/ingestion/event_bus/raw_uc_churn_ret_002_usage_signals_v1.jsonl",
             "exists": true
           },
           {
             "label": "activation_payloads",
-            "path": "artifacts/UC-CHURN-RET-002/20260423T032819Z/serving_activation/activation_payloads.json",
+            "path": "artifacts/UC-CHURN-RET-002/20260527T000916Z/serving_activation/activation_payloads.json",
+            "exists": true
+          },
+          {
+            "label": "airflow_dag_metadata",
+            "path": "artifacts/UC-CHURN-RET-002/20260527T000916Z/orchestration/airflow_dag_metadata.json",
             "exists": true
           },
           {
             "label": "curated_records",
-            "path": "artifacts/UC-CHURN-RET-002/20260423T032819Z/storage/curated/records.json",
+            "path": "artifacts/UC-CHURN-RET-002/20260527T000916Z/storage/curated/records.json",
             "exists": true
           },
           {
             "label": "curated_records_jsonl",
-            "path": "artifacts/UC-CHURN-RET-002/20260423T032819Z/storage/curated/records.jsonl",
+            "path": "artifacts/UC-CHURN-RET-002/20260527T000916Z/storage/curated/records.jsonl",
+            "exists": true
+          },
+          {
+            "label": "data_quality_expectations",
+            "path": "artifacts/UC-CHURN-RET-002/20260527T000916Z/enterprise_hardening/data_quality_expectations.json",
+            "exists": true
+          },
+          {
+            "label": "feast_feature_view",
+            "path": "artifacts/UC-CHURN-RET-002/20260527T000916Z/feature_store/feature_view.json",
+            "exists": true
+          },
+          {
+            "label": "feast_offline_features",
+            "path": "artifacts/UC-CHURN-RET-002/20260527T000916Z/feature_store/offline_features.json",
+            "exists": true
+          },
+          {
+            "label": "feast_registry",
+            "path": "artifacts/UC-CHURN-RET-002/20260527T000916Z/feature_store/feast_registry.json",
+            "exists": true
+          },
+          {
+            "label": "feast_repo_config",
+            "path": "artifacts/UC-CHURN-RET-002/20260527T000916Z/feature_store/feature_store.yaml",
             "exists": true
           },
           {
             "label": "feature_rows",
-            "path": "artifacts/UC-CHURN-RET-002/20260423T032819Z/features/feature_rows.json",
+            "path": "artifacts/UC-CHURN-RET-002/20260527T000916Z/features/feature_rows.json",
             "exists": true
           },
           {
             "label": "identity_map",
-            "path": "artifacts/UC-CHURN-RET-002/20260423T032819Z/identity_360/identity_map.json",
+            "path": "artifacts/UC-CHURN-RET-002/20260527T000916Z/identity_360/identity_map.json",
             "exists": true
           },
           {
-            "label": "model_binary",
-            "path": "artifacts/UC-CHURN-RET-002/20260423T032819Z/models/churn_tf_saved_model",
+            "label": "keycloak_oidc_readiness",
+            "path": "artifacts/UC-CHURN-RET-002/20260527T000916Z/security/keycloak_oidc_readiness.json",
+            "exists": true
+          },
+          {
+            "label": "mlflow_lineage",
+            "path": "artifacts/UC-CHURN-RET-002/20260527T000916Z/enterprise_hardening/mlflow_lineage.json",
             "exists": true
           },
           {
             "label": "model_manifest",
-            "path": "artifacts/UC-CHURN-RET-002/20260423T032819Z/models/manifest.json",
+            "path": "artifacts/UC-CHURN-RET-002/20260527T000916Z/models/manifest.json",
             "exists": true
           },
           {
             "label": "model_metrics",
-            "path": "artifacts/UC-CHURN-RET-002/20260423T032819Z/models/metrics.json",
+            "path": "artifacts/UC-CHURN-RET-002/20260527T000916Z/models/metrics.json",
             "exists": true
           },
           {
             "label": "model_predictions",
-            "path": "artifacts/UC-CHURN-RET-002/20260423T032819Z/models/predictions.json",
+            "path": "artifacts/UC-CHURN-RET-002/20260527T000916Z/models/predictions.json",
             "exists": true
           },
           {
             "label": "model_training_report",
-            "path": "artifacts/UC-CHURN-RET-002/20260423T032819Z/models/churn_training_report.json",
+            "path": "artifacts/UC-CHURN-RET-002/20260527T000916Z/models/churn_training_report.json",
             "exists": true
           },
           {
             "label": "monitoring_report",
-            "path": "artifacts/UC-CHURN-RET-002/20260423T032819Z/monitoring_governance/report.json",
+            "path": "artifacts/UC-CHURN-RET-002/20260527T000916Z/monitoring_governance/report.json",
+            "exists": true
+          },
+          {
+            "label": "monitoring_summary",
+            "path": "artifacts/UC-CHURN-RET-002/20260527T000916Z/enterprise_hardening/monitoring_summary.json",
+            "exists": true
+          },
+          {
+            "label": "product_like_integrations",
+            "path": "artifacts/UC-CHURN-RET-002/20260527T000916Z/enterprise_hardening/product_like_integrations.json",
             "exists": true
           },
           {
             "label": "raw_events",
-            "path": "artifacts/UC-CHURN-RET-002/20260423T032819Z/storage/raw/events.jsonl",
+            "path": "artifacts/UC-CHURN-RET-002/20260527T000916Z/storage/raw/events.jsonl",
             "exists": true
           },
           {
             "label": "resolved_records",
-            "path": "artifacts/UC-CHURN-RET-002/20260423T032819Z/identity_360/resolved_records.json",
+            "path": "artifacts/UC-CHURN-RET-002/20260527T000916Z/identity_360/resolved_records.json",
+            "exists": true
+          },
+          {
+            "label": "splink_identity_resolution",
+            "path": "artifacts/UC-CHURN-RET-002/20260527T000916Z/enterprise_hardening/splink_identity_resolution.json",
+            "exists": true
+          },
+          {
+            "label": "stage_telemetry",
+            "path": "artifacts/UC-CHURN-RET-002/20260527T000916Z/telemetry/stage_events.jsonl",
             "exists": true
           }
         ],
@@ -1114,7 +1247,7 @@
             "outputs": [
               {
                 "name": "raw.uc_churn_ret_002.crm_customers.v1",
-                "path": "artifacts/UC-CHURN-RET-002/20260423T032819Z/ingestion/event_bus/raw_uc_churn_ret_002_crm_customers_v1.jsonl",
+                "path": "artifacts/UC-CHURN-RET-002/20260527T000916Z/ingestion/event_bus/raw_uc_churn_ret_002_crm_customers_v1.jsonl",
                 "exists": true,
                 "row_count": 140,
                 "sample_fields": [
@@ -1129,7 +1262,7 @@
               },
               {
                 "name": "raw.uc_churn_ret_002.support_events.v1",
-                "path": "artifacts/UC-CHURN-RET-002/20260423T032819Z/ingestion/event_bus/raw_uc_churn_ret_002_support_events_v1.jsonl",
+                "path": "artifacts/UC-CHURN-RET-002/20260527T000916Z/ingestion/event_bus/raw_uc_churn_ret_002_support_events_v1.jsonl",
                 "exists": true,
                 "row_count": 140,
                 "sample_fields": [
@@ -1140,7 +1273,7 @@
               },
               {
                 "name": "raw.uc_churn_ret_002.usage_signals.v1",
-                "path": "artifacts/UC-CHURN-RET-002/20260423T032819Z/ingestion/event_bus/raw_uc_churn_ret_002_usage_signals_v1.jsonl",
+                "path": "artifacts/UC-CHURN-RET-002/20260527T000916Z/ingestion/event_bus/raw_uc_churn_ret_002_usage_signals_v1.jsonl",
                 "exists": true,
                 "row_count": 140,
                 "sample_fields": [
@@ -1169,7 +1302,7 @@
             "outputs": [
               {
                 "name": "raw_events",
-                "path": "artifacts/UC-CHURN-RET-002/20260423T032819Z/storage/raw/events.jsonl",
+                "path": "artifacts/UC-CHURN-RET-002/20260527T000916Z/storage/raw/events.jsonl",
                 "exists": true,
                 "row_count": 420,
                 "sample_fields": [
@@ -1184,7 +1317,7 @@
               },
               {
                 "name": "curated_records",
-                "path": "artifacts/UC-CHURN-RET-002/20260423T032819Z/storage/curated/records.json",
+                "path": "artifacts/UC-CHURN-RET-002/20260527T000916Z/storage/curated/records.json",
                 "exists": true,
                 "row_count": 140,
                 "sample_fields": [
@@ -1204,7 +1337,7 @@
               },
               {
                 "name": "curated_records_jsonl",
-                "path": "artifacts/UC-CHURN-RET-002/20260423T032819Z/storage/curated/records.jsonl",
+                "path": "artifacts/UC-CHURN-RET-002/20260527T000916Z/storage/curated/records.jsonl",
                 "exists": true,
                 "row_count": 140,
                 "sample_fields": [
@@ -1239,7 +1372,7 @@
             "outputs": [
               {
                 "name": "identity_map",
-                "path": "artifacts/UC-CHURN-RET-002/20260423T032819Z/identity_360/identity_map.json",
+                "path": "artifacts/UC-CHURN-RET-002/20260527T000916Z/identity_360/identity_map.json",
                 "exists": true,
                 "row_count": 140,
                 "sample_fields": [
@@ -1253,7 +1386,7 @@
               },
               {
                 "name": "resolved_records",
-                "path": "artifacts/UC-CHURN-RET-002/20260423T032819Z/identity_360/resolved_records.json",
+                "path": "artifacts/UC-CHURN-RET-002/20260527T000916Z/identity_360/resolved_records.json",
                 "exists": true,
                 "row_count": 140,
                 "sample_fields": [
@@ -1289,7 +1422,7 @@
             "outputs": [
               {
                 "name": "feature_rows",
-                "path": "artifacts/UC-CHURN-RET-002/20260423T032819Z/features/feature_rows.json",
+                "path": "artifacts/UC-CHURN-RET-002/20260527T000916Z/features/feature_rows.json",
                 "exists": true,
                 "row_count": 140,
                 "sample_fields": [
@@ -1323,7 +1456,7 @@
             "outputs": [
               {
                 "name": "model_predictions",
-                "path": "artifacts/UC-CHURN-RET-002/20260423T032819Z/models/predictions.json",
+                "path": "artifacts/UC-CHURN-RET-002/20260527T000916Z/models/predictions.json",
                 "exists": true,
                 "row_count": 140,
                 "sample_fields": [
@@ -1344,25 +1477,19 @@
                 "exists": true,
                 "row_count": null,
                 "sample_fields": [
-                  "auc_overall",
                   "avg_churn_risk_score",
                   "avg_expected_uplift",
+                  "backend_warnings",
                   "holdout_ratio",
                   "holdout_row_count",
-                  "holdout_rows",
                   "holdout_signal_mean",
                   "model_backend",
                   "model_version",
                   "model_versions",
-                  "observed_churn_labels",
                   "primary_kpi",
                   "signal_drift_abs",
-                  "supervision_mode",
-                  "tf_holdout_auc",
-                  "tf_holdout_loss",
-                  "tf_train_loss",
+                  "split_validation",
                   "train_row_count",
-                  "train_rows",
                   "train_signal_mean"
                 ],
                 "note": "Metric keys reported by model layer."
@@ -1384,7 +1511,7 @@
             "outputs": [
               {
                 "name": "activation_payloads",
-                "path": "artifacts/UC-CHURN-RET-002/20260423T032819Z/serving_activation/activation_payloads.json",
+                "path": "artifacts/UC-CHURN-RET-002/20260527T000916Z/serving_activation/activation_payloads.json",
                 "exists": true,
                 "row_count": 140,
                 "sample_fields": [
@@ -1407,13 +1534,13 @@
             "inputs": [
               {
                 "name": "model_metrics",
-                "value": "20"
+                "value": "14"
               }
             ],
             "outputs": [
               {
                 "name": "monitoring_report",
-                "path": "artifacts/UC-CHURN-RET-002/20260423T032819Z/monitoring_governance/report.json",
+                "path": "artifacts/UC-CHURN-RET-002/20260527T000916Z/monitoring_governance/report.json",
                 "exists": true,
                 "row_count": null,
                 "sample_fields": [
@@ -1519,8 +1646,8 @@
         }
       },
       "latest_run": {
-        "run_id": "20260423T220328Z",
-        "summary_path": "artifacts/UC-INCR-MKT-004/20260423T220328Z/summary.json",
+        "run_id": "20260527T000916Z",
+        "summary_path": "artifacts/UC-INCR-MKT-004/20260527T000916Z/summary.json",
         "run_status": "pass",
         "infra_profile": "local",
         "seed": 7,
@@ -1535,24 +1662,24 @@
         },
         "model_metrics": {
           "primary_kpi": "incremental_conversions_per_campaign",
-          "avg_incremental_lift": 0.0048,
-          "avg_iROAS": 0.9791,
-          "model_backend": "econml_dowhy",
-          "ate": 0.004815,
-          "cate_std": 0.005946,
-          "dowhy_placebo_p_value": 1.3530843112619095e-15,
-          "causal_sample_rows": 14400,
-          "covariates_used": 4,
-          "model_version": "incrementality_causal_v1",
+          "avg_incremental_lift": 0.0061,
+          "avg_iROAS": 1.1913,
+          "model_backend": "heuristic_fallback",
+          "backend_warnings": [
+            "EconML unavailable: econml: No module named 'econml'",
+            "DoWhy unavailable: dowhy: No module named 'dowhy'",
+            "Pandas unavailable: pandas: No module named 'pandas'"
+          ],
+          "model_version": "incrementality_fallback_v1",
           "model_versions": [
-            "incrementality_causal_v1"
+            "incrementality_fallback_v1"
           ],
           "train_row_count": 16,
           "holdout_row_count": 2,
           "holdout_ratio": 0.1111,
-          "train_signal_mean": 0.398994,
-          "holdout_signal_mean": 0.309,
-          "signal_drift_abs": 0.089994,
+          "train_signal_mean": 0.324069,
+          "holdout_signal_mean": 0.45178,
+          "signal_drift_abs": 0.127711,
           "split_validation": {
             "status": "pass",
             "rules": {
@@ -1593,32 +1720,20 @@
         },
         "metric_highlights": [
           {
-            "name": "ate",
-            "value": 0.004815
-          },
-          {
             "name": "avg_iROAS",
-            "value": 0.9791
+            "value": 1.1913
           },
           {
             "name": "avg_incremental_lift",
-            "value": 0.0048
+            "value": 0.0061
           },
           {
-            "name": "cate_std",
-            "value": 0.005946
-          },
-          {
-            "name": "causal_sample_rows",
-            "value": 14400
-          },
-          {
-            "name": "covariates_used",
-            "value": 4
-          },
-          {
-            "name": "dowhy_placebo_p_value",
-            "value": 1.3530843112619095e-15
+            "name": "backend_warnings",
+            "value": [
+              "EconML unavailable: econml: No module named 'econml'",
+              "DoWhy unavailable: dowhy: No module named 'dowhy'",
+              "Pandas unavailable: pandas: No module named 'pandas'"
+            ]
           },
           {
             "name": "holdout_ratio",
@@ -1630,25 +1745,25 @@
           },
           {
             "name": "holdout_signal_mean",
-            "value": 0.309
+            "value": 0.45178
           },
           {
             "name": "model_backend",
-            "value": "econml_dowhy"
+            "value": "heuristic_fallback"
           },
           {
             "name": "model_version",
-            "value": "incrementality_causal_v1"
+            "value": "incrementality_fallback_v1"
           },
           {
             "name": "model_versions",
             "value": [
-              "incrementality_causal_v1"
+              "incrementality_fallback_v1"
             ]
           },
           {
             "name": "signal_drift_abs",
-            "value": 0.089994
+            "value": 0.127711
           },
           {
             "name": "split_validation",
@@ -1696,7 +1811,7 @@
           },
           {
             "name": "train_signal_mean",
-            "value": 0.398994
+            "value": 0.324069
           }
         ],
         "monitoring_report": {
@@ -1706,24 +1821,24 @@
           "primary_kpi": "incremental_conversions_per_campaign",
           "model_metrics": {
             "primary_kpi": "incremental_conversions_per_campaign",
-            "avg_incremental_lift": 0.0048,
-            "avg_iROAS": 0.9791,
-            "model_backend": "econml_dowhy",
-            "ate": 0.004815,
-            "cate_std": 0.005946,
-            "dowhy_placebo_p_value": 1.3530843112619095e-15,
-            "causal_sample_rows": 14400,
-            "covariates_used": 4,
-            "model_version": "incrementality_causal_v1",
+            "avg_incremental_lift": 0.0061,
+            "avg_iROAS": 1.1913,
+            "model_backend": "heuristic_fallback",
+            "backend_warnings": [
+              "EconML unavailable: econml: No module named 'econml'",
+              "DoWhy unavailable: dowhy: No module named 'dowhy'",
+              "Pandas unavailable: pandas: No module named 'pandas'"
+            ],
+            "model_version": "incrementality_fallback_v1",
             "model_versions": [
-              "incrementality_causal_v1"
+              "incrementality_fallback_v1"
             ],
             "train_row_count": 16,
             "holdout_row_count": 2,
             "holdout_ratio": 0.1111,
-            "train_signal_mean": 0.398994,
-            "holdout_signal_mean": 0.309,
-            "signal_drift_abs": 0.089994,
+            "train_signal_mean": 0.324069,
+            "holdout_signal_mean": 0.45178,
+            "signal_drift_abs": 0.127711,
             "split_validation": {
               "status": "pass",
               "rules": {
@@ -1794,14 +1909,14 @@
               {
                 "name": "avg_incremental_lift_range",
                 "status": "pass",
-                "actual": 0.0048,
+                "actual": 0.0061,
                 "expectation": "avg_incremental_lift in [-0.2, 0.3]",
                 "reason": "within expected bounds"
               },
               {
                 "name": "avg_iROAS_positive",
                 "status": "pass",
-                "actual": 0.9791,
+                "actual": 1.1913,
                 "expectation": "avg_iROAS >= 0.0",
                 "reason": "within expected bounds"
               }
@@ -2068,44 +2183,23 @@
             "reason": null
           },
           "deployment_readiness": {
-            "status": "ready",
+            "status": "pending_approval",
             "score": 1.0,
             "approval_required": true,
             "blockers": [],
             "failed_gates": [],
             "failed_model_checks": [],
             "failed_data_quality_checks": [],
-            "warning_data_quality_checks": [],
-            "approval": {
-              "status": "approved",
-              "approved_at_utc": "2026-04-23T22:04:09.917960Z",
-              "approved_by": "platform-admin",
-              "method": "manual_signoff",
-              "notes": "Default-seed strict run sign-off after deterministic split fix",
-              "forced": false,
-              "blockers_at_approval": []
-            },
-            "approval_history": [
-              {
-                "status": "approved",
-                "approved_at_utc": "2026-04-23T22:04:09.917960Z",
-                "approved_by": "platform-admin",
-                "method": "manual_signoff",
-                "notes": "Default-seed strict run sign-off after deterministic split fix",
-                "forced": false,
-                "blockers_at_approval": []
-              }
-            ],
-            "warning_dispositions": []
+            "warning_data_quality_checks": []
           },
           "scientific_governance": {
             "standard_version": "v1",
-            "generated_at_utc": "2026-04-23T22:03:48.499434+00:00",
-            "run_id": "20260423T220328Z",
+            "generated_at_utc": "2026-05-27T00:09:16.215435+00:00",
+            "run_id": "20260527T000916Z",
             "seed": 7,
             "contract_fingerprint_sha256": "20dcf89e03a9919a1cbb8b8e0fa85e7e6f48ba3576fb25b6d1d34bbd750854e5",
             "model_versions": [
-              "incrementality_causal_v1"
+              "incrementality_fallback_v1"
             ],
             "reproducibility": {
               "row_count": 18,
@@ -2116,85 +2210,157 @@
         },
         "artifacts": {
           "ingestion_event_bus": {
-            "raw.uc_incr_mkt_004.campaign_experiments.v1": "artifacts/UC-INCR-MKT-004/20260423T220328Z/ingestion/event_bus/raw_uc_incr_mkt_004_campaign_experiments_v1.jsonl"
+            "raw.uc_incr_mkt_004.campaign_experiments.v1": "artifacts/UC-INCR-MKT-004/20260527T000916Z/ingestion/event_bus/raw_uc_incr_mkt_004_campaign_experiments_v1.jsonl"
           },
-          "raw_events": "artifacts/UC-INCR-MKT-004/20260423T220328Z/storage/raw/events.jsonl",
-          "curated_records": "artifacts/UC-INCR-MKT-004/20260423T220328Z/storage/curated/records.json",
-          "curated_records_jsonl": "artifacts/UC-INCR-MKT-004/20260423T220328Z/storage/curated/records.jsonl",
-          "resolved_records": "artifacts/UC-INCR-MKT-004/20260423T220328Z/identity_360/resolved_records.json",
-          "note": "artifacts/UC-INCR-MKT-004/20260423T220328Z/identity_360/note.txt",
-          "feature_rows": "artifacts/UC-INCR-MKT-004/20260423T220328Z/features/feature_rows.json",
-          "model_predictions": "artifacts/UC-INCR-MKT-004/20260423T220328Z/models/predictions.json",
-          "model_metrics": "artifacts/UC-INCR-MKT-004/20260423T220328Z/models/metrics.json",
-          "model_manifest": "artifacts/UC-INCR-MKT-004/20260423T220328Z/models/manifest.json",
-          "model_training_report": "artifacts/UC-INCR-MKT-004/20260423T220328Z/models/incrementality_causal_report.json",
-          "activation_payloads": "artifacts/UC-INCR-MKT-004/20260423T220328Z/serving_activation/activation_payloads.json",
-          "monitoring_report": "artifacts/UC-INCR-MKT-004/20260423T220328Z/monitoring_governance/report.json"
+          "raw_events": "artifacts/UC-INCR-MKT-004/20260527T000916Z/storage/raw/events.jsonl",
+          "curated_records": "artifacts/UC-INCR-MKT-004/20260527T000916Z/storage/curated/records.json",
+          "curated_records_jsonl": "artifacts/UC-INCR-MKT-004/20260527T000916Z/storage/curated/records.jsonl",
+          "resolved_records": "artifacts/UC-INCR-MKT-004/20260527T000916Z/identity_360/resolved_records.json",
+          "note": "artifacts/UC-INCR-MKT-004/20260527T000916Z/identity_360/note.txt",
+          "splink_identity_resolution": "artifacts/UC-INCR-MKT-004/20260527T000916Z/enterprise_hardening/splink_identity_resolution.json",
+          "feature_rows": "artifacts/UC-INCR-MKT-004/20260527T000916Z/features/feature_rows.json",
+          "feast_registry": "artifacts/UC-INCR-MKT-004/20260527T000916Z/feature_store/feast_registry.json",
+          "feast_feature_view": "artifacts/UC-INCR-MKT-004/20260527T000916Z/feature_store/feature_view.json",
+          "feast_offline_features": "artifacts/UC-INCR-MKT-004/20260527T000916Z/feature_store/offline_features.json",
+          "feast_repo_config": "artifacts/UC-INCR-MKT-004/20260527T000916Z/feature_store/feature_store.yaml",
+          "model_predictions": "artifacts/UC-INCR-MKT-004/20260527T000916Z/models/predictions.json",
+          "model_metrics": "artifacts/UC-INCR-MKT-004/20260527T000916Z/models/metrics.json",
+          "model_manifest": "artifacts/UC-INCR-MKT-004/20260527T000916Z/models/manifest.json",
+          "model_training_report": "artifacts/UC-INCR-MKT-004/20260527T000916Z/models/incrementality_causal_report.json",
+          "mlflow_lineage": "artifacts/UC-INCR-MKT-004/20260527T000916Z/enterprise_hardening/mlflow_lineage.json",
+          "activation_payloads": "artifacts/UC-INCR-MKT-004/20260527T000916Z/serving_activation/activation_payloads.json",
+          "monitoring_report": "artifacts/UC-INCR-MKT-004/20260527T000916Z/monitoring_governance/report.json",
+          "data_quality_expectations": "artifacts/UC-INCR-MKT-004/20260527T000916Z/enterprise_hardening/data_quality_expectations.json",
+          "monitoring_summary": "artifacts/UC-INCR-MKT-004/20260527T000916Z/enterprise_hardening/monitoring_summary.json",
+          "airflow_dag_metadata": "artifacts/UC-INCR-MKT-004/20260527T000916Z/orchestration/airflow_dag_metadata.json",
+          "keycloak_oidc_readiness": "artifacts/UC-INCR-MKT-004/20260527T000916Z/security/keycloak_oidc_readiness.json",
+          "product_like_integrations": "artifacts/UC-INCR-MKT-004/20260527T000916Z/enterprise_hardening/product_like_integrations.json",
+          "stage_telemetry": "artifacts/UC-INCR-MKT-004/20260527T000916Z/telemetry/stage_events.jsonl"
         },
         "artifact_file_checks": [
           {
             "label": "topic::raw.uc_incr_mkt_004.campaign_experiments.v1",
-            "path": "artifacts/UC-INCR-MKT-004/20260423T220328Z/ingestion/event_bus/raw_uc_incr_mkt_004_campaign_experiments_v1.jsonl",
+            "path": "artifacts/UC-INCR-MKT-004/20260527T000916Z/ingestion/event_bus/raw_uc_incr_mkt_004_campaign_experiments_v1.jsonl",
             "exists": true
           },
           {
             "label": "activation_payloads",
-            "path": "artifacts/UC-INCR-MKT-004/20260423T220328Z/serving_activation/activation_payloads.json",
+            "path": "artifacts/UC-INCR-MKT-004/20260527T000916Z/serving_activation/activation_payloads.json",
+            "exists": true
+          },
+          {
+            "label": "airflow_dag_metadata",
+            "path": "artifacts/UC-INCR-MKT-004/20260527T000916Z/orchestration/airflow_dag_metadata.json",
             "exists": true
           },
           {
             "label": "curated_records",
-            "path": "artifacts/UC-INCR-MKT-004/20260423T220328Z/storage/curated/records.json",
+            "path": "artifacts/UC-INCR-MKT-004/20260527T000916Z/storage/curated/records.json",
             "exists": true
           },
           {
             "label": "curated_records_jsonl",
-            "path": "artifacts/UC-INCR-MKT-004/20260423T220328Z/storage/curated/records.jsonl",
+            "path": "artifacts/UC-INCR-MKT-004/20260527T000916Z/storage/curated/records.jsonl",
+            "exists": true
+          },
+          {
+            "label": "data_quality_expectations",
+            "path": "artifacts/UC-INCR-MKT-004/20260527T000916Z/enterprise_hardening/data_quality_expectations.json",
+            "exists": true
+          },
+          {
+            "label": "feast_feature_view",
+            "path": "artifacts/UC-INCR-MKT-004/20260527T000916Z/feature_store/feature_view.json",
+            "exists": true
+          },
+          {
+            "label": "feast_offline_features",
+            "path": "artifacts/UC-INCR-MKT-004/20260527T000916Z/feature_store/offline_features.json",
+            "exists": true
+          },
+          {
+            "label": "feast_registry",
+            "path": "artifacts/UC-INCR-MKT-004/20260527T000916Z/feature_store/feast_registry.json",
+            "exists": true
+          },
+          {
+            "label": "feast_repo_config",
+            "path": "artifacts/UC-INCR-MKT-004/20260527T000916Z/feature_store/feature_store.yaml",
             "exists": true
           },
           {
             "label": "feature_rows",
-            "path": "artifacts/UC-INCR-MKT-004/20260423T220328Z/features/feature_rows.json",
+            "path": "artifacts/UC-INCR-MKT-004/20260527T000916Z/features/feature_rows.json",
+            "exists": true
+          },
+          {
+            "label": "keycloak_oidc_readiness",
+            "path": "artifacts/UC-INCR-MKT-004/20260527T000916Z/security/keycloak_oidc_readiness.json",
+            "exists": true
+          },
+          {
+            "label": "mlflow_lineage",
+            "path": "artifacts/UC-INCR-MKT-004/20260527T000916Z/enterprise_hardening/mlflow_lineage.json",
             "exists": true
           },
           {
             "label": "model_manifest",
-            "path": "artifacts/UC-INCR-MKT-004/20260423T220328Z/models/manifest.json",
+            "path": "artifacts/UC-INCR-MKT-004/20260527T000916Z/models/manifest.json",
             "exists": true
           },
           {
             "label": "model_metrics",
-            "path": "artifacts/UC-INCR-MKT-004/20260423T220328Z/models/metrics.json",
+            "path": "artifacts/UC-INCR-MKT-004/20260527T000916Z/models/metrics.json",
             "exists": true
           },
           {
             "label": "model_predictions",
-            "path": "artifacts/UC-INCR-MKT-004/20260423T220328Z/models/predictions.json",
+            "path": "artifacts/UC-INCR-MKT-004/20260527T000916Z/models/predictions.json",
             "exists": true
           },
           {
             "label": "model_training_report",
-            "path": "artifacts/UC-INCR-MKT-004/20260423T220328Z/models/incrementality_causal_report.json",
+            "path": "artifacts/UC-INCR-MKT-004/20260527T000916Z/models/incrementality_causal_report.json",
             "exists": true
           },
           {
             "label": "monitoring_report",
-            "path": "artifacts/UC-INCR-MKT-004/20260423T220328Z/monitoring_governance/report.json",
+            "path": "artifacts/UC-INCR-MKT-004/20260527T000916Z/monitoring_governance/report.json",
+            "exists": true
+          },
+          {
+            "label": "monitoring_summary",
+            "path": "artifacts/UC-INCR-MKT-004/20260527T000916Z/enterprise_hardening/monitoring_summary.json",
             "exists": true
           },
           {
             "label": "note",
-            "path": "artifacts/UC-INCR-MKT-004/20260423T220328Z/identity_360/note.txt",
+            "path": "artifacts/UC-INCR-MKT-004/20260527T000916Z/identity_360/note.txt",
+            "exists": true
+          },
+          {
+            "label": "product_like_integrations",
+            "path": "artifacts/UC-INCR-MKT-004/20260527T000916Z/enterprise_hardening/product_like_integrations.json",
             "exists": true
           },
           {
             "label": "raw_events",
-            "path": "artifacts/UC-INCR-MKT-004/20260423T220328Z/storage/raw/events.jsonl",
+            "path": "artifacts/UC-INCR-MKT-004/20260527T000916Z/storage/raw/events.jsonl",
             "exists": true
           },
           {
             "label": "resolved_records",
-            "path": "artifacts/UC-INCR-MKT-004/20260423T220328Z/identity_360/resolved_records.json",
+            "path": "artifacts/UC-INCR-MKT-004/20260527T000916Z/identity_360/resolved_records.json",
+            "exists": true
+          },
+          {
+            "label": "splink_identity_resolution",
+            "path": "artifacts/UC-INCR-MKT-004/20260527T000916Z/enterprise_hardening/splink_identity_resolution.json",
+            "exists": true
+          },
+          {
+            "label": "stage_telemetry",
+            "path": "artifacts/UC-INCR-MKT-004/20260527T000916Z/telemetry/stage_events.jsonl",
             "exists": true
           }
         ],
@@ -2291,7 +2457,7 @@
             "outputs": [
               {
                 "name": "raw.uc_incr_mkt_004.campaign_experiments.v1",
-                "path": "artifacts/UC-INCR-MKT-004/20260423T220328Z/ingestion/event_bus/raw_uc_incr_mkt_004_campaign_experiments_v1.jsonl",
+                "path": "artifacts/UC-INCR-MKT-004/20260527T000916Z/ingestion/event_bus/raw_uc_incr_mkt_004_campaign_experiments_v1.jsonl",
                 "exists": true,
                 "row_count": 18,
                 "sample_fields": [
@@ -2325,7 +2491,7 @@
             "outputs": [
               {
                 "name": "raw_events",
-                "path": "artifacts/UC-INCR-MKT-004/20260423T220328Z/storage/raw/events.jsonl",
+                "path": "artifacts/UC-INCR-MKT-004/20260527T000916Z/storage/raw/events.jsonl",
                 "exists": true,
                 "row_count": 18,
                 "sample_fields": [
@@ -2344,7 +2510,7 @@
               },
               {
                 "name": "curated_records",
-                "path": "artifacts/UC-INCR-MKT-004/20260423T220328Z/storage/curated/records.json",
+                "path": "artifacts/UC-INCR-MKT-004/20260527T000916Z/storage/curated/records.json",
                 "exists": true,
                 "row_count": 18,
                 "sample_fields": [
@@ -2363,7 +2529,7 @@
               },
               {
                 "name": "curated_records_jsonl",
-                "path": "artifacts/UC-INCR-MKT-004/20260423T220328Z/storage/curated/records.jsonl",
+                "path": "artifacts/UC-INCR-MKT-004/20260527T000916Z/storage/curated/records.jsonl",
                 "exists": true,
                 "row_count": 18,
                 "sample_fields": [
@@ -2397,7 +2563,7 @@
             "outputs": [
               {
                 "name": "resolved_records",
-                "path": "artifacts/UC-INCR-MKT-004/20260423T220328Z/identity_360/resolved_records.json",
+                "path": "artifacts/UC-INCR-MKT-004/20260527T000916Z/identity_360/resolved_records.json",
                 "exists": true,
                 "row_count": 18,
                 "sample_fields": [
@@ -2416,7 +2582,7 @@
               },
               {
                 "name": "note",
-                "path": "artifacts/UC-INCR-MKT-004/20260423T220328Z/identity_360/note.txt",
+                "path": "artifacts/UC-INCR-MKT-004/20260527T000916Z/identity_360/note.txt",
                 "exists": true,
                 "row_count": null,
                 "sample_fields": [],
@@ -2439,7 +2605,7 @@
             "outputs": [
               {
                 "name": "feature_rows",
-                "path": "artifacts/UC-INCR-MKT-004/20260423T220328Z/features/feature_rows.json",
+                "path": "artifacts/UC-INCR-MKT-004/20260527T000916Z/features/feature_rows.json",
                 "exists": true,
                 "row_count": 18,
                 "sample_fields": [
@@ -2475,7 +2641,7 @@
             "outputs": [
               {
                 "name": "model_predictions",
-                "path": "artifacts/UC-INCR-MKT-004/20260423T220328Z/models/predictions.json",
+                "path": "artifacts/UC-INCR-MKT-004/20260527T000916Z/models/predictions.json",
                 "exists": true,
                 "row_count": 18,
                 "sample_fields": [
@@ -2497,13 +2663,9 @@
                 "exists": true,
                 "row_count": null,
                 "sample_fields": [
-                  "ate",
                   "avg_iROAS",
                   "avg_incremental_lift",
-                  "cate_std",
-                  "causal_sample_rows",
-                  "covariates_used",
-                  "dowhy_placebo_p_value",
+                  "backend_warnings",
                   "holdout_ratio",
                   "holdout_row_count",
                   "holdout_signal_mean",
@@ -2535,7 +2697,7 @@
             "outputs": [
               {
                 "name": "activation_payloads",
-                "path": "artifacts/UC-INCR-MKT-004/20260423T220328Z/serving_activation/activation_payloads.json",
+                "path": "artifacts/UC-INCR-MKT-004/20260527T000916Z/serving_activation/activation_payloads.json",
                 "exists": true,
                 "row_count": 18,
                 "sample_fields": [
@@ -2558,13 +2720,13 @@
             "inputs": [
               {
                 "name": "model_metrics",
-                "value": "18"
+                "value": "14"
               }
             ],
             "outputs": [
               {
                 "name": "monitoring_report",
-                "path": "artifacts/UC-INCR-MKT-004/20260423T220328Z/monitoring_governance/report.json",
+                "path": "artifacts/UC-INCR-MKT-004/20260527T000916Z/monitoring_governance/report.json",
                 "exists": true,
                 "row_count": null,
                 "sample_fields": [
@@ -2668,11 +2830,11 @@
         }
       },
       "latest_run": {
-        "run_id": "20260423T032828Z",
-        "summary_path": "artifacts/UC-MMM-PLN-003/20260423T032828Z/summary.json",
+        "run_id": "20260527T000916Z",
+        "summary_path": "artifacts/UC-MMM-PLN-003/20260527T000916Z/summary.json",
         "run_status": "pass",
         "infra_profile": "local",
-        "seed": 101,
+        "seed": 7,
         "records": {
           "source_tables": {
             "media_spend": 60
@@ -2685,51 +2847,92 @@
         "model_metrics": {
           "primary_kpi": "portfolio_incremental_revenue_at_fixed_budget",
           "avg_recommended_spend": 40958.33,
-          "avg_expected_incremental_revenue": 6961.74,
+          "avg_expected_incremental_revenue": 6946.5,
           "observed_revenue_rows": 60,
-          "revenue_mape": 0.901276,
+          "revenue_mape": 0.90153,
           "supervision_mode": "observed_revenue",
-          "model_backend": "pymc_marketing_adapter",
-          "backend_library_version": "0.19.2",
+          "model_backend": "bayesian_surrogate_fallback",
+          "backend_warnings": [
+            "PyMC-Marketing unavailable: pymc_marketing: No module named 'pymc_marketing'"
+          ],
           "model_version": "mmm_bayesian_v1",
           "model_versions": [
             "mmm_bayesian_v1"
           ],
-          "train_row_count": 46,
-          "holdout_row_count": 14,
-          "holdout_ratio": 0.2333,
-          "train_signal_mean": 29057.147663,
-          "holdout_signal_mean": 32078.834583,
-          "signal_drift_abs": 3021.68692
+          "train_row_count": 50,
+          "holdout_row_count": 10,
+          "holdout_ratio": 0.1667,
+          "train_signal_mean": 29852.265361,
+          "holdout_signal_mean": 29289.659505,
+          "signal_drift_abs": 562.605856,
+          "split_validation": {
+            "status": "pass",
+            "rules": {
+              "min_train_rows": 30,
+              "min_holdout_rows": 8,
+              "min_holdout_ratio": 0.05,
+              "max_holdout_ratio": 0.4
+            },
+            "checks": [
+              {
+                "name": "train_rows_min",
+                "status": "pass",
+                "actual": 50,
+                "expectation": "train_row_count >= 30",
+                "reason": "within expected constraints"
+              },
+              {
+                "name": "holdout_rows_min",
+                "status": "pass",
+                "actual": 10,
+                "expectation": "holdout_row_count >= 8",
+                "reason": "within expected constraints"
+              },
+              {
+                "name": "holdout_ratio_range",
+                "status": "pass",
+                "actual": 0.1667,
+                "expectation": "holdout_ratio in [0.05, 0.4]",
+                "reason": "within expected constraints"
+              }
+            ],
+            "summary": {
+              "total_checks": 3,
+              "passed_checks": 3,
+              "failed_checks": 0
+            }
+          }
         },
         "metric_highlights": [
           {
             "name": "avg_expected_incremental_revenue",
-            "value": 6961.74
+            "value": 6946.5
           },
           {
             "name": "avg_recommended_spend",
             "value": 40958.33
           },
           {
-            "name": "backend_library_version",
-            "value": "0.19.2"
+            "name": "backend_warnings",
+            "value": [
+              "PyMC-Marketing unavailable: pymc_marketing: No module named 'pymc_marketing'"
+            ]
           },
           {
             "name": "holdout_ratio",
-            "value": 0.2333
+            "value": 0.1667
           },
           {
             "name": "holdout_row_count",
-            "value": 14
+            "value": 10
           },
           {
             "name": "holdout_signal_mean",
-            "value": 32078.834583
+            "value": 29289.659505
           },
           {
             "name": "model_backend",
-            "value": "pymc_marketing_adapter"
+            "value": "bayesian_surrogate_fallback"
           },
           {
             "name": "model_version",
@@ -2747,11 +2950,51 @@
           },
           {
             "name": "revenue_mape",
-            "value": 0.901276
+            "value": 0.90153
           },
           {
             "name": "signal_drift_abs",
-            "value": 3021.68692
+            "value": 562.605856
+          },
+          {
+            "name": "split_validation",
+            "value": {
+              "status": "pass",
+              "rules": {
+                "min_train_rows": 30,
+                "min_holdout_rows": 8,
+                "min_holdout_ratio": 0.05,
+                "max_holdout_ratio": 0.4
+              },
+              "checks": [
+                {
+                  "name": "train_rows_min",
+                  "status": "pass",
+                  "actual": 50,
+                  "expectation": "train_row_count >= 30",
+                  "reason": "within expected constraints"
+                },
+                {
+                  "name": "holdout_rows_min",
+                  "status": "pass",
+                  "actual": 10,
+                  "expectation": "holdout_row_count >= 8",
+                  "reason": "within expected constraints"
+                },
+                {
+                  "name": "holdout_ratio_range",
+                  "status": "pass",
+                  "actual": 0.1667,
+                  "expectation": "holdout_ratio in [0.05, 0.4]",
+                  "reason": "within expected constraints"
+                }
+              ],
+              "summary": {
+                "total_checks": 3,
+                "passed_checks": 3,
+                "failed_checks": 0
+              }
+            }
           },
           {
             "name": "supervision_mode",
@@ -2759,11 +3002,11 @@
           },
           {
             "name": "train_row_count",
-            "value": 46
+            "value": 50
           },
           {
             "name": "train_signal_mean",
-            "value": 29057.147663
+            "value": 29852.265361
           }
         ],
         "monitoring_report": {
@@ -2774,22 +3017,61 @@
           "model_metrics": {
             "primary_kpi": "portfolio_incremental_revenue_at_fixed_budget",
             "avg_recommended_spend": 40958.33,
-            "avg_expected_incremental_revenue": 6961.74,
+            "avg_expected_incremental_revenue": 6946.5,
             "observed_revenue_rows": 60,
-            "revenue_mape": 0.901276,
+            "revenue_mape": 0.90153,
             "supervision_mode": "observed_revenue",
-            "model_backend": "pymc_marketing_adapter",
-            "backend_library_version": "0.19.2",
+            "model_backend": "bayesian_surrogate_fallback",
+            "backend_warnings": [
+              "PyMC-Marketing unavailable: pymc_marketing: No module named 'pymc_marketing'"
+            ],
             "model_version": "mmm_bayesian_v1",
             "model_versions": [
               "mmm_bayesian_v1"
             ],
-            "train_row_count": 46,
-            "holdout_row_count": 14,
-            "holdout_ratio": 0.2333,
-            "train_signal_mean": 29057.147663,
-            "holdout_signal_mean": 32078.834583,
-            "signal_drift_abs": 3021.68692
+            "train_row_count": 50,
+            "holdout_row_count": 10,
+            "holdout_ratio": 0.1667,
+            "train_signal_mean": 29852.265361,
+            "holdout_signal_mean": 29289.659505,
+            "signal_drift_abs": 562.605856,
+            "split_validation": {
+              "status": "pass",
+              "rules": {
+                "min_train_rows": 30,
+                "min_holdout_rows": 8,
+                "min_holdout_ratio": 0.05,
+                "max_holdout_ratio": 0.4
+              },
+              "checks": [
+                {
+                  "name": "train_rows_min",
+                  "status": "pass",
+                  "actual": 50,
+                  "expectation": "train_row_count >= 30",
+                  "reason": "within expected constraints"
+                },
+                {
+                  "name": "holdout_rows_min",
+                  "status": "pass",
+                  "actual": 10,
+                  "expectation": "holdout_row_count >= 8",
+                  "reason": "within expected constraints"
+                },
+                {
+                  "name": "holdout_ratio_range",
+                  "status": "pass",
+                  "actual": 0.1667,
+                  "expectation": "holdout_ratio in [0.05, 0.4]",
+                  "reason": "within expected constraints"
+                }
+              ],
+              "summary": {
+                "total_checks": 3,
+                "passed_checks": 3,
+                "failed_checks": 0
+              }
+            }
           },
           "validation_gates": {
             "rolling_backtest_pass": "pass",
@@ -2829,7 +3111,7 @@
               {
                 "name": "avg_expected_incremental_revenue_positive",
                 "status": "pass",
-                "actual": 6961.74,
+                "actual": 6946.5,
                 "expectation": "avg_expected_incremental_revenue >= 0.0",
                 "reason": "within expected bounds"
               }
@@ -3060,27 +3342,20 @@
             "reason": null
           },
           "deployment_readiness": {
-            "status": "ready",
+            "status": "pending_approval",
             "score": 1.0,
             "approval_required": true,
             "blockers": [],
             "failed_gates": [],
             "failed_model_checks": [],
             "failed_data_quality_checks": [],
-            "warning_data_quality_checks": [],
-            "approval": {
-              "status": "approved",
-              "approved_at_utc": "2026-04-23T06:04:31Z",
-              "approved_by": "platform-admin",
-              "method": "manual_signoff",
-              "notes": "Governance sign-off completed after strict-run review."
-            }
+            "warning_data_quality_checks": []
           },
           "scientific_governance": {
             "standard_version": "v1",
-            "generated_at_utc": "2026-04-23T03:28:30.498149+00:00",
-            "run_id": "20260423T032828Z",
-            "seed": 101,
+            "generated_at_utc": "2026-05-27T00:09:16.246002+00:00",
+            "run_id": "20260527T000916Z",
+            "seed": 7,
             "contract_fingerprint_sha256": "604e1161393acbf8551cca8da781c8b2de94c5687afdeb0269bb18e08a1922cb",
             "model_versions": [
               "mmm_bayesian_v1"
@@ -3094,85 +3369,157 @@
         },
         "artifacts": {
           "ingestion_event_bus": {
-            "raw.uc_mmm_pln_003.media_spend.v1": "artifacts/UC-MMM-PLN-003/20260423T032828Z/ingestion/event_bus/raw_uc_mmm_pln_003_media_spend_v1.jsonl"
+            "raw.uc_mmm_pln_003.media_spend.v1": "artifacts/UC-MMM-PLN-003/20260527T000916Z/ingestion/event_bus/raw_uc_mmm_pln_003_media_spend_v1.jsonl"
           },
-          "raw_events": "artifacts/UC-MMM-PLN-003/20260423T032828Z/storage/raw/events.jsonl",
-          "curated_records": "artifacts/UC-MMM-PLN-003/20260423T032828Z/storage/curated/records.json",
-          "curated_records_jsonl": "artifacts/UC-MMM-PLN-003/20260423T032828Z/storage/curated/records.jsonl",
-          "resolved_records": "artifacts/UC-MMM-PLN-003/20260423T032828Z/identity_360/resolved_records.json",
-          "note": "artifacts/UC-MMM-PLN-003/20260423T032828Z/identity_360/note.txt",
-          "feature_rows": "artifacts/UC-MMM-PLN-003/20260423T032828Z/features/feature_rows.json",
-          "model_predictions": "artifacts/UC-MMM-PLN-003/20260423T032828Z/models/predictions.json",
-          "model_metrics": "artifacts/UC-MMM-PLN-003/20260423T032828Z/models/metrics.json",
-          "model_manifest": "artifacts/UC-MMM-PLN-003/20260423T032828Z/models/manifest.json",
-          "model_training_report": "artifacts/UC-MMM-PLN-003/20260423T032828Z/models/mmm_training_report.json",
-          "activation_payloads": "artifacts/UC-MMM-PLN-003/20260423T032828Z/serving_activation/activation_payloads.json",
-          "monitoring_report": "artifacts/UC-MMM-PLN-003/20260423T032828Z/monitoring_governance/report.json"
+          "raw_events": "artifacts/UC-MMM-PLN-003/20260527T000916Z/storage/raw/events.jsonl",
+          "curated_records": "artifacts/UC-MMM-PLN-003/20260527T000916Z/storage/curated/records.json",
+          "curated_records_jsonl": "artifacts/UC-MMM-PLN-003/20260527T000916Z/storage/curated/records.jsonl",
+          "resolved_records": "artifacts/UC-MMM-PLN-003/20260527T000916Z/identity_360/resolved_records.json",
+          "note": "artifacts/UC-MMM-PLN-003/20260527T000916Z/identity_360/note.txt",
+          "splink_identity_resolution": "artifacts/UC-MMM-PLN-003/20260527T000916Z/enterprise_hardening/splink_identity_resolution.json",
+          "feature_rows": "artifacts/UC-MMM-PLN-003/20260527T000916Z/features/feature_rows.json",
+          "feast_registry": "artifacts/UC-MMM-PLN-003/20260527T000916Z/feature_store/feast_registry.json",
+          "feast_feature_view": "artifacts/UC-MMM-PLN-003/20260527T000916Z/feature_store/feature_view.json",
+          "feast_offline_features": "artifacts/UC-MMM-PLN-003/20260527T000916Z/feature_store/offline_features.json",
+          "feast_repo_config": "artifacts/UC-MMM-PLN-003/20260527T000916Z/feature_store/feature_store.yaml",
+          "model_predictions": "artifacts/UC-MMM-PLN-003/20260527T000916Z/models/predictions.json",
+          "model_metrics": "artifacts/UC-MMM-PLN-003/20260527T000916Z/models/metrics.json",
+          "model_manifest": "artifacts/UC-MMM-PLN-003/20260527T000916Z/models/manifest.json",
+          "model_training_report": "artifacts/UC-MMM-PLN-003/20260527T000916Z/models/mmm_training_report.json",
+          "mlflow_lineage": "artifacts/UC-MMM-PLN-003/20260527T000916Z/enterprise_hardening/mlflow_lineage.json",
+          "activation_payloads": "artifacts/UC-MMM-PLN-003/20260527T000916Z/serving_activation/activation_payloads.json",
+          "monitoring_report": "artifacts/UC-MMM-PLN-003/20260527T000916Z/monitoring_governance/report.json",
+          "data_quality_expectations": "artifacts/UC-MMM-PLN-003/20260527T000916Z/enterprise_hardening/data_quality_expectations.json",
+          "monitoring_summary": "artifacts/UC-MMM-PLN-003/20260527T000916Z/enterprise_hardening/monitoring_summary.json",
+          "airflow_dag_metadata": "artifacts/UC-MMM-PLN-003/20260527T000916Z/orchestration/airflow_dag_metadata.json",
+          "keycloak_oidc_readiness": "artifacts/UC-MMM-PLN-003/20260527T000916Z/security/keycloak_oidc_readiness.json",
+          "product_like_integrations": "artifacts/UC-MMM-PLN-003/20260527T000916Z/enterprise_hardening/product_like_integrations.json",
+          "stage_telemetry": "artifacts/UC-MMM-PLN-003/20260527T000916Z/telemetry/stage_events.jsonl"
         },
         "artifact_file_checks": [
           {
             "label": "topic::raw.uc_mmm_pln_003.media_spend.v1",
-            "path": "artifacts/UC-MMM-PLN-003/20260423T032828Z/ingestion/event_bus/raw_uc_mmm_pln_003_media_spend_v1.jsonl",
+            "path": "artifacts/UC-MMM-PLN-003/20260527T000916Z/ingestion/event_bus/raw_uc_mmm_pln_003_media_spend_v1.jsonl",
             "exists": true
           },
           {
             "label": "activation_payloads",
-            "path": "artifacts/UC-MMM-PLN-003/20260423T032828Z/serving_activation/activation_payloads.json",
+            "path": "artifacts/UC-MMM-PLN-003/20260527T000916Z/serving_activation/activation_payloads.json",
+            "exists": true
+          },
+          {
+            "label": "airflow_dag_metadata",
+            "path": "artifacts/UC-MMM-PLN-003/20260527T000916Z/orchestration/airflow_dag_metadata.json",
             "exists": true
           },
           {
             "label": "curated_records",
-            "path": "artifacts/UC-MMM-PLN-003/20260423T032828Z/storage/curated/records.json",
+            "path": "artifacts/UC-MMM-PLN-003/20260527T000916Z/storage/curated/records.json",
             "exists": true
           },
           {
             "label": "curated_records_jsonl",
-            "path": "artifacts/UC-MMM-PLN-003/20260423T032828Z/storage/curated/records.jsonl",
+            "path": "artifacts/UC-MMM-PLN-003/20260527T000916Z/storage/curated/records.jsonl",
+            "exists": true
+          },
+          {
+            "label": "data_quality_expectations",
+            "path": "artifacts/UC-MMM-PLN-003/20260527T000916Z/enterprise_hardening/data_quality_expectations.json",
+            "exists": true
+          },
+          {
+            "label": "feast_feature_view",
+            "path": "artifacts/UC-MMM-PLN-003/20260527T000916Z/feature_store/feature_view.json",
+            "exists": true
+          },
+          {
+            "label": "feast_offline_features",
+            "path": "artifacts/UC-MMM-PLN-003/20260527T000916Z/feature_store/offline_features.json",
+            "exists": true
+          },
+          {
+            "label": "feast_registry",
+            "path": "artifacts/UC-MMM-PLN-003/20260527T000916Z/feature_store/feast_registry.json",
+            "exists": true
+          },
+          {
+            "label": "feast_repo_config",
+            "path": "artifacts/UC-MMM-PLN-003/20260527T000916Z/feature_store/feature_store.yaml",
             "exists": true
           },
           {
             "label": "feature_rows",
-            "path": "artifacts/UC-MMM-PLN-003/20260423T032828Z/features/feature_rows.json",
+            "path": "artifacts/UC-MMM-PLN-003/20260527T000916Z/features/feature_rows.json",
+            "exists": true
+          },
+          {
+            "label": "keycloak_oidc_readiness",
+            "path": "artifacts/UC-MMM-PLN-003/20260527T000916Z/security/keycloak_oidc_readiness.json",
+            "exists": true
+          },
+          {
+            "label": "mlflow_lineage",
+            "path": "artifacts/UC-MMM-PLN-003/20260527T000916Z/enterprise_hardening/mlflow_lineage.json",
             "exists": true
           },
           {
             "label": "model_manifest",
-            "path": "artifacts/UC-MMM-PLN-003/20260423T032828Z/models/manifest.json",
+            "path": "artifacts/UC-MMM-PLN-003/20260527T000916Z/models/manifest.json",
             "exists": true
           },
           {
             "label": "model_metrics",
-            "path": "artifacts/UC-MMM-PLN-003/20260423T032828Z/models/metrics.json",
+            "path": "artifacts/UC-MMM-PLN-003/20260527T000916Z/models/metrics.json",
             "exists": true
           },
           {
             "label": "model_predictions",
-            "path": "artifacts/UC-MMM-PLN-003/20260423T032828Z/models/predictions.json",
+            "path": "artifacts/UC-MMM-PLN-003/20260527T000916Z/models/predictions.json",
             "exists": true
           },
           {
             "label": "model_training_report",
-            "path": "artifacts/UC-MMM-PLN-003/20260423T032828Z/models/mmm_training_report.json",
+            "path": "artifacts/UC-MMM-PLN-003/20260527T000916Z/models/mmm_training_report.json",
             "exists": true
           },
           {
             "label": "monitoring_report",
-            "path": "artifacts/UC-MMM-PLN-003/20260423T032828Z/monitoring_governance/report.json",
+            "path": "artifacts/UC-MMM-PLN-003/20260527T000916Z/monitoring_governance/report.json",
+            "exists": true
+          },
+          {
+            "label": "monitoring_summary",
+            "path": "artifacts/UC-MMM-PLN-003/20260527T000916Z/enterprise_hardening/monitoring_summary.json",
             "exists": true
           },
           {
             "label": "note",
-            "path": "artifacts/UC-MMM-PLN-003/20260423T032828Z/identity_360/note.txt",
+            "path": "artifacts/UC-MMM-PLN-003/20260527T000916Z/identity_360/note.txt",
+            "exists": true
+          },
+          {
+            "label": "product_like_integrations",
+            "path": "artifacts/UC-MMM-PLN-003/20260527T000916Z/enterprise_hardening/product_like_integrations.json",
             "exists": true
           },
           {
             "label": "raw_events",
-            "path": "artifacts/UC-MMM-PLN-003/20260423T032828Z/storage/raw/events.jsonl",
+            "path": "artifacts/UC-MMM-PLN-003/20260527T000916Z/storage/raw/events.jsonl",
             "exists": true
           },
           {
             "label": "resolved_records",
-            "path": "artifacts/UC-MMM-PLN-003/20260423T032828Z/identity_360/resolved_records.json",
+            "path": "artifacts/UC-MMM-PLN-003/20260527T000916Z/identity_360/resolved_records.json",
+            "exists": true
+          },
+          {
+            "label": "splink_identity_resolution",
+            "path": "artifacts/UC-MMM-PLN-003/20260527T000916Z/enterprise_hardening/splink_identity_resolution.json",
+            "exists": true
+          },
+          {
+            "label": "stage_telemetry",
+            "path": "artifacts/UC-MMM-PLN-003/20260527T000916Z/telemetry/stage_events.jsonl",
             "exists": true
           }
         ],
@@ -3269,7 +3616,7 @@
             "outputs": [
               {
                 "name": "raw.uc_mmm_pln_003.media_spend.v1",
-                "path": "artifacts/UC-MMM-PLN-003/20260423T032828Z/ingestion/event_bus/raw_uc_mmm_pln_003_media_spend_v1.jsonl",
+                "path": "artifacts/UC-MMM-PLN-003/20260527T000916Z/ingestion/event_bus/raw_uc_mmm_pln_003_media_spend_v1.jsonl",
                 "exists": true,
                 "row_count": 60,
                 "sample_fields": [
@@ -3302,7 +3649,7 @@
             "outputs": [
               {
                 "name": "raw_events",
-                "path": "artifacts/UC-MMM-PLN-003/20260423T032828Z/storage/raw/events.jsonl",
+                "path": "artifacts/UC-MMM-PLN-003/20260527T000916Z/storage/raw/events.jsonl",
                 "exists": true,
                 "row_count": 60,
                 "sample_fields": [
@@ -3320,7 +3667,7 @@
               },
               {
                 "name": "curated_records",
-                "path": "artifacts/UC-MMM-PLN-003/20260423T032828Z/storage/curated/records.json",
+                "path": "artifacts/UC-MMM-PLN-003/20260527T000916Z/storage/curated/records.json",
                 "exists": true,
                 "row_count": 60,
                 "sample_fields": [
@@ -3338,7 +3685,7 @@
               },
               {
                 "name": "curated_records_jsonl",
-                "path": "artifacts/UC-MMM-PLN-003/20260423T032828Z/storage/curated/records.jsonl",
+                "path": "artifacts/UC-MMM-PLN-003/20260527T000916Z/storage/curated/records.jsonl",
                 "exists": true,
                 "row_count": 60,
                 "sample_fields": [
@@ -3371,7 +3718,7 @@
             "outputs": [
               {
                 "name": "resolved_records",
-                "path": "artifacts/UC-MMM-PLN-003/20260423T032828Z/identity_360/resolved_records.json",
+                "path": "artifacts/UC-MMM-PLN-003/20260527T000916Z/identity_360/resolved_records.json",
                 "exists": true,
                 "row_count": 60,
                 "sample_fields": [
@@ -3389,7 +3736,7 @@
               },
               {
                 "name": "note",
-                "path": "artifacts/UC-MMM-PLN-003/20260423T032828Z/identity_360/note.txt",
+                "path": "artifacts/UC-MMM-PLN-003/20260527T000916Z/identity_360/note.txt",
                 "exists": true,
                 "row_count": null,
                 "sample_fields": [],
@@ -3412,7 +3759,7 @@
             "outputs": [
               {
                 "name": "feature_rows",
-                "path": "artifacts/UC-MMM-PLN-003/20260423T032828Z/features/feature_rows.json",
+                "path": "artifacts/UC-MMM-PLN-003/20260527T000916Z/features/feature_rows.json",
                 "exists": true,
                 "row_count": 60,
                 "sample_fields": [
@@ -3449,7 +3796,7 @@
             "outputs": [
               {
                 "name": "model_predictions",
-                "path": "artifacts/UC-MMM-PLN-003/20260423T032828Z/models/predictions.json",
+                "path": "artifacts/UC-MMM-PLN-003/20260527T000916Z/models/predictions.json",
                 "exists": true,
                 "row_count": 60,
                 "sample_fields": [
@@ -3476,7 +3823,7 @@
                 "sample_fields": [
                   "avg_expected_incremental_revenue",
                   "avg_recommended_spend",
-                  "backend_library_version",
+                  "backend_warnings",
                   "holdout_ratio",
                   "holdout_row_count",
                   "holdout_signal_mean",
@@ -3487,6 +3834,7 @@
                   "primary_kpi",
                   "revenue_mape",
                   "signal_drift_abs",
+                  "split_validation",
                   "supervision_mode",
                   "train_row_count",
                   "train_signal_mean"
@@ -3510,7 +3858,7 @@
             "outputs": [
               {
                 "name": "activation_payloads",
-                "path": "artifacts/UC-MMM-PLN-003/20260423T032828Z/serving_activation/activation_payloads.json",
+                "path": "artifacts/UC-MMM-PLN-003/20260527T000916Z/serving_activation/activation_payloads.json",
                 "exists": true,
                 "row_count": 60,
                 "sample_fields": [
@@ -3533,13 +3881,13 @@
             "inputs": [
               {
                 "name": "model_metrics",
-                "value": "16"
+                "value": "17"
               }
             ],
             "outputs": [
               {
                 "name": "monitoring_report",
-                "path": "artifacts/UC-MMM-PLN-003/20260423T032828Z/monitoring_governance/report.json",
+                "path": "artifacts/UC-MMM-PLN-003/20260527T000916Z/monitoring_governance/report.json",
                 "exists": true,
                 "row_count": null,
                 "sample_fields": [
@@ -3645,11 +3993,11 @@
         }
       },
       "latest_run": {
-        "run_id": "20260425T193444Z",
-        "summary_path": "artifacts/UC-NBA-RET-001/20260425T193444Z/summary.json",
+        "run_id": "20260527T000916Z",
+        "summary_path": "artifacts/UC-NBA-RET-001/20260527T000916Z/summary.json",
         "run_status": "pass",
-        "infra_profile": "oss",
-        "seed": 101,
+        "infra_profile": "local",
+        "seed": 7,
         "records": {
           "source_tables": {
             "crm_customers": 120,
@@ -3663,28 +4011,22 @@
         },
         "model_metrics": {
           "primary_kpi": "30_day_incremental_retention_lift",
-          "avg_expected_uplift": 0.1576,
-          "avg_confidence": 0.5,
-          "model_backend": "tensorflow",
-          "train_rows": 96,
-          "holdout_rows": 24,
-          "tf_train_loss": 1.3845958709716797,
-          "tf_train_action_acc": 0.2916666567325592,
-          "tf_holdout_loss": 1.4221267700195312,
-          "tf_holdout_action_acc": 0.125,
-          "supervision_mode": "observed_labels",
-          "observed_action_labels": 120,
-          "observed_uplift_labels": 120,
-          "model_version": "nba_retention_tf_v1",
-          "model_versions": [
-            "nba_retention_tf_v1"
+          "avg_expected_uplift": 0.1991,
+          "avg_confidence": 0.6979,
+          "model_backend": "heuristic_fallback",
+          "backend_warnings": [
+            "TensorFlow unavailable: tensorflow: No module named 'tensorflow'"
           ],
-          "train_row_count": 106,
-          "holdout_row_count": 14,
-          "holdout_ratio": 0.1167,
-          "train_signal_mean": 0.328655,
-          "holdout_signal_mean": 0.329714,
-          "signal_drift_abs": 0.001059,
+          "model_version": "nba_retention_heuristic_v1",
+          "model_versions": [
+            "nba_retention_heuristic_v1"
+          ],
+          "train_row_count": 102,
+          "holdout_row_count": 18,
+          "holdout_ratio": 0.15,
+          "train_signal_mean": 0.448192,
+          "holdout_signal_mean": 0.450261,
+          "signal_drift_abs": 0.002069,
           "split_validation": {
             "status": "pass",
             "rules": {
@@ -3697,21 +4039,21 @@
               {
                 "name": "train_rows_min",
                 "status": "pass",
-                "actual": 106,
+                "actual": 102,
                 "expectation": "train_row_count >= 80",
                 "reason": "within expected constraints"
               },
               {
                 "name": "holdout_rows_min",
                 "status": "pass",
-                "actual": 14,
+                "actual": 18,
                 "expectation": "holdout_row_count >= 10",
                 "reason": "within expected constraints"
               },
               {
                 "name": "holdout_ratio_range",
                 "status": "pass",
-                "actual": 0.1167,
+                "actual": 0.15,
                 "expectation": "holdout_ratio in [0.05, 0.35]",
                 "reason": "within expected constraints"
               }
@@ -3726,53 +4068,47 @@
         "metric_highlights": [
           {
             "name": "avg_confidence",
-            "value": 0.5
+            "value": 0.6979
           },
           {
             "name": "avg_expected_uplift",
-            "value": 0.1576
+            "value": 0.1991
+          },
+          {
+            "name": "backend_warnings",
+            "value": [
+              "TensorFlow unavailable: tensorflow: No module named 'tensorflow'"
+            ]
           },
           {
             "name": "holdout_ratio",
-            "value": 0.1167
+            "value": 0.15
           },
           {
             "name": "holdout_row_count",
-            "value": 14
-          },
-          {
-            "name": "holdout_rows",
-            "value": 24
+            "value": 18
           },
           {
             "name": "holdout_signal_mean",
-            "value": 0.329714
+            "value": 0.450261
           },
           {
             "name": "model_backend",
-            "value": "tensorflow"
+            "value": "heuristic_fallback"
           },
           {
             "name": "model_version",
-            "value": "nba_retention_tf_v1"
+            "value": "nba_retention_heuristic_v1"
           },
           {
             "name": "model_versions",
             "value": [
-              "nba_retention_tf_v1"
+              "nba_retention_heuristic_v1"
             ]
           },
           {
-            "name": "observed_action_labels",
-            "value": 120
-          },
-          {
-            "name": "observed_uplift_labels",
-            "value": 120
-          },
-          {
             "name": "signal_drift_abs",
-            "value": 0.001059
+            "value": 0.002069
           },
           {
             "name": "split_validation",
@@ -3788,21 +4124,21 @@
                 {
                   "name": "train_rows_min",
                   "status": "pass",
-                  "actual": 106,
+                  "actual": 102,
                   "expectation": "train_row_count >= 80",
                   "reason": "within expected constraints"
                 },
                 {
                   "name": "holdout_rows_min",
                   "status": "pass",
-                  "actual": 14,
+                  "actual": 18,
                   "expectation": "holdout_row_count >= 10",
                   "reason": "within expected constraints"
                 },
                 {
                   "name": "holdout_ratio_range",
                   "status": "pass",
-                  "actual": 0.1167,
+                  "actual": 0.15,
                   "expectation": "holdout_ratio in [0.05, 0.35]",
                   "reason": "within expected constraints"
                 }
@@ -3815,36 +4151,12 @@
             }
           },
           {
-            "name": "supervision_mode",
-            "value": "observed_labels"
-          },
-          {
-            "name": "tf_holdout_action_acc",
-            "value": 0.125
-          },
-          {
-            "name": "tf_holdout_loss",
-            "value": 1.4221267700195312
-          },
-          {
-            "name": "tf_train_action_acc",
-            "value": 0.2916666567325592
-          },
-          {
-            "name": "tf_train_loss",
-            "value": 1.3845958709716797
-          },
-          {
             "name": "train_row_count",
-            "value": 106
-          },
-          {
-            "name": "train_rows",
-            "value": 96
+            "value": 102
           },
           {
             "name": "train_signal_mean",
-            "value": 0.328655
+            "value": 0.448192
           }
         ],
         "monitoring_report": {
@@ -3854,28 +4166,22 @@
           "primary_kpi": "30_day_incremental_retention_lift",
           "model_metrics": {
             "primary_kpi": "30_day_incremental_retention_lift",
-            "avg_expected_uplift": 0.1576,
-            "avg_confidence": 0.5,
-            "model_backend": "tensorflow",
-            "train_rows": 96,
-            "holdout_rows": 24,
-            "tf_train_loss": 1.3845958709716797,
-            "tf_train_action_acc": 0.2916666567325592,
-            "tf_holdout_loss": 1.4221267700195312,
-            "tf_holdout_action_acc": 0.125,
-            "supervision_mode": "observed_labels",
-            "observed_action_labels": 120,
-            "observed_uplift_labels": 120,
-            "model_version": "nba_retention_tf_v1",
-            "model_versions": [
-              "nba_retention_tf_v1"
+            "avg_expected_uplift": 0.1991,
+            "avg_confidence": 0.6979,
+            "model_backend": "heuristic_fallback",
+            "backend_warnings": [
+              "TensorFlow unavailable: tensorflow: No module named 'tensorflow'"
             ],
-            "train_row_count": 106,
-            "holdout_row_count": 14,
-            "holdout_ratio": 0.1167,
-            "train_signal_mean": 0.328655,
-            "holdout_signal_mean": 0.329714,
-            "signal_drift_abs": 0.001059,
+            "model_version": "nba_retention_heuristic_v1",
+            "model_versions": [
+              "nba_retention_heuristic_v1"
+            ],
+            "train_row_count": 102,
+            "holdout_row_count": 18,
+            "holdout_ratio": 0.15,
+            "train_signal_mean": 0.448192,
+            "holdout_signal_mean": 0.450261,
+            "signal_drift_abs": 0.002069,
             "split_validation": {
               "status": "pass",
               "rules": {
@@ -3888,21 +4194,21 @@
                 {
                   "name": "train_rows_min",
                   "status": "pass",
-                  "actual": 106,
+                  "actual": 102,
                   "expectation": "train_row_count >= 80",
                   "reason": "within expected constraints"
                 },
                 {
                   "name": "holdout_rows_min",
                   "status": "pass",
-                  "actual": 14,
+                  "actual": 18,
                   "expectation": "holdout_row_count >= 10",
                   "reason": "within expected constraints"
                 },
                 {
                   "name": "holdout_ratio_range",
                   "status": "pass",
-                  "actual": 0.1167,
+                  "actual": 0.15,
                   "expectation": "holdout_ratio in [0.05, 0.35]",
                   "reason": "within expected constraints"
                 }
@@ -3945,14 +4251,14 @@
               {
                 "name": "avg_expected_uplift_range",
                 "status": "pass",
-                "actual": 0.1576,
+                "actual": 0.1991,
                 "expectation": "avg_expected_uplift in [0.0, 0.5]",
                 "reason": "within expected bounds"
               },
               {
                 "name": "avg_confidence_range",
                 "status": "pass",
-                "actual": 0.5,
+                "actual": 0.6979,
                 "expectation": "avg_confidence in [0.5, 1.0]",
                 "reason": "within expected bounds"
               }
@@ -4292,12 +4598,12 @@
           },
           "scientific_governance": {
             "standard_version": "v1",
-            "generated_at_utc": "2026-04-25T19:34:51.489795+00:00",
-            "run_id": "20260425T193444Z",
-            "seed": 101,
+            "generated_at_utc": "2026-05-27T00:09:16.278842+00:00",
+            "run_id": "20260527T000916Z",
+            "seed": 7,
             "contract_fingerprint_sha256": "79b8053e50cd94229b32e8446a26468b899113ff333f0c670dce3ae8b8f9b406",
             "model_versions": [
-              "nba_retention_tf_v1"
+              "nba_retention_heuristic_v1"
             ],
             "reproducibility": {
               "row_count": 120,
@@ -4308,175 +4614,169 @@
         },
         "artifacts": {
           "ingestion_event_bus": {
-            "raw.uc_nba_ret_001.crm_customers.v1": "artifacts/UC-NBA-RET-001/20260425T193444Z/ingestion/event_bus/raw_uc_nba_ret_001_crm_customers_v1.jsonl",
-            "raw.uc_nba_ret_001.behavior_signals.v1": "artifacts/UC-NBA-RET-001/20260425T193444Z/ingestion/event_bus/raw_uc_nba_ret_001_behavior_signals_v1.jsonl",
-            "raw.uc_nba_ret_001.contact_history.v1": "artifacts/UC-NBA-RET-001/20260425T193444Z/ingestion/event_bus/raw_uc_nba_ret_001_contact_history_v1.jsonl"
+            "raw.uc_nba_ret_001.crm_customers.v1": "artifacts/UC-NBA-RET-001/20260527T000916Z/ingestion/event_bus/raw_uc_nba_ret_001_crm_customers_v1.jsonl",
+            "raw.uc_nba_ret_001.behavior_signals.v1": "artifacts/UC-NBA-RET-001/20260527T000916Z/ingestion/event_bus/raw_uc_nba_ret_001_behavior_signals_v1.jsonl",
+            "raw.uc_nba_ret_001.contact_history.v1": "artifacts/UC-NBA-RET-001/20260527T000916Z/ingestion/event_bus/raw_uc_nba_ret_001_contact_history_v1.jsonl"
           },
-          "raw_events": "artifacts/UC-NBA-RET-001/20260425T193444Z/storage/raw/events.jsonl",
-          "curated_records": "artifacts/UC-NBA-RET-001/20260425T193444Z/storage/curated/records.json",
-          "curated_records_jsonl": "artifacts/UC-NBA-RET-001/20260425T193444Z/storage/curated/records.jsonl",
-          "identity_map": "artifacts/UC-NBA-RET-001/20260425T193444Z/identity_360/identity_map.json",
-          "resolved_records": "artifacts/UC-NBA-RET-001/20260425T193444Z/identity_360/resolved_records.json",
-          "splink_identity_resolution": "artifacts/UC-NBA-RET-001/20260425T193444Z/enterprise_hardening/splink_identity_resolution.json",
-          "feature_rows": "artifacts/UC-NBA-RET-001/20260425T193444Z/features/feature_rows.json",
-          "feast_registry": "artifacts/UC-NBA-RET-001/20260425T193444Z/feature_store/feast_registry.json",
-          "feast_feature_view": "artifacts/UC-NBA-RET-001/20260425T193444Z/feature_store/feature_view.json",
-          "feast_offline_features": "artifacts/UC-NBA-RET-001/20260425T193444Z/feature_store/offline_features.json",
-          "feast_repo_config": "artifacts/UC-NBA-RET-001/20260425T193444Z/feature_store/feature_store.yaml",
-          "model_predictions": "artifacts/UC-NBA-RET-001/20260425T193444Z/models/predictions.json",
-          "model_metrics": "artifacts/UC-NBA-RET-001/20260425T193444Z/models/metrics.json",
-          "model_manifest": "artifacts/UC-NBA-RET-001/20260425T193444Z/models/manifest.json",
-          "model_binary": "artifacts/UC-NBA-RET-001/20260425T193444Z/models/nba_tf_saved_model",
-          "model_training_report": "artifacts/UC-NBA-RET-001/20260425T193444Z/models/nba_training_report.json",
-          "mlflow_lineage": "artifacts/UC-NBA-RET-001/20260425T193444Z/enterprise_hardening/mlflow_lineage.json",
-          "activation_payloads": "artifacts/UC-NBA-RET-001/20260425T193444Z/serving_activation/activation_payloads.json",
-          "monitoring_report": "artifacts/UC-NBA-RET-001/20260425T193444Z/monitoring_governance/report.json",
-          "data_quality_expectations": "artifacts/UC-NBA-RET-001/20260425T193444Z/enterprise_hardening/data_quality_expectations.json",
-          "monitoring_summary": "artifacts/UC-NBA-RET-001/20260425T193444Z/enterprise_hardening/monitoring_summary.json",
-          "airflow_dag_metadata": "artifacts/UC-NBA-RET-001/20260425T193444Z/orchestration/airflow_dag_metadata.json",
-          "keycloak_oidc_readiness": "artifacts/UC-NBA-RET-001/20260425T193444Z/security/keycloak_oidc_readiness.json",
-          "product_like_integrations": "artifacts/UC-NBA-RET-001/20260425T193444Z/enterprise_hardening/product_like_integrations.json",
-          "stage_telemetry": "artifacts/UC-NBA-RET-001/20260425T193444Z/telemetry/stage_events.jsonl"
+          "raw_events": "artifacts/UC-NBA-RET-001/20260527T000916Z/storage/raw/events.jsonl",
+          "curated_records": "artifacts/UC-NBA-RET-001/20260527T000916Z/storage/curated/records.json",
+          "curated_records_jsonl": "artifacts/UC-NBA-RET-001/20260527T000916Z/storage/curated/records.jsonl",
+          "identity_map": "artifacts/UC-NBA-RET-001/20260527T000916Z/identity_360/identity_map.json",
+          "resolved_records": "artifacts/UC-NBA-RET-001/20260527T000916Z/identity_360/resolved_records.json",
+          "splink_identity_resolution": "artifacts/UC-NBA-RET-001/20260527T000916Z/enterprise_hardening/splink_identity_resolution.json",
+          "feature_rows": "artifacts/UC-NBA-RET-001/20260527T000916Z/features/feature_rows.json",
+          "feast_registry": "artifacts/UC-NBA-RET-001/20260527T000916Z/feature_store/feast_registry.json",
+          "feast_feature_view": "artifacts/UC-NBA-RET-001/20260527T000916Z/feature_store/feature_view.json",
+          "feast_offline_features": "artifacts/UC-NBA-RET-001/20260527T000916Z/feature_store/offline_features.json",
+          "feast_repo_config": "artifacts/UC-NBA-RET-001/20260527T000916Z/feature_store/feature_store.yaml",
+          "model_predictions": "artifacts/UC-NBA-RET-001/20260527T000916Z/models/predictions.json",
+          "model_metrics": "artifacts/UC-NBA-RET-001/20260527T000916Z/models/metrics.json",
+          "model_manifest": "artifacts/UC-NBA-RET-001/20260527T000916Z/models/manifest.json",
+          "model_training_report": "artifacts/UC-NBA-RET-001/20260527T000916Z/models/nba_training_report.json",
+          "mlflow_lineage": "artifacts/UC-NBA-RET-001/20260527T000916Z/enterprise_hardening/mlflow_lineage.json",
+          "activation_payloads": "artifacts/UC-NBA-RET-001/20260527T000916Z/serving_activation/activation_payloads.json",
+          "monitoring_report": "artifacts/UC-NBA-RET-001/20260527T000916Z/monitoring_governance/report.json",
+          "data_quality_expectations": "artifacts/UC-NBA-RET-001/20260527T000916Z/enterprise_hardening/data_quality_expectations.json",
+          "monitoring_summary": "artifacts/UC-NBA-RET-001/20260527T000916Z/enterprise_hardening/monitoring_summary.json",
+          "airflow_dag_metadata": "artifacts/UC-NBA-RET-001/20260527T000916Z/orchestration/airflow_dag_metadata.json",
+          "keycloak_oidc_readiness": "artifacts/UC-NBA-RET-001/20260527T000916Z/security/keycloak_oidc_readiness.json",
+          "product_like_integrations": "artifacts/UC-NBA-RET-001/20260527T000916Z/enterprise_hardening/product_like_integrations.json",
+          "stage_telemetry": "artifacts/UC-NBA-RET-001/20260527T000916Z/telemetry/stage_events.jsonl"
         },
         "artifact_file_checks": [
           {
             "label": "topic::raw.uc_nba_ret_001.behavior_signals.v1",
-            "path": "artifacts/UC-NBA-RET-001/20260425T193444Z/ingestion/event_bus/raw_uc_nba_ret_001_behavior_signals_v1.jsonl",
+            "path": "artifacts/UC-NBA-RET-001/20260527T000916Z/ingestion/event_bus/raw_uc_nba_ret_001_behavior_signals_v1.jsonl",
             "exists": true
           },
           {
             "label": "topic::raw.uc_nba_ret_001.contact_history.v1",
-            "path": "artifacts/UC-NBA-RET-001/20260425T193444Z/ingestion/event_bus/raw_uc_nba_ret_001_contact_history_v1.jsonl",
+            "path": "artifacts/UC-NBA-RET-001/20260527T000916Z/ingestion/event_bus/raw_uc_nba_ret_001_contact_history_v1.jsonl",
             "exists": true
           },
           {
             "label": "topic::raw.uc_nba_ret_001.crm_customers.v1",
-            "path": "artifacts/UC-NBA-RET-001/20260425T193444Z/ingestion/event_bus/raw_uc_nba_ret_001_crm_customers_v1.jsonl",
+            "path": "artifacts/UC-NBA-RET-001/20260527T000916Z/ingestion/event_bus/raw_uc_nba_ret_001_crm_customers_v1.jsonl",
             "exists": true
           },
           {
             "label": "activation_payloads",
-            "path": "artifacts/UC-NBA-RET-001/20260425T193444Z/serving_activation/activation_payloads.json",
+            "path": "artifacts/UC-NBA-RET-001/20260527T000916Z/serving_activation/activation_payloads.json",
             "exists": true
           },
           {
             "label": "airflow_dag_metadata",
-            "path": "artifacts/UC-NBA-RET-001/20260425T193444Z/orchestration/airflow_dag_metadata.json",
+            "path": "artifacts/UC-NBA-RET-001/20260527T000916Z/orchestration/airflow_dag_metadata.json",
             "exists": true
           },
           {
             "label": "curated_records",
-            "path": "artifacts/UC-NBA-RET-001/20260425T193444Z/storage/curated/records.json",
+            "path": "artifacts/UC-NBA-RET-001/20260527T000916Z/storage/curated/records.json",
             "exists": true
           },
           {
             "label": "curated_records_jsonl",
-            "path": "artifacts/UC-NBA-RET-001/20260425T193444Z/storage/curated/records.jsonl",
+            "path": "artifacts/UC-NBA-RET-001/20260527T000916Z/storage/curated/records.jsonl",
             "exists": true
           },
           {
             "label": "data_quality_expectations",
-            "path": "artifacts/UC-NBA-RET-001/20260425T193444Z/enterprise_hardening/data_quality_expectations.json",
+            "path": "artifacts/UC-NBA-RET-001/20260527T000916Z/enterprise_hardening/data_quality_expectations.json",
             "exists": true
           },
           {
             "label": "feast_feature_view",
-            "path": "artifacts/UC-NBA-RET-001/20260425T193444Z/feature_store/feature_view.json",
+            "path": "artifacts/UC-NBA-RET-001/20260527T000916Z/feature_store/feature_view.json",
             "exists": true
           },
           {
             "label": "feast_offline_features",
-            "path": "artifacts/UC-NBA-RET-001/20260425T193444Z/feature_store/offline_features.json",
+            "path": "artifacts/UC-NBA-RET-001/20260527T000916Z/feature_store/offline_features.json",
             "exists": true
           },
           {
             "label": "feast_registry",
-            "path": "artifacts/UC-NBA-RET-001/20260425T193444Z/feature_store/feast_registry.json",
+            "path": "artifacts/UC-NBA-RET-001/20260527T000916Z/feature_store/feast_registry.json",
             "exists": true
           },
           {
             "label": "feast_repo_config",
-            "path": "artifacts/UC-NBA-RET-001/20260425T193444Z/feature_store/feature_store.yaml",
+            "path": "artifacts/UC-NBA-RET-001/20260527T000916Z/feature_store/feature_store.yaml",
             "exists": true
           },
           {
             "label": "feature_rows",
-            "path": "artifacts/UC-NBA-RET-001/20260425T193444Z/features/feature_rows.json",
+            "path": "artifacts/UC-NBA-RET-001/20260527T000916Z/features/feature_rows.json",
             "exists": true
           },
           {
             "label": "identity_map",
-            "path": "artifacts/UC-NBA-RET-001/20260425T193444Z/identity_360/identity_map.json",
+            "path": "artifacts/UC-NBA-RET-001/20260527T000916Z/identity_360/identity_map.json",
             "exists": true
           },
           {
             "label": "keycloak_oidc_readiness",
-            "path": "artifacts/UC-NBA-RET-001/20260425T193444Z/security/keycloak_oidc_readiness.json",
+            "path": "artifacts/UC-NBA-RET-001/20260527T000916Z/security/keycloak_oidc_readiness.json",
             "exists": true
           },
           {
             "label": "mlflow_lineage",
-            "path": "artifacts/UC-NBA-RET-001/20260425T193444Z/enterprise_hardening/mlflow_lineage.json",
-            "exists": true
-          },
-          {
-            "label": "model_binary",
-            "path": "artifacts/UC-NBA-RET-001/20260425T193444Z/models/nba_tf_saved_model",
+            "path": "artifacts/UC-NBA-RET-001/20260527T000916Z/enterprise_hardening/mlflow_lineage.json",
             "exists": true
           },
           {
             "label": "model_manifest",
-            "path": "artifacts/UC-NBA-RET-001/20260425T193444Z/models/manifest.json",
+            "path": "artifacts/UC-NBA-RET-001/20260527T000916Z/models/manifest.json",
             "exists": true
           },
           {
             "label": "model_metrics",
-            "path": "artifacts/UC-NBA-RET-001/20260425T193444Z/models/metrics.json",
+            "path": "artifacts/UC-NBA-RET-001/20260527T000916Z/models/metrics.json",
             "exists": true
           },
           {
             "label": "model_predictions",
-            "path": "artifacts/UC-NBA-RET-001/20260425T193444Z/models/predictions.json",
+            "path": "artifacts/UC-NBA-RET-001/20260527T000916Z/models/predictions.json",
             "exists": true
           },
           {
             "label": "model_training_report",
-            "path": "artifacts/UC-NBA-RET-001/20260425T193444Z/models/nba_training_report.json",
+            "path": "artifacts/UC-NBA-RET-001/20260527T000916Z/models/nba_training_report.json",
             "exists": true
           },
           {
             "label": "monitoring_report",
-            "path": "artifacts/UC-NBA-RET-001/20260425T193444Z/monitoring_governance/report.json",
+            "path": "artifacts/UC-NBA-RET-001/20260527T000916Z/monitoring_governance/report.json",
             "exists": true
           },
           {
             "label": "monitoring_summary",
-            "path": "artifacts/UC-NBA-RET-001/20260425T193444Z/enterprise_hardening/monitoring_summary.json",
+            "path": "artifacts/UC-NBA-RET-001/20260527T000916Z/enterprise_hardening/monitoring_summary.json",
             "exists": true
           },
           {
             "label": "product_like_integrations",
-            "path": "artifacts/UC-NBA-RET-001/20260425T193444Z/enterprise_hardening/product_like_integrations.json",
+            "path": "artifacts/UC-NBA-RET-001/20260527T000916Z/enterprise_hardening/product_like_integrations.json",
             "exists": true
           },
           {
             "label": "raw_events",
-            "path": "artifacts/UC-NBA-RET-001/20260425T193444Z/storage/raw/events.jsonl",
+            "path": "artifacts/UC-NBA-RET-001/20260527T000916Z/storage/raw/events.jsonl",
             "exists": true
           },
           {
             "label": "resolved_records",
-            "path": "artifacts/UC-NBA-RET-001/20260425T193444Z/identity_360/resolved_records.json",
+            "path": "artifacts/UC-NBA-RET-001/20260527T000916Z/identity_360/resolved_records.json",
             "exists": true
           },
           {
             "label": "splink_identity_resolution",
-            "path": "artifacts/UC-NBA-RET-001/20260425T193444Z/enterprise_hardening/splink_identity_resolution.json",
+            "path": "artifacts/UC-NBA-RET-001/20260527T000916Z/enterprise_hardening/splink_identity_resolution.json",
             "exists": true
           },
           {
             "label": "stage_telemetry",
-            "path": "artifacts/UC-NBA-RET-001/20260425T193444Z/telemetry/stage_events.jsonl",
+            "path": "artifacts/UC-NBA-RET-001/20260527T000916Z/telemetry/stage_events.jsonl",
             "exists": true
           }
         ],
@@ -4589,7 +4889,7 @@
             "outputs": [
               {
                 "name": "raw.uc_nba_ret_001.behavior_signals.v1",
-                "path": "artifacts/UC-NBA-RET-001/20260425T193444Z/ingestion/event_bus/raw_uc_nba_ret_001_behavior_signals_v1.jsonl",
+                "path": "artifacts/UC-NBA-RET-001/20260527T000916Z/ingestion/event_bus/raw_uc_nba_ret_001_behavior_signals_v1.jsonl",
                 "exists": true,
                 "row_count": 120,
                 "sample_fields": [
@@ -4605,7 +4905,7 @@
               },
               {
                 "name": "raw.uc_nba_ret_001.contact_history.v1",
-                "path": "artifacts/UC-NBA-RET-001/20260425T193444Z/ingestion/event_bus/raw_uc_nba_ret_001_contact_history_v1.jsonl",
+                "path": "artifacts/UC-NBA-RET-001/20260527T000916Z/ingestion/event_bus/raw_uc_nba_ret_001_contact_history_v1.jsonl",
                 "exists": true,
                 "row_count": 120,
                 "sample_fields": [
@@ -4617,7 +4917,7 @@
               },
               {
                 "name": "raw.uc_nba_ret_001.crm_customers.v1",
-                "path": "artifacts/UC-NBA-RET-001/20260425T193444Z/ingestion/event_bus/raw_uc_nba_ret_001_crm_customers_v1.jsonl",
+                "path": "artifacts/UC-NBA-RET-001/20260527T000916Z/ingestion/event_bus/raw_uc_nba_ret_001_crm_customers_v1.jsonl",
                 "exists": true,
                 "row_count": 120,
                 "sample_fields": [
@@ -4646,7 +4946,7 @@
             "outputs": [
               {
                 "name": "raw_events",
-                "path": "artifacts/UC-NBA-RET-001/20260425T193444Z/storage/raw/events.jsonl",
+                "path": "artifacts/UC-NBA-RET-001/20260527T000916Z/storage/raw/events.jsonl",
                 "exists": true,
                 "row_count": 360,
                 "sample_fields": [
@@ -4662,7 +4962,7 @@
               },
               {
                 "name": "curated_records",
-                "path": "artifacts/UC-NBA-RET-001/20260425T193444Z/storage/curated/records.json",
+                "path": "artifacts/UC-NBA-RET-001/20260527T000916Z/storage/curated/records.json",
                 "exists": true,
                 "row_count": 120,
                 "sample_fields": [
@@ -4683,7 +4983,7 @@
               },
               {
                 "name": "curated_records_jsonl",
-                "path": "artifacts/UC-NBA-RET-001/20260425T193444Z/storage/curated/records.jsonl",
+                "path": "artifacts/UC-NBA-RET-001/20260527T000916Z/storage/curated/records.jsonl",
                 "exists": true,
                 "row_count": 120,
                 "sample_fields": [
@@ -4719,7 +5019,7 @@
             "outputs": [
               {
                 "name": "identity_map",
-                "path": "artifacts/UC-NBA-RET-001/20260425T193444Z/identity_360/identity_map.json",
+                "path": "artifacts/UC-NBA-RET-001/20260527T000916Z/identity_360/identity_map.json",
                 "exists": true,
                 "row_count": 120,
                 "sample_fields": [
@@ -4733,7 +5033,7 @@
               },
               {
                 "name": "resolved_records",
-                "path": "artifacts/UC-NBA-RET-001/20260425T193444Z/identity_360/resolved_records.json",
+                "path": "artifacts/UC-NBA-RET-001/20260527T000916Z/identity_360/resolved_records.json",
                 "exists": true,
                 "row_count": 120,
                 "sample_fields": [
@@ -4769,7 +5069,7 @@
             "outputs": [
               {
                 "name": "feature_rows",
-                "path": "artifacts/UC-NBA-RET-001/20260425T193444Z/features/feature_rows.json",
+                "path": "artifacts/UC-NBA-RET-001/20260527T000916Z/features/feature_rows.json",
                 "exists": true,
                 "row_count": 120,
                 "sample_fields": [
@@ -4804,7 +5104,7 @@
             "outputs": [
               {
                 "name": "model_predictions",
-                "path": "artifacts/UC-NBA-RET-001/20260425T193444Z/models/predictions.json",
+                "path": "artifacts/UC-NBA-RET-001/20260527T000916Z/models/predictions.json",
                 "exists": true,
                 "row_count": 120,
                 "sample_fields": [
@@ -4828,25 +5128,17 @@
                 "sample_fields": [
                   "avg_confidence",
                   "avg_expected_uplift",
+                  "backend_warnings",
                   "holdout_ratio",
                   "holdout_row_count",
-                  "holdout_rows",
                   "holdout_signal_mean",
                   "model_backend",
                   "model_version",
                   "model_versions",
-                  "observed_action_labels",
-                  "observed_uplift_labels",
                   "primary_kpi",
                   "signal_drift_abs",
                   "split_validation",
-                  "supervision_mode",
-                  "tf_holdout_action_acc",
-                  "tf_holdout_loss",
-                  "tf_train_action_acc",
-                  "tf_train_loss",
                   "train_row_count",
-                  "train_rows",
                   "train_signal_mean"
                 ],
                 "note": "Metric keys reported by model layer."
@@ -4868,7 +5160,7 @@
             "outputs": [
               {
                 "name": "activation_payloads",
-                "path": "artifacts/UC-NBA-RET-001/20260425T193444Z/serving_activation/activation_payloads.json",
+                "path": "artifacts/UC-NBA-RET-001/20260527T000916Z/serving_activation/activation_payloads.json",
                 "exists": true,
                 "row_count": 120,
                 "sample_fields": [
@@ -4892,13 +5184,13 @@
             "inputs": [
               {
                 "name": "model_metrics",
-                "value": "22"
+                "value": "14"
               }
             ],
             "outputs": [
               {
                 "name": "monitoring_report",
-                "path": "artifacts/UC-NBA-RET-001/20260425T193444Z/monitoring_governance/report.json",
+                "path": "artifacts/UC-NBA-RET-001/20260527T000916Z/monitoring_governance/report.json",
                 "exists": true,
                 "row_count": null,
                 "sample_fields": [
@@ -4920,17 +5212,7 @@
             ]
           }
         ],
-        "oss_runtime": {
-          "status": "fallback_local",
-          "compose_file": "infra/docker-compose.oss.yml",
-          "kafka_topics_published": 0,
-          "kafka_messages_consumed": 0,
-          "postgres_rows_loaded": 0,
-          "minio_objects_uploaded": 0,
-          "warnings": [
-            "OSS profile services not running: ['kafka', 'mc', 'minio', 'postgres']. Using local fallback."
-          ]
-        },
+        "oss_runtime": null,
         "oss_mirror": null
       }
     }

@@ -1678,7 +1678,7 @@
       <ul class="wb-list">
         <li>Make sure standalone server is running: <code>make standalone</code> or <code>make ui-live</code>.</li>
         <li>Run at least one cycle for the selected scenario.</li>
-        <li>Use <strong>Refresh Model Evidence</strong> to retry.</li>
+        <li>Use <strong>Refresh evidence</strong> to retry.</li>
       </ul>
     `;
   }
@@ -1697,7 +1697,7 @@
     const scenario = SCENARIOS[state.scenarioKey];
     const stepLabels = stepTitlesForCurrentPersona();
 
-    els.modeKicker.textContent = state.persona === "technical" ? "Model Evidence View" : "Decision View";
+    els.modeKicker.textContent = state.persona === "technical" ? "Model Evidence" : "Model Decision";
     els.pageTitle.textContent = scenario.label;
     els.stepTitle.textContent = `Step ${state.step + 1}: ${stepLabels[state.step] || "Step"}`;
 

@@ -1,4 +1,4 @@
-# User Guide: Enterprise AI Decision Intelligence Platform
+# User Guide: CDP AI/ML Platform — Production ML Governance
 
 This guide explains how business users and technical users should use the application.
 
@@ -24,7 +24,7 @@ Use this sequence for an end-to-end walkthrough:
 3. Open the Model Decision Workbench.
 4. Walk through model inputs, recommendation, impact forecast, and decision evidence.
 5. Open Simulation Flow to change setup and run the AI/ML pipeline one stage at a time.
-6. Open Architecture Reference to explain the technical runtime and evidence path.
+6. Open Architecture Review to explain the technical runtime and evidence path.
 
 ## 3. Visual Walkthrough
 
@@ -102,22 +102,22 @@ What to point out:
 2. Each stage produces artifacts or metrics.
 3. Technical users can inspect inputs, outputs, components, and evidence.
 
-### Flow Step 7: Review Architecture Reference And Evidence
+### Flow Step 7: Review Architecture And Evidence
 
-Use Architecture Reference and Model Evidence to review the reference diagrams, architecture flow, run history, and portfolio health.
+Use Architecture Review and Model Evidence to review platform diagrams, architecture flow, run history, and portfolio health.
 
-![Architecture Reference And Evidence](assets/user-guide/07-model-evidence-center.png)
+![Architecture Review And Evidence](assets/user-guide/07-model-evidence-center.png)
 
 What to point out:
 
-1. Architecture Reference separates static reference from action-oriented simulation.
+1. Architecture Review separates platform diagrams from action-oriented simulation.
 2. Model Evidence shows run artifacts and execution evidence.
 3. Model Run History compares recent runs.
 4. AI Portfolio Health summarizes latest run status across use cases.
 
 ### Flow Step 8: Switch To Technical Model Evidence
 
-In the Model Decision Workbench, switch from Decision View to Model Evidence for a deeper technical review.
+In the Model Decision Workbench, switch from Model Decision to Model Evidence for a deeper technical review.
 
 ![Technical Model Evidence](assets/user-guide/08-technical-model-evidence.png)
 
@@ -161,7 +161,7 @@ make ui-live
 | AI Impact Summary | `/ui/experience/business-exec-summary.html` | Executives and business owners |
 | Model Decision Workbench | `/ui/experience/workbench.html` | Business users and technical reviewers |
 | Simulation Flow | `/ui/experience/index.html#simulate` | Architects, ML engineers, and platform teams |
-| Architecture Reference | `/ui/experience/index.html#overview` | Architects, ML engineers, and platform teams |
+| Architecture Review | `/ui/experience/index.html#overview` | Architects, ML engineers, and platform teams |
 
 ## 6. Business User Guide
 
@@ -267,13 +267,13 @@ Use this view to inspect:
 6. Validation gates
 7. Artifact paths
 
-### Step 4: Inspect Architecture Reference And Model Evidence
+### Step 4: Inspect Architecture Review And Model Evidence
 
-Open Architecture Reference for static diagrams, then open Model Evidence for run artifacts and history.
+Open Architecture Review for platform diagrams, then open Model Evidence for run artifacts and history.
 
 Review:
 
-1. Architecture Reference
+1. Architecture Review
 2. Model Evidence
 3. Model Run History
 4. AI Portfolio Health

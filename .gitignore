@@ -28,6 +28,9 @@ artifacts/
 artifacts_*/
 *.log
 
+# Local planning notes
+docs/planning/
+
 # OS/editor files
 .DS_Store
 Thumbs.db
